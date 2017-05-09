@@ -1,0 +1,30 @@
+apply from: rootProject.file('dependencies.gradle')
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+    ext {
+        androidApplicationId = 'jp.issei.omizu.weightcalendar'
+        androidVersionCode = 1
+        androidVersionName = "1.0"
+        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+//        testApplicationId = 'weightcalendar.omizu.issei.jp.weightcalendar.test'
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

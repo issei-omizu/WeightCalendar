@@ -1,0 +1,21 @@
+apply plugin: 'java'
+apply plugin: 'me.tatarka.retrolambda'
+
+configurations {
+    provided
+}
+
+dependencies {
+    def domainDependencies = rootProject.ext.domainDependencies
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    provided domainDependencies.javaxAnnotation
+
+    compile domainDependencies.javaxInject
+    compile domainDependencies.rxJava
+    compile domainDependencies.arrow
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
