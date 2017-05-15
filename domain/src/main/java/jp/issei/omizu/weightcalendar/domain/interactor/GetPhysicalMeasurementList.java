@@ -16,6 +16,8 @@
 package jp.issei.omizu.weightcalendar.domain.interactor;
 
 
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -30,7 +32,7 @@ import jp.issei.omizu.weightcalendar.domain.repository.PhysicalMeasurementReposi
  * This class is an implementation of {@link UseCase} that represents a use case for
  * retrieving a collection of all {@link PhysicalMeasurement}.
  */
-public class GetPhysicalMeasurementList extends UseCase<List<PhysicalMeasurement>, Void> {
+public class GetPhysicalMeasurementList extends UseCase<List<PhysicalMeasurement>, GetPhysicalMeasurementList.Params> {
 
   private final PhysicalMeasurementRepository physicalMeasurementRepository;
 
@@ -42,7 +44,20 @@ public class GetPhysicalMeasurementList extends UseCase<List<PhysicalMeasurement
   }
 
   @Override
-  Observable<List<PhysicalMeasurement>> buildUseCaseObservable(Void unused) {
+  Observable<List<PhysicalMeasurement>> buildUseCaseObservable(Params params) {
     return this.physicalMeasurementRepository.physicalMeasurements();
+  }
+
+  public static final class Params {
+
+    private GoogleAccountCredential credential;
+
+    private Params(GoogleAccountCredential credential) {
+      this.credential = credential;
+    }
+
+    public static Params forCredential(GoogleAccountCredential credential) {
+      return new Params(credential);
+    }
   }
 }

@@ -12,9 +12,11 @@ import jp.issei.omizu.weightcalendar.databinding.ActivityPhysicalMeasurementBind
 import jp.issei.omizu.weightcalendar.presentation.di.HasComponent;
 import jp.issei.omizu.weightcalendar.presentation.di.components.DaggerPhysicalMeasurementComponent;
 import jp.issei.omizu.weightcalendar.presentation.di.components.PhysicalMeasurementComponent;
+import jp.issei.omizu.weightcalendar.presentation.view.PhysicalMeasurementView;
 import jp.issei.omizu.weightcalendar.presentation.viewmodel.PhysicalMeasurementViewModel;
 
-public class PhysicalMeasurementActivity extends BaseActivity implements HasComponent<PhysicalMeasurementComponent> {
+public class PhysicalMeasurementActivity extends GoogleApiActivity
+        implements HasComponent<PhysicalMeasurementComponent>, PhysicalMeasurementView {
 
     public static Intent getCallingIntent(Context context) {
         return new Intent(context, PhysicalMeasurementActivity.class);
@@ -34,6 +36,9 @@ public class PhysicalMeasurementActivity extends BaseActivity implements HasComp
 
         final ActivityPhysicalMeasurementBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_physical_measurement);
         binding.setViewModel(physicalMeasurementViewModel);
+
+        // call google api
+        this.getResultsFromApi();
     }
 
     private void initializeInjector() {
@@ -43,10 +48,17 @@ public class PhysicalMeasurementActivity extends BaseActivity implements HasComp
                 .build();
 
         this.physicalMeasurementComponent.inject(this);
+
+        this.physicalMeasurementViewModel.initialize();
+    }
+
+    @Override
+    protected void onReadyToUseGoogleApi() {
+        this.physicalMeasurementViewModel.executeGoogleApi();
     }
 
     @Override public PhysicalMeasurementComponent getComponent() {
-        return physicalMeasurementComponent;
+        return this.physicalMeasurementComponent;
     }
 
 }

@@ -20,14 +20,15 @@ import jp.issei.omizu.weightcalendar.presentation.di.PerActivity;
 import jp.issei.omizu.weightcalendar.presentation.di.modules.ActivityModule;
 import jp.issei.omizu.weightcalendar.presentation.di.modules.GoogleApiModule;
 import jp.issei.omizu.weightcalendar.presentation.di.modules.PhysicalMeasurementModule;
+import jp.issei.omizu.weightcalendar.presentation.view.activity.GoogleApiActivity;
 import jp.issei.omizu.weightcalendar.presentation.view.activity.PhysicalMeasurementActivity;
 
 /**
- * A scope {@link jp.issei.omizu.weightcalendar.presentation.di.PerActivity} component.
+ * A scope {@link PerActivity} component.
  * Injects physicalMeasurement specific Fragments.
  */
 @PerActivity
-@Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, GoogleApiModule.class, PhysicalMeasurementModule.class})
-public interface PhysicalMeasurementComponent extends ActivityComponent {
-    void inject(PhysicalMeasurementActivity physicalMeasurementActivity);
+@Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, GoogleApiModule.class})
+public interface GoogleApiComponent extends ActivityComponent {
+    void inject(GoogleApiActivity googleApiActivity);
 }
