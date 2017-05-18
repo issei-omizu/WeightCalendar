@@ -18,11 +18,14 @@ package jp.issei.omizu.weghtcalendar.data.repository.datasource;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import jp.issei.omizu.weghtcalendar.data.cache.PhysicalMeasurementCache;
 import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntityJsonMapper;
+import jp.issei.omizu.weghtcalendar.data.google.GoogleApi;
+import jp.issei.omizu.weghtcalendar.data.google.GoogleApiImpl;
 import jp.issei.omizu.weghtcalendar.data.net.RestApi;
 import jp.issei.omizu.weghtcalendar.data.net.RestApiImpl;
 
@@ -49,7 +52,7 @@ public class PhysicalMeasurementDataStoreFactory {
     if (!this.physicalMeasurementCache.isExpired() && this.physicalMeasurementCache.isCached(userId)) {
       physicalMeasurementDataStore = new DiskPhysicalMeasurementDataStore(this.physicalMeasurementCache);
     } else {
-      physicalMeasurementDataStore = createCloudDataStore();
+      physicalMeasurementDataStore = createCloudDataStore(null);
     }
 
     return physicalMeasurementDataStore;
@@ -58,10 +61,11 @@ public class PhysicalMeasurementDataStoreFactory {
   /**
    * Create {@link PhysicalMeasurementDataStore} to retrieve data from the Cloud.
    */
-  public PhysicalMeasurementDataStore createCloudDataStore() {
+  public PhysicalMeasurementDataStore createCloudDataStore(GoogleAccountCredential credential) {
     final PhysicalMeasurementEntityJsonMapper userEntityJsonMapper = new PhysicalMeasurementEntityJsonMapper();
-    final RestApi restApi = new RestApiImpl(this.context, userEntityJsonMapper);
+//    final RestApi restApi = new RestApiImpl(this.context, userEntityJsonMapper);
+    final GoogleApi googleApi = new GoogleApiImpl(this.context, credential, userEntityJsonMapper);
 
-    return new CloudPhysicalMeasurementDataStore(restApi, this.physicalMeasurementCache);
+    return new CloudPhysicalMeasurementDataStore(googleApi, this.physicalMeasurementCache);
   }
 }

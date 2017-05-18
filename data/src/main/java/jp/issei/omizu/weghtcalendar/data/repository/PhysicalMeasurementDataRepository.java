@@ -15,6 +15,8 @@
  */
 package jp.issei.omizu.weghtcalendar.data.repository;
 
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -49,9 +51,9 @@ public class PhysicalMeasurementDataRepository implements PhysicalMeasurementRep
   }
 
   @Override
-  public Observable<List<PhysicalMeasurement>> physicalMeasurements() {
+  public Observable<List<PhysicalMeasurement>> physicalMeasurements(GoogleAccountCredential credential) {
     //we always get all physicalMeasurements from the cloud
-    final PhysicalMeasurementDataStore physicalMeasurementDataStore = this.physicalMeasurementDataStoreFactory.createCloudDataStore();
+    final PhysicalMeasurementDataStore physicalMeasurementDataStore = this.physicalMeasurementDataStoreFactory.createCloudDataStore(credential);
     return physicalMeasurementDataStore.physicalMeasurementEntityList().map(this.physicalMeasurementEntityDataMapper::transform);
   }
 

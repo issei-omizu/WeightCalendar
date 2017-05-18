@@ -15,11 +15,20 @@
  */
 package jp.issei.omizu.weghtcalendar.data.repository.datasource;
 
+import android.content.Context;
+
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+
 import java.util.List;
 
 import io.reactivex.Observable;
 import jp.issei.omizu.weghtcalendar.data.cache.PhysicalMeasurementCache;
 import jp.issei.omizu.weghtcalendar.data.entity.PhysicalMeasurementEntity;
+import jp.issei.omizu.weghtcalendar.data.google.GoogleApi;
 import jp.issei.omizu.weghtcalendar.data.net.RestApi;
 
 /**
@@ -27,27 +36,27 @@ import jp.issei.omizu.weghtcalendar.data.net.RestApi;
  */
 class CloudPhysicalMeasurementDataStore implements PhysicalMeasurementDataStore {
 
-  private final RestApi restApi;
+  private final GoogleApi googleApi;
   private final PhysicalMeasurementCache physicalMeasurementCache;
 
   /**
    * Construct a {@link PhysicalMeasurementDataStore} based on connections to the api (Cloud).
    *
-   * @param restApi The {@link RestApi} implementation to use.
+   * @param googleApi The {@link GoogleApi} implementation to use.
    * @param physicalMeasurementCache A {@link PhysicalMeasurementCache} to cache data retrieved from the api.
    */
-  CloudPhysicalMeasurementDataStore(RestApi restApi, PhysicalMeasurementCache physicalMeasurementCache) {
-    this.restApi = restApi;
+  CloudPhysicalMeasurementDataStore(GoogleApi googleApi, PhysicalMeasurementCache physicalMeasurementCache) {
+    this.googleApi = googleApi;
     this.physicalMeasurementCache = physicalMeasurementCache;
   }
 
   @Override
   public Observable<List<PhysicalMeasurementEntity>> physicalMeasurementEntityList() {
-    return this.restApi.physicalMeasurementEntityList();
+    return this.googleApi.physicalMeasurementEntityList();
   }
 
   @Override
   public Observable<PhysicalMeasurementEntity> physicalMeasurementEntityDetails(final int userId) {
-    return this.restApi.physicalMeasurementEntityById(userId).doOnNext(CloudPhysicalMeasurementDataStore.this.physicalMeasurementCache::put);
+    return this.googleApi.physicalMeasurementEntityById(userId).doOnNext(CloudPhysicalMeasurementDataStore.this.physicalMeasurementCache::put);
   }
 }

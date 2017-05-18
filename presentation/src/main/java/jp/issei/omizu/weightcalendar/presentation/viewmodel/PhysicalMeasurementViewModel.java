@@ -25,8 +25,8 @@ public class PhysicalMeasurementViewModel extends GoogleApiViewModel {
     }
 
     private void loadPhysicalMeasurementList() {
-//        GetPhysicalMeasurementList.Params params = GetPhysicalMeasurementList.Params.forCredential(this.credential);
-//        this.getPhysicalMeasurementListUseCase.execute(new PhysicalMeasurementListObserver(), params);
+        GetPhysicalMeasurementList.Params params = GetPhysicalMeasurementList.Params.forCredential(this.getCredential());
+        this.getPhysicalMeasurementListUseCase.execute(new PhysicalMeasurementListObserver(), params);
     }
 
     @Override

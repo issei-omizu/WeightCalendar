@@ -15,6 +15,8 @@
  */
 package jp.issei.omizu.weightcalendar.domain.repository;
 
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -27,7 +29,7 @@ public interface PhysicalMeasurementRepository {
   /**
    * Get an {@link Observable} which will emit a List of {@link PhysicalMeasurement}.
    */
-  Observable<List<PhysicalMeasurement>> physicalMeasurements();
+  Observable<List<PhysicalMeasurement>> physicalMeasurements(GoogleAccountCredential credential);
 
   /**
    * Get an {@link Observable} which will emit a {@link PhysicalMeasurement}.

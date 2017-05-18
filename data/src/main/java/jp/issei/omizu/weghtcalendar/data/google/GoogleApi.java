@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.issei.omizu.weghtcalendar.data.net;
+package jp.issei.omizu.weghtcalendar.data.google;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import jp.issei.omizu.weghtcalendar.data.entity.PhysicalMeasurementEntity;
 /**
  * GoogleApi for retrieving data from the network.
  */
-public interface RestApi {
+public interface GoogleApi {
 //  String API_BASE_URL =
 //          "https://raw.githubusercontent.com/android10/Sample-Data/master/Android-CleanArchitecture/";
   String API_BASE_URL =

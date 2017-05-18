@@ -45,7 +45,7 @@ public class GetPhysicalMeasurementList extends UseCase<List<PhysicalMeasurement
 
   @Override
   Observable<List<PhysicalMeasurement>> buildUseCaseObservable(Params params) {
-    return this.physicalMeasurementRepository.physicalMeasurements();
+    return this.physicalMeasurementRepository.physicalMeasurements(params.credential);
   }
 
   public static final class Params {

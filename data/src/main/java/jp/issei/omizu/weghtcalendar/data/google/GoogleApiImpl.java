@@ -13,18 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.issei.omizu.weghtcalendar.data.net;
+package jp.issei.omizu.weghtcalendar.data.google;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.sheets.v4.model.ValueRange;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -33,25 +36,33 @@ import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntity
 import jp.issei.omizu.weghtcalendar.data.exception.NetworkConnectionException;
 
 /**
- * {@link RestApi} implementation for retrieving data from the network.
+ * {@link GoogleApi} implementation for retrieving data from the network.
  */
-public class RestApiImpl implements RestApi {
+public class GoogleApiImpl implements GoogleApi {
 
   private final Context context;
   private final PhysicalMeasurementEntityJsonMapper physicalMeasurementEntityJsonMapper;
+  private com.google.api.services.sheets.v4.Sheets googleApiServices = null;
 
   /**
    * Constructor of the class
    *
-   * @param context {@link android.content.Context}.
+   * @param context {@link Context}.
    * @param physicalMeasurementEntityJsonMapper {@link PhysicalMeasurementEntityJsonMapper}.
    */
-  public RestApiImpl(Context context, PhysicalMeasurementEntityJsonMapper physicalMeasurementEntityJsonMapper) {
+  public GoogleApiImpl(Context context, GoogleAccountCredential credential, PhysicalMeasurementEntityJsonMapper physicalMeasurementEntityJsonMapper) {
     if (context == null || physicalMeasurementEntityJsonMapper == null) {
       throw new IllegalArgumentException("The constructor parameters cannot be null!!!");
     }
     this.context = context.getApplicationContext();
     this.physicalMeasurementEntityJsonMapper = physicalMeasurementEntityJsonMapper;
+
+    HttpTransport transport = AndroidHttp.newCompatibleTransport();
+    JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+    this.googleApiServices = new com.google.api.services.sheets.v4.Sheets.Builder(
+            transport, jsonFactory, credential)
+            .setApplicationName("Google Sheets API Android Quickstart")
+            .build();
   }
 
   @Override
@@ -59,7 +70,11 @@ public class RestApiImpl implements RestApi {
     return Observable.create(emitter -> {
       if (isThereInternetConnection()) {
         try {
-          String responseUserEntities = getUserEntitiesFromApi();
+//          String responseUserEntities = getUserEntitiesFromApi();
+          List<List<Object>> val = new ArrayList<>();
+          val = this.getDataFromApi();
+
+          String responseUserEntities = null;
           if (responseUserEntities != null) {
             emitter.onNext(physicalMeasurementEntityJsonMapper.transformPhysicalMeasurementEntityCollection(
                 responseUserEntities));
@@ -81,7 +96,8 @@ public class RestApiImpl implements RestApi {
     return Observable.create(emitter -> {
       if (isThereInternetConnection()) {
         try {
-          String responseUserDetails = getUserDetailsFromApi(userId);
+//          String responseUserDetails = getUserDetailsFromApi(userId);
+          String responseUserDetails = null;
           if (responseUserDetails != null) {
             emitter.onNext(physicalMeasurementEntityJsonMapper.transformPhysicalMeasurementEntity(responseUserDetails));
             emitter.onComplete();
@@ -97,14 +113,49 @@ public class RestApiImpl implements RestApi {
     });
   }
 
-  private String getUserEntitiesFromApi() throws MalformedURLException {
-    return ApiConnection.createGET(API_URL_GET_USER_LIST).requestSyncCall();
+  /**
+   * Fetch a list of names and majors of students in a sample spreadsheet:
+   * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+   * @return List of names and majors
+   * @throws IOException
+   */
+  private List<List<Object>> getDataFromApi() throws IOException {
+    String spreadsheetId = "1CYOcWrQG7VG9wwPmf2VqI2Xqf-YclI04LiUB8Do_v0Q";
+    int rangeStart = 2;
+    String range = "weight!A" + rangeStart + ":C";
+    ValueRange response = this.googleApiServices.spreadsheets().values()
+            .get(spreadsheetId, range)
+            .execute();
+
+    List<List<Object>> values = response.getValues();
+
+    // 取得したデータをMapに展開
+    List<String> listData;
+    Integer count = rangeStart;
+    if (values != null) {
+      for (List row : values) {
+        listData = new ArrayList<>();
+        listData.add(count.toString());
+        if (row.size() > 1) {
+          listData.add(row.get(1).toString());
+          listData.add(row.get(2).toString());
+        }
+//        mapWeight.put(row.get(0).toString(), listData);
+        count++;
+      }
+    }
+
+    return values;
   }
 
-  private String getUserDetailsFromApi(int userId) throws MalformedURLException {
-    String apiUrl = API_URL_GET_USER_DETAILS + userId + ".json";
-    return ApiConnection.createGET(apiUrl).requestSyncCall();
-  }
+//  private String getUserEntitiesFromApi() throws MalformedURLException {
+//    return ApiConnection.createGET(API_URL_GET_USER_LIST).requestSyncCall();
+//  }
+
+//  private String getUserDetailsFromApi(int userId) throws MalformedURLException {
+//    String apiUrl = API_URL_GET_USER_DETAILS + userId + ".json";
+//    return ApiConnection.createGET(apiUrl).requestSyncCall();
+//  }
 
   /**
    * Checks if the device has any active internet connection.
