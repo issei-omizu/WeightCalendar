@@ -24,6 +24,7 @@ import javax.inject.Inject;
 
 import jp.issei.omizu.weghtcalendar.data.cache.PhysicalMeasurementCache;
 import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntityJsonMapper;
+import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntitySheetsApiMapper;
 import jp.issei.omizu.weghtcalendar.data.google.GoogleApi;
 import jp.issei.omizu.weghtcalendar.data.google.GoogleApiImpl;
 import jp.issei.omizu.weghtcalendar.data.net.RestApi;
@@ -62,9 +63,11 @@ public class PhysicalMeasurementDataStoreFactory {
    * Create {@link PhysicalMeasurementDataStore} to retrieve data from the Cloud.
    */
   public PhysicalMeasurementDataStore createCloudDataStore(GoogleAccountCredential credential) {
-    final PhysicalMeasurementEntityJsonMapper userEntityJsonMapper = new PhysicalMeasurementEntityJsonMapper();
+//    final PhysicalMeasurementEntityJsonMapper userEntityJsonMapper = new PhysicalMeasurementEntityJsonMapper();
 //    final RestApi restApi = new RestApiImpl(this.context, userEntityJsonMapper);
-    final GoogleApi googleApi = new GoogleApiImpl(this.context, credential, userEntityJsonMapper);
+    final PhysicalMeasurementEntitySheetsApiMapper physicalMeasurementEntitySheetsApiMapper = new PhysicalMeasurementEntitySheetsApiMapper();
+
+    final GoogleApi googleApi = new GoogleApiImpl(this.context, credential, physicalMeasurementEntitySheetsApiMapper);
 
     return new CloudPhysicalMeasurementDataStore(googleApi, this.physicalMeasurementCache);
   }

@@ -33,6 +33,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import jp.issei.omizu.weghtcalendar.data.entity.PhysicalMeasurementEntity;
 import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntityJsonMapper;
+import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntitySheetsApiMapper;
 import jp.issei.omizu.weghtcalendar.data.exception.NetworkConnectionException;
 
 /**
@@ -41,21 +42,21 @@ import jp.issei.omizu.weghtcalendar.data.exception.NetworkConnectionException;
 public class GoogleApiImpl implements GoogleApi {
 
   private final Context context;
-  private final PhysicalMeasurementEntityJsonMapper physicalMeasurementEntityJsonMapper;
+  private final PhysicalMeasurementEntitySheetsApiMapper physicalMeasurementEntitySheetsApiMapper;
   private com.google.api.services.sheets.v4.Sheets googleApiServices = null;
 
   /**
    * Constructor of the class
    *
    * @param context {@link Context}.
-   * @param physicalMeasurementEntityJsonMapper {@link PhysicalMeasurementEntityJsonMapper}.
+   * @param physicalMeasurementEntitySheetsApiMapper {@link PhysicalMeasurementEntitySheetsApiMapper}.
    */
-  public GoogleApiImpl(Context context, GoogleAccountCredential credential, PhysicalMeasurementEntityJsonMapper physicalMeasurementEntityJsonMapper) {
-    if (context == null || physicalMeasurementEntityJsonMapper == null) {
+  public GoogleApiImpl(Context context, GoogleAccountCredential credential, PhysicalMeasurementEntitySheetsApiMapper physicalMeasurementEntitySheetsApiMapper) {
+    if (context == null || physicalMeasurementEntitySheetsApiMapper == null) {
       throw new IllegalArgumentException("The constructor parameters cannot be null!!!");
     }
     this.context = context.getApplicationContext();
-    this.physicalMeasurementEntityJsonMapper = physicalMeasurementEntityJsonMapper;
+    this.physicalMeasurementEntitySheetsApiMapper = physicalMeasurementEntitySheetsApiMapper;
 
     HttpTransport transport = AndroidHttp.newCompatibleTransport();
     JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
@@ -76,8 +77,7 @@ public class GoogleApiImpl implements GoogleApi {
 
           String responseUserEntities = null;
           if (responseUserEntities != null) {
-            emitter.onNext(physicalMeasurementEntityJsonMapper.transformPhysicalMeasurementEntityCollection(
-                responseUserEntities));
+            emitter.onNext(physicalMeasurementEntitySheetsApiMapper.transform(val));
             emitter.onComplete();
           } else {
             emitter.onError(new NetworkConnectionException());
@@ -99,7 +99,7 @@ public class GoogleApiImpl implements GoogleApi {
 //          String responseUserDetails = getUserDetailsFromApi(userId);
           String responseUserDetails = null;
           if (responseUserDetails != null) {
-            emitter.onNext(physicalMeasurementEntityJsonMapper.transformPhysicalMeasurementEntity(responseUserDetails));
+//            emitter.onNext(physicalMeasurementEntityJsonMapper.transformPhysicalMeasurementEntity(responseUserDetails));
             emitter.onComplete();
           } else {
             emitter.onError(new NetworkConnectionException());
