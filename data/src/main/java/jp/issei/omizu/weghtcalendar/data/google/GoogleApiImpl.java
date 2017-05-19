@@ -71,12 +71,10 @@ public class GoogleApiImpl implements GoogleApi {
     return Observable.create(emitter -> {
       if (isThereInternetConnection()) {
         try {
-//          String responseUserEntities = getUserEntitiesFromApi();
           List<List<Object>> val = new ArrayList<>();
           val = this.getDataFromApi();
 
-          String responseUserEntities = null;
-          if (responseUserEntities != null) {
+          if (val != null) {
             emitter.onNext(physicalMeasurementEntitySheetsApiMapper.transform(val));
             emitter.onComplete();
           } else {

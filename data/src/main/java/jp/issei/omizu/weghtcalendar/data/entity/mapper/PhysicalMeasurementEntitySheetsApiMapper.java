@@ -15,8 +15,12 @@
  */
 package jp.issei.omizu.weghtcalendar.data.entity.mapper;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -59,32 +63,74 @@ public class PhysicalMeasurementEntitySheetsApiMapper {
    * @return {@link PhysicalMeasurement} if valid {@link PhysicalMeasurementEntity} otherwise null.
    */
   public List<PhysicalMeasurementEntity> transform(List<List<Object>> values) {
-    final List<PhysicalMeasurementEntity> physicalMeasurementList = new ArrayList<>(20);
+    final List<PhysicalMeasurementEntity> physicalMeasurementList = new ArrayList<>();
 //    for (PhysicalMeasurementEntity physicalMeasurementEntity : userEntityCollection) {
 //      final PhysicalMeasurement physicalMeasurement = transform(physicalMeasurementEntity);
 //      if (physicalMeasurement != null) {
 //        physicalMeasurementList.add(physicalMeasurement);
 //      }
 //    }
-    int rangeStart = 2;
+    String date;
+    String weight;
+    String bodyFatPercentage;
+    String bodyTemperature;
 
-    // 取得したデータをMapに展開
-    List<String> listData;
-    Integer count = rangeStart;
+    PhysicalMeasurementEntity physicalMeasurementEntity;
+
+    // 取得したデータをweightテーブルに追加
     if (values != null) {
       for (List row : values) {
-        listData = new ArrayList<>();
-        listData.add(count.toString());
-        if (row.size() > 1) {
-          listData.add(row.get(1).toString());
-          listData.add(row.get(2).toString());
+        weight = "";
+        bodyFatPercentage = "";
+        bodyTemperature = "";
+
+        date = row.get(0).toString();
+
+        if (row.get(1) != null) {
+          weight = row.get(1).toString();
         }
-//        mapWeight.put(row.get(0).toString(), listData);
-        count++;
+        if (row.get(2) != null) {
+          bodyFatPercentage = row.get(2).toString();
+        }
+        /**
+         * 一番最後の列にデータが存在しない（空）ときはデータが取得されない。
+         * 例外エラーを避けるためにデータサイズで判断する。
+         */
+        if (row.size() == 4) {
+          bodyTemperature = row.get(3).toString();
+        }
+
+        // sqliteに保存
+        physicalMeasurementEntity = new PhysicalMeasurementEntity();
+        physicalMeasurementEntity.setDate(this.string2date(date));
+        physicalMeasurementEntity.setWeight(weight);
+        physicalMeasurementEntity.setBodyFatPercentage(bodyFatPercentage);
+        physicalMeasurementEntity.setBodyTemperature(bodyTemperature);
+        physicalMeasurementList.add(physicalMeasurementEntity);
       }
     }
 
-
     return physicalMeasurementList;
   }
+
+  /**
+   * 日付時刻文字列を Date型に変換
+   *
+   * @param strDate
+   * @return
+   */
+  public Date string2date(String strDate) {
+    Date dateDate=null;
+    // 日付文字列→date型変換フォーマットを指定して
+    SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd");
+
+    try {
+      dateDate = sdf1.parse(strDate);
+    }
+    catch (ParseException e) {
+      dateDate = Calendar.getInstance().getTime();
+    }
+    return dateDate;
+  }
+
 }

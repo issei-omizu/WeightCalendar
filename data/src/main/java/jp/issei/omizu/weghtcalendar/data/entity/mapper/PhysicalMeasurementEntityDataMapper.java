@@ -49,6 +49,11 @@ public class PhysicalMeasurementEntityDataMapper {
       physicalMeasurement.setDescription(physicalMeasurementEntity.getDescription());
       physicalMeasurement.setFollowers(physicalMeasurementEntity.getFollowers());
       physicalMeasurement.setEmail(physicalMeasurementEntity.getEmail());
+
+      physicalMeasurement.setDate(physicalMeasurementEntity.getDate());
+      physicalMeasurement.setWeight(physicalMeasurementEntity.getWeight());
+      physicalMeasurement.setBodyFatPercentage(physicalMeasurementEntity.getBodyFatPercentage());
+      physicalMeasurement.setBodyTemperature(physicalMeasurementEntity.getBodyTemperature());
     }
     return physicalMeasurement;
   }
@@ -60,7 +65,7 @@ public class PhysicalMeasurementEntityDataMapper {
    * @return {@link PhysicalMeasurement} if valid {@link PhysicalMeasurementEntity} otherwise null.
    */
   public List<PhysicalMeasurement> transform(Collection<PhysicalMeasurementEntity> userEntityCollection) {
-    final List<PhysicalMeasurement> physicalMeasurementList = new ArrayList<>(20);
+    final List<PhysicalMeasurement> physicalMeasurementList = new ArrayList<>();
     for (PhysicalMeasurementEntity physicalMeasurementEntity : userEntityCollection) {
       final PhysicalMeasurement physicalMeasurement = transform(physicalMeasurementEntity);
       if (physicalMeasurement != null) {

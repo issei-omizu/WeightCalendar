@@ -17,6 +17,8 @@ package jp.issei.omizu.weghtcalendar.data.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 /**
  * PhysicalMeasurement Entity used in the data layer.
  */
@@ -39,6 +41,13 @@ public class PhysicalMeasurementEntity {
 
   @SerializedName("email")
   private String email;
+
+
+  private Date date;
+  private String weight;
+  private String bodyFatPercentage;
+  private String bodyTemperature;
+
 
   public PhysicalMeasurementEntity() {
     //empty
@@ -75,4 +84,34 @@ public class PhysicalMeasurementEntity {
   public String getEmail() {
     return email;
   }
+
+
+
+  public Date getDate() {
+    return date;
+  }
+
+  public void setDate(Date date) {
+    this.date = date;
+  }
+
+  public String getWeight() { return weight; }
+
+  public void setWeight(String weight) {
+    this.weight = weight;
+  }
+
+  public String getBodyFatPercentage() { return bodyFatPercentage; }
+
+  public void setBodyFatPercentage(String bodyFatPercentage) {
+    this.bodyFatPercentage = bodyFatPercentage;
+  }
+
+  public String getBodyTemperature() { return bodyTemperature; }
+
+  public void setBodyTemperature(String bodyTemperature) {
+    this.bodyTemperature = bodyTemperature;
+  }
+
+
 }

@@ -15,6 +15,8 @@
  */
 package jp.issei.omizu.weightcalendar.domain;
 
+import java.util.Date;
+
 /**
  * Class that represents a PhysicalMeasurement in the domain layer.
  */
@@ -31,6 +33,12 @@ public class PhysicalMeasurement {
   private String email;
   private String description;
   private int followers;
+
+  private Date date;
+  private String weight;
+  private String bodyFatPercentage;
+  private String bodyTemperature;
+
 
   public int getUserId() {
     return userId;
@@ -75,4 +83,33 @@ public class PhysicalMeasurement {
   public void setFollowers(int followers) {
     this.followers = followers;
   }
+
+
+  public Date getDate() {
+    return date;
+  }
+
+  public void setDate(Date date) {
+    this.date = date;
+  }
+
+  public String getWeight() { return weight; }
+
+  public void setWeight(String weight) {
+    this.weight = weight;
+  }
+
+  public String getBodyFatPercentage() { return bodyFatPercentage; }
+
+  public void setBodyFatPercentage(String bodyFatPercentage) {
+    this.bodyFatPercentage = bodyFatPercentage;
+  }
+
+  public String getBodyTemperature() { return bodyTemperature; }
+
+  public void setBodyTemperature(String bodyTemperature) {
+    this.bodyTemperature = bodyTemperature;
+  }
+
+
 }
