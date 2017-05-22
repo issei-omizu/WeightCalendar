@@ -1,9 +1,8 @@
 package jp.issei.omizu.weightcalendar.presentation.viewmodel;
 
-import android.content.Context;
+import android.databinding.ObservableArrayList;
 
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -15,6 +14,7 @@ import jp.issei.omizu.weightcalendar.domain.interactor.GetPhysicalMeasurementLis
 public class PhysicalMeasurementViewModel extends GoogleApiViewModel {
 
     private GetPhysicalMeasurementList getPhysicalMeasurementListUseCase;
+    private ObservableArrayList<PhysicalMeasurement> physicalMeasurements;
 
     @Inject
     public PhysicalMeasurementViewModel(GetPhysicalMeasurementList getPhysicalMeasurementListUseCase) {
@@ -22,6 +22,7 @@ public class PhysicalMeasurementViewModel extends GoogleApiViewModel {
     }
 
     public void initialize() {
+        this.physicalMeasurements = new ObservableArrayList<>();
     }
 
     private void loadPhysicalMeasurementList() {
@@ -33,6 +34,15 @@ public class PhysicalMeasurementViewModel extends GoogleApiViewModel {
     public void executeGoogleApi() {
         super.executeGoogleApi();
         this.loadPhysicalMeasurementList();
+    }
+
+    public ObservableArrayList<PhysicalMeasurement> getPhysicalMeasurements() {
+        return this.physicalMeasurements;
+    }
+
+    public void setPhysicalMeasurements(List<PhysicalMeasurement> physicalMeasurements) {
+//        this.physicalMeasurements.clear();
+        this.physicalMeasurements.addAll(physicalMeasurements);
     }
 
     private final class PhysicalMeasurementListObserver extends DefaultObserver<List<PhysicalMeasurement>> {
@@ -49,8 +59,7 @@ public class PhysicalMeasurementViewModel extends GoogleApiViewModel {
         }
 
         @Override public void onNext(List<PhysicalMeasurement> physicalMeasurements) {
-            List<PhysicalMeasurement> test = physicalMeasurements;
-//      UserListPresenter.this.showUsersCollectionInView(physicalMeasurements);
+            PhysicalMeasurementViewModel.this.setPhysicalMeasurements(physicalMeasurements);
         }
     }
 }

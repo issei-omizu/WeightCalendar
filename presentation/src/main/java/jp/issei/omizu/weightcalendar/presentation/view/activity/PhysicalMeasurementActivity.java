@@ -4,11 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import jp.issei.omizu.weightcalendar.R;
 import jp.issei.omizu.weightcalendar.databinding.ActivityPhysicalMeasurementBinding;
+import jp.issei.omizu.weightcalendar.domain.PhysicalMeasurement;
 import jp.issei.omizu.weightcalendar.presentation.di.HasComponent;
 import jp.issei.omizu.weightcalendar.presentation.di.components.DaggerPhysicalMeasurementComponent;
 import jp.issei.omizu.weightcalendar.presentation.di.components.PhysicalMeasurementComponent;
@@ -22,6 +30,9 @@ public class PhysicalMeasurementActivity extends GoogleApiActivity
         return new Intent(context, PhysicalMeasurementActivity.class);
     }
 
+    @BindView(R.id.bt_load)
+    Button bt_load;
+
     @Inject
     PhysicalMeasurementViewModel physicalMeasurementViewModel;
 
@@ -31,14 +42,12 @@ public class PhysicalMeasurementActivity extends GoogleApiActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_physical_measurement);
-
         this.initializeInjector();
 
         final ActivityPhysicalMeasurementBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_physical_measurement);
-        binding.setViewModel(physicalMeasurementViewModel);
+        binding.setPhysicalMeasurementList(this.physicalMeasurementViewModel.getPhysicalMeasurements());
 
-        // call google api
-        this.getResultsFromApi();
+        ButterKnife.bind(this);
     }
 
     private void initializeInjector() {
@@ -59,6 +68,12 @@ public class PhysicalMeasurementActivity extends GoogleApiActivity
 
     @Override public PhysicalMeasurementComponent getComponent() {
         return this.physicalMeasurementComponent;
+    }
+
+    @OnClick(R.id.bt_load)
+    public void load() {
+        // call google api
+        this.getResultsFromApi();
     }
 
 }
