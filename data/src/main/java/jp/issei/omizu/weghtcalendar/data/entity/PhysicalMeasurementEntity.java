@@ -19,10 +19,16 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
+import io.realm.RealmObject;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * PhysicalMeasurement Entity used in the data layer.
  */
-public class PhysicalMeasurementEntity {
+@Getter
+@Setter
+public class PhysicalMeasurementEntity extends RealmObject {
 
   @SerializedName("id")
   private int userId;
@@ -53,65 +59,65 @@ public class PhysicalMeasurementEntity {
     //empty
   }
 
-  public int getUserId() {
-    return userId;
-  }
-
-  public void setUserId(int userId) {
-    this.userId = userId;
-  }
-
-  public String getCoverUrl() {
-    return coverUrl;
-  }
-
-  public String getFullname() {
-    return fullname;
-  }
-
-  public void setFullname(String fullname) {
-    this.fullname = fullname;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public int getFollowers() {
-    return followers;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-
-
-  public Date getDate() {
-    return date;
-  }
-
-  public void setDate(Date date) {
-    this.date = date;
-  }
-
-  public String getWeight() { return weight; }
-
-  public void setWeight(String weight) {
-    this.weight = weight;
-  }
-
-  public String getBodyFatPercentage() { return bodyFatPercentage; }
-
-  public void setBodyFatPercentage(String bodyFatPercentage) {
-    this.bodyFatPercentage = bodyFatPercentage;
-  }
-
-  public String getBodyTemperature() { return bodyTemperature; }
-
-  public void setBodyTemperature(String bodyTemperature) {
-    this.bodyTemperature = bodyTemperature;
-  }
-
+//  public int getUserId() {
+//    return userId;
+//  }
+//
+//  public void setUserId(int userId) {
+//    this.userId = userId;
+//  }
+//
+//  public String getCoverUrl() {
+//    return coverUrl;
+//  }
+//
+//  public String getFullname() {
+//    return fullname;
+//  }
+//
+//  public void setFullname(String fullname) {
+//    this.fullname = fullname;
+//  }
+//
+//  public String getDescription() {
+//    return description;
+//  }
+//
+//  public int getFollowers() {
+//    return followers;
+//  }
+//
+//  public String getEmail() {
+//    return email;
+//  }
+//
+//
+//
+//  public Date getDate() {
+//    return date;
+//  }
+//
+//  public void setDate(Date date) {
+//    this.date = date;
+//  }
+//
+//  public String getWeight() { return weight; }
+//
+//  public void setWeight(String weight) {
+//    this.weight = weight;
+//  }
+//
+//  public String getBodyFatPercentage() { return bodyFatPercentage; }
+//
+//  public void setBodyFatPercentage(String bodyFatPercentage) {
+//    this.bodyFatPercentage = bodyFatPercentage;
+//  }
+//
+//  public String getBodyTemperature() { return bodyTemperature; }
+//
+//  public void setBodyTemperature(String bodyTemperature) {
+//    this.bodyTemperature = bodyTemperature;
+//
+//}
 
 }

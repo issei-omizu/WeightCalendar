@@ -43,7 +43,9 @@ public class GoogleApiImpl implements GoogleApi {
 
   private final Context context;
   private final PhysicalMeasurementEntitySheetsApiMapper physicalMeasurementEntitySheetsApiMapper;
-  private com.google.api.services.sheets.v4.Sheets googleApiServices = null;
+//  private com.google.api.services.sheets.v4.Sheets googleApiServices = null;
+
+  private GooglePlayService googlePlayService;
 
   /**
    * Constructor of the class
@@ -55,33 +57,36 @@ public class GoogleApiImpl implements GoogleApi {
     if (context == null || physicalMeasurementEntitySheetsApiMapper == null) {
       throw new IllegalArgumentException("The constructor parameters cannot be null!!!");
     }
+    this.googlePlayService = new GooglePlayService(context);
     this.context = context.getApplicationContext();
     this.physicalMeasurementEntitySheetsApiMapper = physicalMeasurementEntitySheetsApiMapper;
 
-    HttpTransport transport = AndroidHttp.newCompatibleTransport();
-    JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-    this.googleApiServices = new com.google.api.services.sheets.v4.Sheets.Builder(
-            transport, jsonFactory, credential)
-            .setApplicationName("Google Sheets API Android Quickstart")
-            .build();
+//    HttpTransport transport = AndroidHttp.newCompatibleTransport();
+//    JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+//    this.googleApiServices = new com.google.api.services.sheets.v4.Sheets.Builder(
+//            transport, jsonFactory, credential)
+//            .setApplicationName("Google Sheets API Android Quickstart")
+//            .build();
   }
 
   @Override
   public Observable<List<PhysicalMeasurementEntity>> physicalMeasurementEntityList() {
     return Observable.create(emitter -> {
       if (isThereInternetConnection()) {
-        try {
-          List<List<Object>> val = new ArrayList<>();
-          val = this.getDataFromApi();
+        if (this.googlePlayService.initialize()){
+          try {
+            List<List<Object>> val = new ArrayList<>();
+            val = this.getDataFromApi();
 
-          if (val != null) {
-            emitter.onNext(physicalMeasurementEntitySheetsApiMapper.transform(val));
-            emitter.onComplete();
-          } else {
-            emitter.onError(new NetworkConnectionException());
+            if (val != null) {
+              emitter.onNext(physicalMeasurementEntitySheetsApiMapper.transform(val));
+              emitter.onComplete();
+            } else {
+              emitter.onError(new NetworkConnectionException());
+            }
+          } catch (Exception e) {
+            emitter.onError(new NetworkConnectionException(e.getCause()));
           }
-        } catch (Exception e) {
-          emitter.onError(new NetworkConnectionException(e.getCause()));
         }
       } else {
         emitter.onError(new NetworkConnectionException());
@@ -121,7 +126,7 @@ public class GoogleApiImpl implements GoogleApi {
     String spreadsheetId = "1CYOcWrQG7VG9wwPmf2VqI2Xqf-YclI04LiUB8Do_v0Q";
     int rangeStart = 2;
     String range = "weight!A" + rangeStart + ":C";
-    ValueRange response = this.googleApiServices.spreadsheets().values()
+    ValueRange response = this.googlePlayService.getSheetsApi().spreadsheets().values()
             .get(spreadsheetId, range)
             .execute();
 

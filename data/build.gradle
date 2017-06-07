@@ -1,15 +1,19 @@
 buildscript {
     repositories {
+        jcenter()
         mavenCentral()
     }
+
     dependencies {
         classpath 'me.tatarka:gradle-retrolambda:3.2.3'
+        classpath "io.realm:realm-gradle-plugin:3.3.1"
     }
 }
 
 apply plugin: 'com.android.library'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'realm-android'
 
 android {
     defaultPublishConfig "debug"
@@ -55,6 +59,17 @@ dependencies {
 //    compile 'com.android.support:appcompat-v7:25.3.0'
     testCompile 'junit:junit:4.12'
 
+    // sheets api
+    compile 'com.google.android.gms:play-services-auth:10.2.6'
+    compile 'pub.devrel:easypermissions:0.2.1'
+    compile('com.google.api-client:google-api-client-android:1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    compile('com.google.apis:google-api-services-sheets:v4-rev472-1.22.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+
+
     def dataDependencies = rootProject.ext.dataDependencies
 
     compile project(':domain')
@@ -65,5 +80,7 @@ dependencies {
     compile dataDependencies.rxJava
     compile dataDependencies.rxAndroid
     compile dataDependencies.androidAnnotations
+
+    compile "org.projectlombok:lombok:1.16.16"
 
 }

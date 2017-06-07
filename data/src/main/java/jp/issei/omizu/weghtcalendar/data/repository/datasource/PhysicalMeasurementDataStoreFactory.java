@@ -23,12 +23,10 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import javax.inject.Inject;
 
 import jp.issei.omizu.weghtcalendar.data.cache.PhysicalMeasurementCache;
-import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntityJsonMapper;
 import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntitySheetsApiMapper;
 import jp.issei.omizu.weghtcalendar.data.google.GoogleApi;
 import jp.issei.omizu.weghtcalendar.data.google.GoogleApiImpl;
-import jp.issei.omizu.weghtcalendar.data.net.RestApi;
-import jp.issei.omizu.weghtcalendar.data.net.RestApiImpl;
+import jp.issei.omizu.weghtcalendar.data.realm.PhysicalMeasurementRealm;
 
 /**
  * Factory that creates different implementations of {@link PhysicalMeasurementDataStore}.
@@ -36,39 +34,36 @@ import jp.issei.omizu.weghtcalendar.data.net.RestApiImpl;
 public class PhysicalMeasurementDataStoreFactory {
 
   private final Context context;
-  private final PhysicalMeasurementCache physicalMeasurementCache;
+//  private final PhysicalMeasurementCache physicalMeasurementCache;
+  private final PhysicalMeasurementRealm physicalMeasurementRealm;
 
   @Inject
-  PhysicalMeasurementDataStoreFactory(@NonNull Context context, @NonNull PhysicalMeasurementCache physicalMeasurementCache) {
+  PhysicalMeasurementDataStoreFactory(@NonNull Context context, @NonNull PhysicalMeasurementRealm physicalMeasurementRealm) {
     this.context = context.getApplicationContext();
-    this.physicalMeasurementCache = physicalMeasurementCache;
+    this.physicalMeasurementRealm = physicalMeasurementRealm;
   }
 
   /**
    * Create {@link PhysicalMeasurementDataStore} from a physicalMeasurement id.
    */
-  public PhysicalMeasurementDataStore create(int userId) {
-    PhysicalMeasurementDataStore physicalMeasurementDataStore;
+  public RealmPhysicalMeasurementDataStore create(int userId) {
+    RealmPhysicalMeasurementDataStore realmPhysicalMeasurementDataStore;
 
-    if (!this.physicalMeasurementCache.isExpired() && this.physicalMeasurementCache.isCached(userId)) {
-      physicalMeasurementDataStore = new DiskPhysicalMeasurementDataStore(this.physicalMeasurementCache);
+    if (!this.physicalMeasurementRealm.isExpired() && this.physicalMeasurementRealm.isCached(userId)) {
+      realmPhysicalMeasurementDataStore = new RealmPhysicalMeasurementDataStore(this.physicalMeasurementRealm);
     } else {
-      physicalMeasurementDataStore = createCloudDataStore(null);
+      realmPhysicalMeasurementDataStore = createCloudDataStore(null);
     }
 
-    return physicalMeasurementDataStore;
+    return realmPhysicalMeasurementDataStore;
   }
 
   /**
    * Create {@link PhysicalMeasurementDataStore} to retrieve data from the Cloud.
    */
-  public PhysicalMeasurementDataStore createCloudDataStore(GoogleAccountCredential credential) {
-//    final PhysicalMeasurementEntityJsonMapper userEntityJsonMapper = new PhysicalMeasurementEntityJsonMapper();
-//    final RestApi restApi = new RestApiImpl(this.context, userEntityJsonMapper);
+  public RealmPhysicalMeasurementDataStore createCloudDataStore(GoogleAccountCredential credential) {
     final PhysicalMeasurementEntitySheetsApiMapper physicalMeasurementEntitySheetsApiMapper = new PhysicalMeasurementEntitySheetsApiMapper();
 
-    final GoogleApi googleApi = new GoogleApiImpl(this.context, credential, physicalMeasurementEntitySheetsApiMapper);
-
-    return new CloudPhysicalMeasurementDataStore(googleApi, this.physicalMeasurementCache);
+    return new RealmPhysicalMeasurementDataStore(this.physicalMeasurementRealm);
   }
 }
