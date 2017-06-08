@@ -17,8 +17,6 @@ package jp.issei.omizu.weightcalendar.presentation.di.modules;
 
 import dagger.Module;
 import dagger.Provides;
-import jp.issei.omizu.weghtcalendar.data.cache.PhysicalMeasurementCache;
-import jp.issei.omizu.weghtcalendar.data.cache.PhysicalMeasurementCacheImpl;
 import jp.issei.omizu.weghtcalendar.data.repository.PhysicalMeasurementDataRepository;
 import jp.issei.omizu.weightcalendar.domain.repository.PhysicalMeasurementRepository;
 
@@ -28,11 +26,6 @@ import jp.issei.omizu.weightcalendar.domain.repository.PhysicalMeasurementReposi
 @Module
 public class PhysicalMeasurementModule {
     public PhysicalMeasurementModule() {}
-
-    @Provides
-    PhysicalMeasurementCache providePhysicalMeasurementCache(PhysicalMeasurementCacheImpl physicalMeasurementCache) {
-        return physicalMeasurementCache;
-    }
 
     @Provides
     PhysicalMeasurementRepository providePhysicalMeasurementRepository(PhysicalMeasurementDataRepository physicalMeasurementDataRepository) {

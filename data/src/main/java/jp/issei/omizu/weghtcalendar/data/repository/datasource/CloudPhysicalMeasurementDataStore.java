@@ -18,7 +18,6 @@ package jp.issei.omizu.weghtcalendar.data.repository.datasource;
 import java.util.List;
 
 import io.reactivex.Observable;
-import jp.issei.omizu.weghtcalendar.data.cache.PhysicalMeasurementCache;
 import jp.issei.omizu.weghtcalendar.data.entity.PhysicalMeasurementEntity;
 import jp.issei.omizu.weghtcalendar.data.google.GoogleApi;
 import jp.issei.omizu.weghtcalendar.data.realm.PhysicalMeasurementRealm;
@@ -35,7 +34,7 @@ class CloudPhysicalMeasurementDataStore implements PhysicalMeasurementDataStore 
    * Construct a {@link PhysicalMeasurementDataStore} based on connections to the api (Cloud).
    *
    * @param googleApi The {@link GoogleApi} implementation to use.
-   * @param physicalMeasurementRealm A {@link PhysicalMeasurementCache} to cache data retrieved from the api.
+   * @param physicalMeasurementRealm A {@link PhysicalMeasurementRealm} to cache data retrieved from the api.
    */
   CloudPhysicalMeasurementDataStore(GoogleApi googleApi, PhysicalMeasurementRealm physicalMeasurementRealm) {
     this.googleApi = googleApi;

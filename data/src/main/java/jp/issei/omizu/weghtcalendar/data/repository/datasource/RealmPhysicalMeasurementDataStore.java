@@ -18,7 +18,6 @@ package jp.issei.omizu.weghtcalendar.data.repository.datasource;
 import java.util.List;
 
 import io.reactivex.Observable;
-import jp.issei.omizu.weghtcalendar.data.cache.PhysicalMeasurementCache;
 import jp.issei.omizu.weghtcalendar.data.entity.PhysicalMeasurementEntity;
 import jp.issei.omizu.weghtcalendar.data.realm.PhysicalMeasurementRealm;
 
@@ -32,7 +31,7 @@ class RealmPhysicalMeasurementDataStore implements PhysicalMeasurementDataStore 
   /**
    * Construct a {@link PhysicalMeasurementDataStore} based file system data store.
    *
-   * @param physicalMeasurementRealm A {@link PhysicalMeasurementCache} to cache data retrieved from the api.
+   * @param physicalMeasurementRealm A {@link PhysicalMeasurementRealm} to cache data retrieved from the api.
    */
   RealmPhysicalMeasurementDataStore(PhysicalMeasurementRealm physicalMeasurementRealm) {
     this.physicalMeasurementRealm = physicalMeasurementRealm;
@@ -40,8 +39,7 @@ class RealmPhysicalMeasurementDataStore implements PhysicalMeasurementDataStore 
 
   @Override
   public Observable<List<PhysicalMeasurementEntity>> physicalMeasurementEntityList() {
-    //TODO: implement simple cache for storing/retrieving collections of physicalMeasurements.
-    throw new UnsupportedOperationException("Operation is not available!!!");
+    return this.physicalMeasurementRealm.physicalMeasurementEntityList();
   }
 
   @Override

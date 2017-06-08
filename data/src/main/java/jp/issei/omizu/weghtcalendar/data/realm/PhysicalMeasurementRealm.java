@@ -15,6 +15,8 @@
  */
 package jp.issei.omizu.weghtcalendar.data.realm;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import jp.issei.omizu.weghtcalendar.data.entity.PhysicalMeasurementEntity;
 
@@ -22,6 +24,11 @@ import jp.issei.omizu.weghtcalendar.data.entity.PhysicalMeasurementEntity;
  * An interface representing a user Cache.
  */
 public interface PhysicalMeasurementRealm {
+  /**
+   * Retrieves an {@link Observable} which will emit a List of {@link PhysicalMeasurementEntity}.
+   */
+  Observable<List<PhysicalMeasurementEntity>> physicalMeasurementEntityList();
+
   /**
    * Gets an {@link Observable} which will emit a {@link PhysicalMeasurementEntity}.
    *
@@ -51,8 +58,4 @@ public interface PhysicalMeasurementRealm {
    */
   boolean isExpired();
 
-  /**
-   * Evict all elements of the cache.
-   */
-  void evictAll();
 }
