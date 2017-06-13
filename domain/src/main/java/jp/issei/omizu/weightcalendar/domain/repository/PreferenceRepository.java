@@ -25,5 +25,5 @@ import jp.issei.omizu.weightcalendar.domain.PhysicalMeasurement;
  */
 public interface PreferenceRepository {
   Observable<String> getAccountName();
-  void putAccountName(final String accountName);
+  Observable<Boolean> putAccountName(final String accountName);
 }
