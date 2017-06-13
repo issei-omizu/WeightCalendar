@@ -20,6 +20,7 @@ import jp.issei.omizu.weightcalendar.presentation.di.PerActivity;
 import jp.issei.omizu.weightcalendar.presentation.di.modules.ActivityModule;
 import jp.issei.omizu.weightcalendar.presentation.di.modules.GoogleApiModule;
 import jp.issei.omizu.weightcalendar.presentation.di.modules.PhysicalMeasurementModule;
+import jp.issei.omizu.weightcalendar.presentation.di.modules.PreferenceModule;
 import jp.issei.omizu.weightcalendar.presentation.view.activity.PhysicalMeasurementActivity;
 
 /**
@@ -27,7 +28,7 @@ import jp.issei.omizu.weightcalendar.presentation.view.activity.PhysicalMeasurem
  * Injects physicalMeasurement specific Fragments.
  */
 @PerActivity
-@Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, GoogleApiModule.class, PhysicalMeasurementModule.class})
+@Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, GoogleApiModule.class, PhysicalMeasurementModule.class, PreferenceModule.class})
 public interface PhysicalMeasurementComponent extends ActivityComponent {
     void inject(PhysicalMeasurementActivity physicalMeasurementActivity);
 }
