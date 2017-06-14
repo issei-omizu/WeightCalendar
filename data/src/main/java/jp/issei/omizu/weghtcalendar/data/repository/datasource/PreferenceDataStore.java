@@ -26,5 +26,5 @@ import jp.issei.omizu.weghtcalendar.data.entity.PhysicalMeasurementEntity;
 public interface PreferenceDataStore {
   Observable<String> getAccountName();
 
-  void putAccountName(final String accountName);
+  Observable<Boolean> putAccountName(final String accountName);
 }

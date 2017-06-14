@@ -34,7 +34,7 @@ import jp.issei.omizu.weightcalendar.domain.repository.PreferenceRepository;
  * This class is an implementation of {@link UseCase} that represents a use case for
  * retrieving a collection of all {@link PhysicalMeasurement}.
  */
-public class SetAccountName extends UseCase<String, SetAccountName.Params> {
+public class SetAccountName extends UseCase<Boolean, SetAccountName.Params> {
 
   private final PreferenceRepository preferenceRepository;
 

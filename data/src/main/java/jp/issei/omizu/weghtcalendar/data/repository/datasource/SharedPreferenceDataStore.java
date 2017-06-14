@@ -38,7 +38,7 @@ public class SharedPreferenceDataStore implements PreferenceDataStore {
   }
 
   @Override
-  public void putAccountName(final String accountName) {
-    this.preference.putAccountName(accountName);
+  public Observable<Boolean> putAccountName(final String accountName) {
+    return this.preference.putAccountName(accountName);
   }
 }

@@ -27,5 +27,5 @@ public interface Preference {
 
   Observable<String> getAccountName();
 
-  void putAccountName(final String accountName);
+  Observable<Boolean> putAccountName(final String accountName);
 }

@@ -15,14 +15,9 @@
  */
 package jp.issei.omizu.weghtcalendar.data.repository;
 
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-
-import java.util.List;
-
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import jp.issei.omizu.weghtcalendar.data.repository.datasource.PhysicalMeasurementDataStore;
 import jp.issei.omizu.weghtcalendar.data.repository.datasource.PreferenceDataStoreFactory;
 import jp.issei.omizu.weghtcalendar.data.repository.datasource.SharedPreferenceDataStore;
 import jp.issei.omizu.weightcalendar.domain.repository.PreferenceRepository;
@@ -51,8 +46,8 @@ public class PreferenceDataRepository implements PreferenceRepository {
   }
 
   @Override
-  public void putAccountName(String accountName) {
+  public Observable<Boolean> putAccountName(String accountName) {
     final SharedPreferenceDataStore sharedPreferenceDataStore = this.preferenceDataStoreFactory.create();
-    sharedPreferenceDataStore.putAccountName(accountName);
+    return sharedPreferenceDataStore.putAccountName(accountName);
   }
 }

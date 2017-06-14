@@ -61,11 +61,21 @@ public class PreferenceImpl implements Preference {
   }
 
   @Override
-  public void putAccountName(final String accountName) {
-    SharedPreferences settings =
-            this.context.getSharedPreferences(PREF_GOOGLE_API, Context.MODE_PRIVATE);
-    SharedPreferences.Editor editor = settings.edit();
-    editor.putString(PREF_ACCOUNT_NAME, accountName);
-    editor.apply();
+  public Observable<Boolean> putAccountName(final String accountName) {
+    return Observable.create(emitter -> {
+      try {
+        SharedPreferences settings =
+                this.context.getSharedPreferences(PREF_GOOGLE_API, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(PREF_ACCOUNT_NAME, accountName);
+        editor.apply();
+
+        emitter.onNext(true);
+        emitter.onComplete();
+
+      } catch (Exception e) {
+        emitter.onError(new NetworkConnectionException(e.getCause()));
+      }
+    });
   }
 }
