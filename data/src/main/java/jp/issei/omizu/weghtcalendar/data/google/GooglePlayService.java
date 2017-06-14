@@ -21,6 +21,8 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import java.util.Arrays;
 import java.util.List;
 
+import jp.issei.omizu.weghtcalendar.data.preference.PreferenceImpl;
+
 /**
  * Created by BestRun on 2017/06/07.
  */
@@ -37,25 +39,7 @@ public class GooglePlayService {
     public GooglePlayService(Context context) {
         this.context = context;
 
-        String className = null;
-        try {
-            PackageInfo pInfo = context
-                    .getPackageManager()
-                    .getPackageInfo(context.getPackageName(),
-                            context.getPackageManager().GET_ACTIVITIES);
-            className = pInfo.activities[0].name;
-        } catch (Exception e) {
-
-        }
-
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> runningTasks = manager .getRunningTasks(1);
-        ActivityManager.RunningTaskInfo cinfo = runningTasks.get(0);
-        ComponentName component = cinfo.topActivity;
-        className = component.getClassName();
-
-        String accountName = this.context.getSharedPreferences(className, Context.MODE_PRIVATE)
-                .getString(PREF_ACCOUNT_NAME, null);
+        String accountName = PreferenceImpl.getAccountName(this.context);
 
         // Initialize credentials and service object.
         this.credential = GoogleAccountCredential.usingOAuth2(

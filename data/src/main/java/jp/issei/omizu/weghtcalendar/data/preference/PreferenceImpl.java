@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.repackaged.com.google.common.base.Strings;
 
 import io.reactivex.Observable;
 import jp.issei.omizu.weghtcalendar.data.exception.NetworkConnectionException;
@@ -42,12 +43,16 @@ public class PreferenceImpl implements Preference {
     this.context = context.getApplicationContext();
   }
 
+  public static String getAccountName(Context context) {
+    return context.getSharedPreferences(PREF_GOOGLE_API, Context.MODE_PRIVATE)
+            .getString(PREF_ACCOUNT_NAME, null);
+  }
+
   @Override
   public Observable<String> getAccountName() {
     return Observable.create(emitter -> {
       try {
-        String accountName = this.context.getSharedPreferences(PREF_GOOGLE_API, Context.MODE_PRIVATE)
-                .getString(PREF_ACCOUNT_NAME, null);
+        String accountName = getAccountName(this.context);
         if (accountName != null && !accountName.isEmpty()) {
           emitter.onNext(accountName);
           emitter.onComplete();
