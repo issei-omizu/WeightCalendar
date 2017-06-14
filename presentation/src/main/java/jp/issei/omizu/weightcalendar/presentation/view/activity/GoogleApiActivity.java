@@ -131,6 +131,7 @@ public abstract class GoogleApiActivity extends BaseActivity
                         editor.putString(PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
                         this.googleApiViewModel.getCredential().setSelectedAccountName(accountName);
+                        this.googleApiViewModel.setAccountName(accountName);
                         getResultsFromApi();
                     }
                 }

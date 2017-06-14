@@ -27,6 +27,7 @@ import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntity
 import jp.issei.omizu.weghtcalendar.data.google.GoogleApi;
 import jp.issei.omizu.weghtcalendar.data.google.GoogleApiImpl;
 import jp.issei.omizu.weghtcalendar.data.preference.Preference;
+import jp.issei.omizu.weghtcalendar.data.preference.PreferenceImpl;
 import jp.issei.omizu.weghtcalendar.data.realm.PhysicalMeasurementRealm;
 
 /**
@@ -38,9 +39,9 @@ public class PreferenceDataStoreFactory {
   private final Preference preference;
 
   @Inject
-  PreferenceDataStoreFactory(@NonNull Context context, @NonNull Preference preference) {
+  PreferenceDataStoreFactory(@NonNull Context context) {
     this.context = context.getApplicationContext();
-    this.preference = preference;
+    this.preference = new PreferenceImpl(this.context);
   }
 
   /**

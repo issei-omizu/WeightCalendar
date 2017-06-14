@@ -28,7 +28,7 @@ import jp.issei.omizu.weightcalendar.presentation.view.activity.PhysicalMeasurem
  * Injects physicalMeasurement specific Fragments.
  */
 @PerActivity
-@Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, GoogleApiModule.class, PhysicalMeasurementModule.class, PreferenceModule.class})
+@Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, PhysicalMeasurementModule.class, PreferenceModule.class})
 public interface PhysicalMeasurementComponent extends ActivityComponent {
     void inject(PhysicalMeasurementActivity physicalMeasurementActivity);
 }

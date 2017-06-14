@@ -11,7 +11,7 @@ import jp.issei.omizu.weightcalendar.domain.PhysicalMeasurement;
 import jp.issei.omizu.weightcalendar.domain.interactor.DefaultObserver;
 import jp.issei.omizu.weightcalendar.domain.interactor.GetPhysicalMeasurementList;
 
-public class PhysicalMeasurementViewModel extends GoogleApiViewModel {
+public class PhysicalMeasurementViewModel {
 
     private GetPhysicalMeasurementList getPhysicalMeasurementListUseCase;
     private ObservableArrayList<PhysicalMeasurement> physicalMeasurements;
@@ -26,13 +26,11 @@ public class PhysicalMeasurementViewModel extends GoogleApiViewModel {
     }
 
     private void loadPhysicalMeasurementList() {
-        GetPhysicalMeasurementList.Params params = GetPhysicalMeasurementList.Params.forCredential(this.getCredential());
+        GetPhysicalMeasurementList.Params params = GetPhysicalMeasurementList.Params.forCredential(null);
         this.getPhysicalMeasurementListUseCase.execute(new PhysicalMeasurementListObserver(), params);
     }
 
-    @Override
     public void executeGoogleApi() {
-        super.executeGoogleApi();
         this.loadPhysicalMeasurementList();
     }
 

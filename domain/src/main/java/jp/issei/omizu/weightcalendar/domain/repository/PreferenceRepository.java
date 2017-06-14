@@ -15,8 +15,6 @@
  */
 package jp.issei.omizu.weightcalendar.domain.repository;
 
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-
 import io.reactivex.Observable;
 import jp.issei.omizu.weightcalendar.domain.PhysicalMeasurement;
 
