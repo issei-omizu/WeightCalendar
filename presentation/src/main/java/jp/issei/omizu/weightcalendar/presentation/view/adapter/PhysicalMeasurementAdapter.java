@@ -12,13 +12,14 @@ import android.widget.ArrayAdapter;
 import jp.issei.omizu.weightcalendar.R;
 import jp.issei.omizu.weightcalendar.databinding.ViewRowPhysicalMeasurementBinding;
 import jp.issei.omizu.weightcalendar.domain.PhysicalMeasurement;
+import jp.issei.omizu.weightcalendar.presentation.model.PhysicalMeasurementModel;
 
 /**
  * Created by isseiomizu on 2017/05/21.
  */
 
-public class PhysicalMeasurementAdapter extends ArrayAdapter<PhysicalMeasurement> {
-    public PhysicalMeasurementAdapter(Context context, ObservableArrayList<PhysicalMeasurement> physicalMeasurements) {
+public class PhysicalMeasurementAdapter extends ArrayAdapter<PhysicalMeasurementModel> {
+    public PhysicalMeasurementAdapter(Context context, ObservableArrayList<PhysicalMeasurementModel> physicalMeasurements) {
         super(context, 0, physicalMeasurements);
     }
 

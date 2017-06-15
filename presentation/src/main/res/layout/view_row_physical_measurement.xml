@@ -1,6 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="physicalMeasurement" type="jp.issei.omizu.weightcalendar.domain.PhysicalMeasurement" />
+        <variable name="physicalMeasurement" type="jp.issei.omizu.weightcalendar.presentation.model.PhysicalMeasurementModel" />
     </data>
 
     <RelativeLayout

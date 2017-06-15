@@ -48,7 +48,7 @@ public abstract class GoogleApiActivity extends BaseActivity
 
         this.initializeInjector();
 
-        this.googleApiViewModel.initialize(this);
+        this.googleApiViewModel.initialize(this.getApplicationContext());
     }
 
     private void initializeInjector() {

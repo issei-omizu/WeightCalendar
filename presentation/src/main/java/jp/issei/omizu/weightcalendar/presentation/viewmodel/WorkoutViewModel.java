@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import jp.issei.omizu.weightcalendar.presentation.frameworks.messengers.Messenger;
-import jp.issei.omizu.weightcalendar.presentation.models.StopWatchModel;
+import jp.issei.omizu.weightcalendar.presentation.model.StopWatchModel;
 import jp.keita.kagurazaka.rxproperty.Nothing;
 import jp.keita.kagurazaka.rxproperty.ReadOnlyRxProperty;
 import jp.keita.kagurazaka.rxproperty.RxCommand;

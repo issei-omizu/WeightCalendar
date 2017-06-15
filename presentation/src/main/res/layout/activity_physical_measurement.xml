@@ -5,8 +5,8 @@
 
     <data>
         <import type="android.databinding.ObservableArrayList" />
-        <import type="jp.issei.omizu.weightcalendar.domain.PhysicalMeasurement"/>
-        <variable name="physicalMeasurementList" type="ObservableArrayList&lt;PhysicalMeasurement&gt;"/>
+        <import type="jp.issei.omizu.weightcalendar.presentation.model.PhysicalMeasurementModel"/>
+        <variable name="physicalMeasurementList" type="ObservableArrayList&lt;PhysicalMeasurementModel&gt;"/>
     </data>
 
     <RelativeLayout

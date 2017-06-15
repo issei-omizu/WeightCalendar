@@ -17,7 +17,7 @@ package jp.issei.omizu.weightcalendar.presentation.di.modules;
 
 import dagger.Module;
 import dagger.Provides;
-import jp.issei.omizu.weightcalendar.presentation.models.StopWatchModel;
+import jp.issei.omizu.weightcalendar.presentation.model.StopWatchModel;
 
 /**
  * Dagger module that provides physicalMeasurement related collaborators.

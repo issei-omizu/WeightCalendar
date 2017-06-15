@@ -59,7 +59,7 @@ public class PhysicalMeasurementActivity extends GoogleApiActivity
 
     @Override
     protected void onReadyToUseGoogleApi() {
-        this.physicalMeasurementViewModel.executeGoogleApi();
+        this.physicalMeasurementViewModel.executeGoogleApi(this.googleApiViewModel.getCredential());
     }
 
     @Override public PhysicalMeasurementComponent getComponent() {

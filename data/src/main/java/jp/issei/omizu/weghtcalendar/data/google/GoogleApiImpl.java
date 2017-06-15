@@ -24,6 +24,7 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
 import java.io.IOException;
@@ -46,6 +47,7 @@ public class GoogleApiImpl implements GoogleApi {
 //  private com.google.api.services.sheets.v4.Sheets googleApiServices = null;
 
   private GooglePlayService googlePlayService;
+  private Sheets sheetsApi = null;
 
   /**
    * Constructor of the class
@@ -61,12 +63,12 @@ public class GoogleApiImpl implements GoogleApi {
     this.context = context.getApplicationContext();
     this.physicalMeasurementEntitySheetsApiMapper = physicalMeasurementEntitySheetsApiMapper;
 
-//    HttpTransport transport = AndroidHttp.newCompatibleTransport();
-//    JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-//    this.googleApiServices = new com.google.api.services.sheets.v4.Sheets.Builder(
-//            transport, jsonFactory, credential)
-//            .setApplicationName("Google Sheets API Android Quickstart")
-//            .build();
+    HttpTransport transport = AndroidHttp.newCompatibleTransport();
+    JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+    this.sheetsApi = new com.google.api.services.sheets.v4.Sheets.Builder(
+            transport, jsonFactory, credential)
+            .setApplicationName("Google Sheets API Android Quickstart")
+            .build();
   }
 
   @Override
@@ -126,9 +128,14 @@ public class GoogleApiImpl implements GoogleApi {
     String spreadsheetId = "1CYOcWrQG7VG9wwPmf2VqI2Xqf-YclI04LiUB8Do_v0Q";
     int rangeStart = 2;
     String range = "weight!A" + rangeStart + ":C";
+
+    Sheets sheetsApi = this.googlePlayService.getSheetsApi();
     ValueRange response = this.googlePlayService.getSheetsApi().spreadsheets().values()
             .get(spreadsheetId, range)
             .execute();
+//    ValueRange response = this.sheetsApi.spreadsheets().values()
+//            .get(spreadsheetId, range)
+//            .execute();
 
     List<List<Object>> values = response.getValues();
 
