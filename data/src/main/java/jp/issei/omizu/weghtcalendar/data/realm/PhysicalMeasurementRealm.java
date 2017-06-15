@@ -42,6 +42,7 @@ public interface PhysicalMeasurementRealm {
    * @param physicalMeasurementEntity Element to insert in the cache.
    */
   void put(PhysicalMeasurementEntity physicalMeasurementEntity);
+  void put(List<PhysicalMeasurementEntity> physicalMeasurementEntity);
 
   /**
    * Checks if an element (User) exists in the cache.

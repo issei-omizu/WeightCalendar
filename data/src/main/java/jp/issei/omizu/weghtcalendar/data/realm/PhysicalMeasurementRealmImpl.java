@@ -90,6 +90,18 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
   }
 
   @Override
+  public void put(List<PhysicalMeasurementEntity> physicalMeasurementEntity) {
+//    if (physicalMeasurementEntity != null) {
+//      final File userEntityFile = this.buildFile(physicalMeasurementEntity.getUserId());
+//      if (!isCached(physicalMeasurementEntity.getUserId())) {
+//        final String jsonString = this.serializer.serialize(physicalMeasurementEntity, PhysicalMeasurementEntity.class);
+//        this.executeAsynchronously(new CacheWriter(this.fileManager, userEntityFile, jsonString));
+//        setLastCacheUpdateTimeMillis();
+//      }
+//    }
+  }
+
+  @Override
   public boolean isCached(int userId) {
 //    final File userEntityFile = this.buildFile(userId);
     return true;

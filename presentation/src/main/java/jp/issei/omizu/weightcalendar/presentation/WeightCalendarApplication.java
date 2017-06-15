@@ -2,6 +2,8 @@ package jp.issei.omizu.weightcalendar.presentation;
 
 import android.app.Application;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import jp.issei.omizu.weightcalendar.presentation.di.components.ApplicationComponent;
 import jp.issei.omizu.weightcalendar.presentation.di.components.DaggerApplicationComponent;
 import jp.issei.omizu.weightcalendar.presentation.di.modules.ApplicationModule;
@@ -17,6 +19,10 @@ public class WeightCalendarApplication extends Application {
     @Override public void onCreate() {
         super.onCreate();
         injectApplicationComponent();
+
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder().build();
+        Realm.setDefaultConfiguration(config);
     }
 
     private void injectApplicationComponent() {
