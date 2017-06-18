@@ -17,13 +17,19 @@ package jp.issei.omizu.weghtcalendar.data.realm;
 
 import android.content.Context;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.realm.Realm;
+import io.realm.RealmResults;
 import jp.issei.omizu.weghtcalendar.data.entity.PhysicalMeasurementEntity;
+import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntityRealmMapper;
+import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntitySheetsApiMapper;
+import jp.issei.omizu.weghtcalendar.data.exception.NetworkConnectionException;
 import jp.issei.omizu.weightcalendar.domain.executor.ThreadExecutor;
 
 /**
@@ -39,6 +45,8 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
 
   private final Context context;
   private final ThreadExecutor threadExecutor;
+  private final Realm realm;
+  private final PhysicalMeasurementEntityRealmMapper physicalMeasurementEntityRealmMapper;
 
   /**
    * Constructor of the class {@link PhysicalMeasurementRealmImpl}.
@@ -52,12 +60,29 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
     }
     this.context = context.getApplicationContext();
     this.threadExecutor = executor;
+
+    this.realm = Realm.getDefaultInstance();
+    this.physicalMeasurementEntityRealmMapper = new PhysicalMeasurementEntityRealmMapper();
   }
 
   @Override
   public Observable<List<PhysicalMeasurementEntity>> physicalMeasurementEntityList() {
-//    return this.googleApi.physicalMeasurementEntityList();
-    return null;
+    return Observable.create(emitter -> {
+      try {
+        Realm realm = Realm.getDefaultInstance();
+        final RealmResults<PhysicalMeasurement> realmResults = realm.where(PhysicalMeasurement.class).findAll();
+        realmResults.size();
+
+        if (realmResults.size() > 0) {
+          emitter.onNext(this.physicalMeasurementEntityRealmMapper.transform(realmResults));
+          emitter.onComplete();
+        } else {
+          emitter.onError(new NetworkConnectionException());
+        }
+      } catch (Exception e) {
+        emitter.onError(new NetworkConnectionException(e.getCause()));
+      }
+    });
   }
 
   @Override
@@ -77,8 +102,8 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
     });
   }
 
-  @Override
-  public void put(PhysicalMeasurementEntity physicalMeasurementEntity) {
+//  @Override
+//  public void put(PhysicalMeasurementEntity physicalMeasurementEntity) {
 //    if (physicalMeasurementEntity != null) {
 //      final File userEntityFile = this.buildFile(physicalMeasurementEntity.getUserId());
 //      if (!isCached(physicalMeasurementEntity.getUserId())) {
@@ -87,38 +112,26 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
 //        setLastCacheUpdateTimeMillis();
 //      }
 //    }
-  }
+//  }
 
   @Override
   public void put(List<PhysicalMeasurementEntity> physicalMeasurementEntity) {
-//    if (physicalMeasurementEntity != null) {
-//      final File userEntityFile = this.buildFile(physicalMeasurementEntity.getUserId());
-//      if (!isCached(physicalMeasurementEntity.getUserId())) {
-//        final String jsonString = this.serializer.serialize(physicalMeasurementEntity, PhysicalMeasurementEntity.class);
-//        this.executeAsynchronously(new CacheWriter(this.fileManager, userEntityFile, jsonString));
-//        setLastCacheUpdateTimeMillis();
-//      }
-//    }
-  }
+    Realm realm = Realm.getDefaultInstance();
+    for(PhysicalMeasurementEntity val : physicalMeasurementEntity){
+      realm.executeTransaction(_realm -> {
+        PhysicalMeasurement transformPhysicalMeasurement = this.physicalMeasurementEntityRealmMapper.transform(val);
 
-  @Override
-  public boolean isCached(int userId) {
-//    final File userEntityFile = this.buildFile(userId);
-    return true;
-  }
+        String id = UUID.randomUUID().toString();
+        PhysicalMeasurement physicalMeasurement = _realm.createObject(PhysicalMeasurement.class, id);
+//        physicalMeasurement.setId(id);
+        physicalMeasurement.setDate(transformPhysicalMeasurement.getDate());
+        physicalMeasurement.setWeight(transformPhysicalMeasurement.getWeight());
+        physicalMeasurement.setBodyFatPercentage(transformPhysicalMeasurement.getBodyFatPercentage());
+        physicalMeasurement.setBodyTemperature(transformPhysicalMeasurement.getBodyTemperature());
+      });
+    }
+    realm.close();
 
-  @Override
-  public boolean isExpired() {
-//    long currentTime = System.currentTimeMillis();
-//    long lastUpdateTime = this.getLastCacheUpdateTimeMillis();
-//
-//    boolean expired = ((currentTime - lastUpdateTime) > EXPIRATION_TIME);
-//
-//    if (expired) {
-//      this.evictAll();
-//    }
-
-    return false;
   }
 
 }

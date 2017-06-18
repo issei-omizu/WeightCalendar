@@ -41,22 +41,7 @@ public interface PhysicalMeasurementRealm {
    *
    * @param physicalMeasurementEntity Element to insert in the cache.
    */
-  void put(PhysicalMeasurementEntity physicalMeasurementEntity);
+//  void put(PhysicalMeasurementEntity physicalMeasurementEntity);
   void put(List<PhysicalMeasurementEntity> physicalMeasurementEntity);
-
-  /**
-   * Checks if an element (User) exists in the cache.
-   *
-   * @param userId The id used to look for inside the cache.
-   * @return true if the element is cached, otherwise false.
-   */
-  boolean isCached(final int userId);
-
-  /**
-   * Checks if the cache is expired.
-   *
-   * @return true, the cache is expired, otherwise false.
-   */
-  boolean isExpired();
 
 }

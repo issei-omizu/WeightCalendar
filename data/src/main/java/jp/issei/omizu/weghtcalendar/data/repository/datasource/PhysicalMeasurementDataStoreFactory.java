@@ -37,8 +37,9 @@ public class PhysicalMeasurementDataStoreFactory {
   private PhysicalMeasurementRealm physicalMeasurementRealm = null;
 
   @Inject
-  PhysicalMeasurementDataStoreFactory(@NonNull Context context) {
+  PhysicalMeasurementDataStoreFactory(@NonNull Context context, PhysicalMeasurementRealm physicalMeasurementRealm) {
     this.context = context.getApplicationContext();
+    this.physicalMeasurementRealm = physicalMeasurementRealm;
   }
 
   /**

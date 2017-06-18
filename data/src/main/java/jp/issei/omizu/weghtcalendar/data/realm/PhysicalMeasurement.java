@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 public class PhysicalMeasurement extends RealmObject {
     @PrimaryKey
-    private String id = UUID.randomUUID().toString();
+    private String id;
     private Date date;
     private Float weight;
     private Float bodyFatPercentage;

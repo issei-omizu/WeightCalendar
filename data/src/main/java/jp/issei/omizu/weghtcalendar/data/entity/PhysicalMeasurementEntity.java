@@ -15,11 +15,8 @@
  */
 package jp.issei.omizu.weghtcalendar.data.entity;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.Date;
 
-import io.realm.RealmObject;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,24 +25,18 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class PhysicalMeasurementEntity extends RealmObject {
+public class PhysicalMeasurementEntity {
 
-  @SerializedName("id")
   private int userId;
 
-  @SerializedName("cover_url")
   private String coverUrl;
 
-  @SerializedName("full_name")
   private String fullname;
 
-  @SerializedName("description")
   private String description;
 
-  @SerializedName("followers")
   private int followers;
 
-  @SerializedName("email")
   private String email;
 
 
@@ -55,9 +46,9 @@ public class PhysicalMeasurementEntity extends RealmObject {
   private String bodyTemperature;
 
 
-  public PhysicalMeasurementEntity() {
-    //empty
-  }
+//  public PhysicalMeasurementEntity() {
+//    //empty
+//  }
 
 //  public int getUserId() {
 //    return userId;

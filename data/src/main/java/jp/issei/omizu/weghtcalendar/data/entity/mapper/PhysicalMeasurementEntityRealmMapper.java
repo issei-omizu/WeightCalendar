@@ -24,6 +24,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.realm.RealmResults;
 import jp.issei.omizu.weghtcalendar.data.entity.PhysicalMeasurementEntity;
 import jp.issei.omizu.weghtcalendar.data.realm.PhysicalMeasurement;
 
@@ -33,10 +34,10 @@ import static java.lang.Float.parseFloat;
  * Mapper class used to transform {@link PhysicalMeasurementEntity} (in the data layer) to {@link PhysicalMeasurement} in the
  * domain layer.
  */
-public class PhysicalMeasurementEntitySheetsApiMapper {
+public class PhysicalMeasurementEntityRealmMapper {
 
   @Inject
-  public PhysicalMeasurementEntitySheetsApiMapper() {}
+  public PhysicalMeasurementEntityRealmMapper() {}
 
   /**
    * Transform a {@link PhysicalMeasurementEntity} into an {@link PhysicalMeasurement}.
@@ -66,59 +67,41 @@ public class PhysicalMeasurementEntitySheetsApiMapper {
   }
 
   /**
-   * Transform a List of {@link PhysicalMeasurementEntity} into a Collection of {@link PhysicalMeasurementEntity}.
+   * Transform a {@link PhysicalMeasurementEntity} into an {@link PhysicalMeasurement}.
    *
-   * @param values Object Collection to be transformed.
+   * @param physicalMeasurement Object to be transformed.
    * @return {@link PhysicalMeasurement} if valid {@link PhysicalMeasurementEntity} otherwise null.
    */
-  public List<PhysicalMeasurementEntity> transform(List<List<Object>> values) {
-    final List<PhysicalMeasurementEntity> physicalMeasurementList = new ArrayList<>();
-//    for (PhysicalMeasurementEntity physicalMeasurementEntity : userEntityCollection) {
-//      final PhysicalMeasurement physicalMeasurement = transform(physicalMeasurementEntity);
-//      if (physicalMeasurement != null) {
-//        physicalMeasurementList.add(physicalMeasurement);
-//      }
-//    }
-    String date;
-    String weight;
-    String bodyFatPercentage;
-    String bodyTemperature;
+  public PhysicalMeasurementEntity transform(PhysicalMeasurement physicalMeasurement) {
+    PhysicalMeasurementEntity physicalMeasurementEntity = null;
+    if (physicalMeasurement != null) {
+      physicalMeasurementEntity = new PhysicalMeasurementEntity();
+      physicalMeasurementEntity.setDate(physicalMeasurement.getDate());
 
-    PhysicalMeasurementEntity physicalMeasurementEntity;
-
-    // 取得したデータをweightテーブルに追加
-    if (values != null) {
-      for (List row : values) {
-        weight = "";
-        bodyFatPercentage = "";
-        bodyTemperature = "";
-
-        date = row.get(0).toString();
-
-        if (row.get(1) != null) {
-          weight = row.get(1).toString();
-        }
-        if (row.get(2) != null) {
-          bodyFatPercentage = row.get(2).toString();
-        }
-        /**
-         * 一番最後の列にデータが存在しない（空）ときはデータが取得されない。
-         * 例外エラーを避けるためにデータサイズで判断する。
-         */
-        if (row.size() == 4) {
-          bodyTemperature = row.get(3).toString();
-        }
-
-        // sqliteに保存
-        physicalMeasurementEntity = new PhysicalMeasurementEntity();
-        physicalMeasurementEntity.setDate(this.string2date(date));
-        physicalMeasurementEntity.setWeight(weight);
-        physicalMeasurementEntity.setBodyFatPercentage(bodyFatPercentage);
-        physicalMeasurementEntity.setBodyTemperature(bodyTemperature);
-        physicalMeasurementList.add(physicalMeasurementEntity);
+      if (physicalMeasurement.getWeight() != null) {
+        physicalMeasurementEntity.setWeight(physicalMeasurement.getWeight().toString());
+      }
+      if (physicalMeasurement.getBodyFatPercentage() != null) {
+        physicalMeasurementEntity.setBodyFatPercentage(physicalMeasurement.getBodyFatPercentage().toString());
+      }
+      if (physicalMeasurement.getBodyTemperature() != null) {
+        physicalMeasurementEntity.setBodyTemperature(physicalMeasurement.getBodyTemperature().toString());
       }
     }
+    return physicalMeasurementEntity;
+  }
 
+  /**
+   * Transform a List of {@link PhysicalMeasurementEntity} into a Collection of {@link PhysicalMeasurementEntity}.
+   *
+   * @param realmResults Object Collection to be transformed.
+   * @return {@link PhysicalMeasurement} if valid {@link PhysicalMeasurementEntity} otherwise null.
+   */
+  public List<PhysicalMeasurementEntity> transform(RealmResults<PhysicalMeasurement> realmResults) {
+    final List<PhysicalMeasurementEntity> physicalMeasurementList = new ArrayList<>();
+    for(PhysicalMeasurement val : realmResults) {
+      physicalMeasurementList.add(this.transform(val));
+    }
     return physicalMeasurementList;
   }
 
