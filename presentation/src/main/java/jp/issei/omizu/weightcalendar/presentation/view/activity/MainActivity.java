@@ -19,6 +19,9 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.btn_PhysicalMeasurement)
     Button btn_PhysicalMeasurement;
 
+    @BindView(R.id.btn_PhysicalMeasurementInput)
+    Button btn_PhysicalMeasurementInput;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,11 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.btn_PhysicalMeasurement)
     public void navigateToPhysicalMeasurement() {
         this.navigator.navigateToPhysicalMeasurement(this);
+    }
+
+    @OnClick(R.id.btn_PhysicalMeasurementInput)
+    public void navigateToPhysicalMeasurementInput() {
+        this.navigator.navigateToPhysicalMeasurementInput(this);
     }
 
 }

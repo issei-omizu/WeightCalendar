@@ -21,6 +21,7 @@ import android.content.Intent;
 import javax.inject.Inject;
 
 import jp.issei.omizu.weightcalendar.presentation.view.activity.PhysicalMeasurementActivity;
+import jp.issei.omizu.weightcalendar.presentation.view.activity.PhysicalMeasurementInputActivity;
 import jp.issei.omizu.weightcalendar.presentation.view.activity.WorkoutActivity;
 import jp.issei.omizu.weightcalendar.presentation.viewmodel.PhysicalMeasurementViewModel;
 
@@ -54,6 +55,18 @@ public class Navigator {
   public void navigateToPhysicalMeasurement(Context context) {
     if (context != null) {
       Intent intentToLaunch = PhysicalMeasurementActivity.getCallingIntent(context);
+      context.startActivity(intentToLaunch);
+    }
+  }
+
+  /**
+   * Goes to the physicalMeasurement Input screen.
+   *
+   * @param context A Context needed to open the destiny activity.
+   */
+  public void navigateToPhysicalMeasurementInput(Context context) {
+    if (context != null) {
+      Intent intentToLaunch = PhysicalMeasurementInputActivity.getCallingIntent(context);
       context.startActivity(intentToLaunch);
     }
   }

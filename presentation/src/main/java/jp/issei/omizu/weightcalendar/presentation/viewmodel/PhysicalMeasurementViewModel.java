@@ -54,14 +54,9 @@ public class PhysicalMeasurementViewModel {
     private final class PhysicalMeasurementListObserver extends DefaultObserver<List<PhysicalMeasurement>> {
 
         @Override public void onComplete() {
-            String test = "";
-//      UserListPresenter.this.hideViewLoading();
         }
 
         @Override public void onError(Throwable e) {
-//      UserListPresenter.this.hideViewLoading();
-//      UserListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-//      UserListPresenter.this.showViewRetry();
         }
 
         @Override public void onNext(List<PhysicalMeasurement> physicalMeasurements) {
