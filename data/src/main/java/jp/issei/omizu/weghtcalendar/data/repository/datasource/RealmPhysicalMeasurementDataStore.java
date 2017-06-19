@@ -43,7 +43,7 @@ class RealmPhysicalMeasurementDataStore implements PhysicalMeasurementDataStore 
   }
 
   @Override
-  public Observable<PhysicalMeasurementEntity> physicalMeasurementEntityDetails(final int userId) {
-     return this.physicalMeasurementRealm.get(userId);
+  public Observable<PhysicalMeasurementEntity> physicalMeasurementEntityDetails(final String id) {
+     return this.physicalMeasurementRealm.get(id);
   }
 }

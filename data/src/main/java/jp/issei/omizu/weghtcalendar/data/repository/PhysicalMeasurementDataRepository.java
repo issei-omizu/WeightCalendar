@@ -58,8 +58,8 @@ public class PhysicalMeasurementDataRepository implements PhysicalMeasurementRep
   }
 
   @Override
-  public Observable<PhysicalMeasurement> physicalMeasurement(int userId) {
-    final PhysicalMeasurementDataStore physicalMeasurementDataStore = this.physicalMeasurementDataStoreFactory.create(userId);
-    return physicalMeasurementDataStore.physicalMeasurementEntityDetails(userId).map(this.physicalMeasurementEntityDataMapper::transform);
+  public Observable<PhysicalMeasurement> physicalMeasurement(String id) {
+    final PhysicalMeasurementDataStore physicalMeasurementDataStore = this.physicalMeasurementDataStoreFactory.create(id);
+    return physicalMeasurementDataStore.physicalMeasurementEntityDetails(id).map(this.physicalMeasurementEntityDataMapper::transform);
   }
 }

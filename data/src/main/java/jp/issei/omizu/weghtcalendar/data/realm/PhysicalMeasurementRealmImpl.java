@@ -86,19 +86,21 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
   }
 
   @Override
-  public Observable<PhysicalMeasurementEntity> get(final int userId) {
+  public Observable<PhysicalMeasurementEntity> get(final String id) {
     return Observable.create(emitter -> {
-//      final File userEntityFile = PhysicalMeasurementRealmImpl.this.buildFile(userId);
-//      final String fileContent = PhysicalMeasurementRealmImpl.this.fileManager.readFileContent(userEntityFile);
-//      final PhysicalMeasurementEntity physicalMeasurementEntity =
-//          PhysicalMeasurementRealmImpl.this.serializer.deserialize(fileContent, PhysicalMeasurementEntity.class);
+      try {
+        Realm realm = Realm.getDefaultInstance();
+        final PhysicalMeasurement physicalMeasurement = realm.where(PhysicalMeasurement.class).equalTo("id", id).findFirst();
 
-//      if (physicalMeasurementEntity != null) {
-//        emitter.onNext(physicalMeasurementEntity);
-//        emitter.onComplete();
-//      } else {
-//        emitter.onError(new UserNotFoundException());
-//      }
+        if (physicalMeasurement != null) {
+          emitter.onNext(this.physicalMeasurementEntityRealmMapper.transform(physicalMeasurement));
+          emitter.onComplete();
+        } else {
+          emitter.onError(new NetworkConnectionException());
+        }
+      } catch (Exception e) {
+        emitter.onError(new NetworkConnectionException(e.getCause()));
+      }
     });
   }
 

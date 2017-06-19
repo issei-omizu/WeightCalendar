@@ -45,17 +45,18 @@ public class PhysicalMeasurementDataStoreFactory {
   /**
    * Create {@link PhysicalMeasurementDataStore} from a physicalMeasurement id.
    */
-  public CloudPhysicalMeasurementDataStore create(int userId) {
-    RealmPhysicalMeasurementDataStore realmPhysicalMeasurementDataStore;
-    CloudPhysicalMeasurementDataStore cloudPhysicalMeasurementDataStore = null;
-
-//    if (!this.physicalMeasurementRealm.isExpired() && this.physicalMeasurementRealm.isCached(userId)) {
-//      realmPhysicalMeasurementDataStore = new RealmPhysicalMeasurementDataStore(this.physicalMeasurementRealm);
-//    } else {
-      cloudPhysicalMeasurementDataStore = createCloudDataStore(null);
-//    }
-
-    return cloudPhysicalMeasurementDataStore;
+  public CloudPhysicalMeasurementDataStore create(String id) {
+//    RealmPhysicalMeasurementDataStore realmPhysicalMeasurementDataStore;
+//    CloudPhysicalMeasurementDataStore cloudPhysicalMeasurementDataStore = null;
+//
+////    if (!this.physicalMeasurementRealm.isExpired() && this.physicalMeasurementRealm.isCached(userId)) {
+////      realmPhysicalMeasurementDataStore = new RealmPhysicalMeasurementDataStore(this.physicalMeasurementRealm);
+////    } else {
+//      cloudPhysicalMeasurementDataStore = createCloudDataStore(null);
+////    }
+//
+//    return cloudPhysicalMeasurementDataStore;
+    return new CloudPhysicalMeasurementDataStore(null, this.physicalMeasurementRealm);
   }
 
   /**

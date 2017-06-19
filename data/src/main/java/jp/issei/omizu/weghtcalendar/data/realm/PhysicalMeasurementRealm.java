@@ -32,9 +32,9 @@ public interface PhysicalMeasurementRealm {
   /**
    * Gets an {@link Observable} which will emit a {@link PhysicalMeasurementEntity}.
    *
-   * @param userId The user id to retrieve data.
+   * @param id The user id to retrieve data.
    */
-  Observable<PhysicalMeasurementEntity> get(final int userId);
+  Observable<PhysicalMeasurementEntity> get(final String id);
 
   /**
    * Puts and element into the cache.

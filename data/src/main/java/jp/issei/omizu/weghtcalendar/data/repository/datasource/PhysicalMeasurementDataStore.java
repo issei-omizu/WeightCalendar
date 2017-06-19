@@ -32,7 +32,7 @@ public interface PhysicalMeasurementDataStore {
   /**
    * Get an {@link Observable} which will emit a {@link PhysicalMeasurementEntity} by its id.
    *
-   * @param userId The id to retrieve physicalMeasurement data.
+   * @param id The id to retrieve physicalMeasurement data.
    */
-  Observable<PhysicalMeasurementEntity> physicalMeasurementEntityDetails(final int userId);
+  Observable<PhysicalMeasurementEntity> physicalMeasurementEntityDetails(final String id);
 }

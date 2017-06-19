@@ -34,7 +34,7 @@ public interface PhysicalMeasurementRepository {
   /**
    * Get an {@link Observable} which will emit a {@link PhysicalMeasurement}.
    *
-   * @param userId The physicalMeasurement id used to retrieve physicalMeasurement data.
+   * @param id The physicalMeasurement id used to retrieve physicalMeasurement data.
    */
-  Observable<PhysicalMeasurement> physicalMeasurement(final int userId);
+  Observable<PhysicalMeasurement> physicalMeasurement(final String id);
 }
