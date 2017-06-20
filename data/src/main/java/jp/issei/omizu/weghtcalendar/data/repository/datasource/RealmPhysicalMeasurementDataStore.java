@@ -15,6 +15,7 @@
  */
 package jp.issei.omizu.weghtcalendar.data.repository.datasource;
 
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -43,7 +44,7 @@ class RealmPhysicalMeasurementDataStore implements PhysicalMeasurementDataStore 
   }
 
   @Override
-  public Observable<PhysicalMeasurementEntity> physicalMeasurementEntityDetails(final String id) {
-     return this.physicalMeasurementRealm.get(id);
+  public Observable<PhysicalMeasurementEntity> physicalMeasurementEntityDetails(final Date date) {
+     return this.physicalMeasurementRealm.get(date);
   }
 }

@@ -17,7 +17,7 @@ package jp.issei.omizu.weghtcalendar.data.realm;
 
 import android.content.Context;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -86,11 +86,11 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
   }
 
   @Override
-  public Observable<PhysicalMeasurementEntity> get(final String id) {
+  public Observable<PhysicalMeasurementEntity> get(final Date date) {
     return Observable.create(emitter -> {
       try {
         Realm realm = Realm.getDefaultInstance();
-        final PhysicalMeasurement physicalMeasurement = realm.where(PhysicalMeasurement.class).equalTo("id", id).findFirst();
+        final PhysicalMeasurement physicalMeasurement = realm.where(PhysicalMeasurement.class).equalTo("date", date).findFirst();
 
         if (physicalMeasurement != null) {
           emitter.onNext(this.physicalMeasurementEntityRealmMapper.transform(physicalMeasurement));

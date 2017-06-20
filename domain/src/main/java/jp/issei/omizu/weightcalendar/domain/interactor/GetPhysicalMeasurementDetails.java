@@ -16,8 +16,7 @@
 package jp.issei.omizu.weightcalendar.domain.interactor;
 
 
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -44,19 +43,19 @@ public class GetPhysicalMeasurementDetails extends UseCase<PhysicalMeasurement, 
 
   @Override
   Observable<PhysicalMeasurement> buildUseCaseObservable(Params params) {
-    return this.physicalMeasurementRepository.physicalMeasurement(params.id);
+    return this.physicalMeasurementRepository.physicalMeasurement(params.date);
   }
 
   public static final class Params {
 
-    private final String id;
+    private final Date date;
 
-    private Params(String id) {
-      this.id = id;
+    private Params(Date date) {
+      this.date = date;
     }
 
-    public static Params forId(String id) {
-      return new Params(id);
+    public static Params forDate(Date date) {
+      return new Params(date);
     }
   }
 }

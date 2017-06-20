@@ -20,6 +20,8 @@ import android.support.annotation.NonNull;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 
 import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntitySheetsApiMapper;
@@ -45,7 +47,7 @@ public class PhysicalMeasurementDataStoreFactory {
   /**
    * Create {@link PhysicalMeasurementDataStore} from a physicalMeasurement id.
    */
-  public CloudPhysicalMeasurementDataStore create(String id) {
+  public CloudPhysicalMeasurementDataStore create(Date date) {
 //    RealmPhysicalMeasurementDataStore realmPhysicalMeasurementDataStore;
 //    CloudPhysicalMeasurementDataStore cloudPhysicalMeasurementDataStore = null;
 //

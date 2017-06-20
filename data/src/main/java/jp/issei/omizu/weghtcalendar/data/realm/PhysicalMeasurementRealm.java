@@ -15,6 +15,7 @@
  */
 package jp.issei.omizu.weghtcalendar.data.realm;
 
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -32,9 +33,9 @@ public interface PhysicalMeasurementRealm {
   /**
    * Gets an {@link Observable} which will emit a {@link PhysicalMeasurementEntity}.
    *
-   * @param id The user id to retrieve data.
+   * @param date The user id to retrieve data.
    */
-  Observable<PhysicalMeasurementEntity> get(final String id);
+  Observable<PhysicalMeasurementEntity> get(final Date date);
 
   /**
    * Puts and element into the cache.

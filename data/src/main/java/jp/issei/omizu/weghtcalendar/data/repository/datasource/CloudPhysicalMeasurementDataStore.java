@@ -15,9 +15,8 @@
  */
 package jp.issei.omizu.weghtcalendar.data.repository.datasource;
 
+import java.util.Date;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 import io.reactivex.Observable;
 import jp.issei.omizu.weghtcalendar.data.entity.PhysicalMeasurementEntity;
@@ -45,13 +44,13 @@ class CloudPhysicalMeasurementDataStore implements PhysicalMeasurementDataStore 
 
   @Override
   public Observable<List<PhysicalMeasurementEntity>> physicalMeasurementEntityList() {
-//    return this.googleApi.physicalMeasurementEntityList().doOnNext(CloudPhysicalMeasurementDataStore.this.physicalMeasurementRealm::put);
-    return this.physicalMeasurementRealm.physicalMeasurementEntityList();
+    return this.googleApi.physicalMeasurementEntityList().doOnNext(CloudPhysicalMeasurementDataStore.this.physicalMeasurementRealm::put);
+//    return this.physicalMeasurementRealm.physicalMeasurementEntityList();
   }
 
   @Override
-  public Observable<PhysicalMeasurementEntity> physicalMeasurementEntityDetails(final String id) {
-    return this.physicalMeasurementRealm.get(id);
+  public Observable<PhysicalMeasurementEntity> physicalMeasurementEntityDetails(final Date date) {
+    return this.physicalMeasurementRealm.get(date);
 //    .doOnNext(CloudPhysicalMeasurementDataStore.this.physicalMeasurementRealm::put);
   }
 }

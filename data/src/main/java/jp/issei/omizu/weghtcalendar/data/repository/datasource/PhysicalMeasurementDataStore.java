@@ -15,6 +15,7 @@
  */
 package jp.issei.omizu.weghtcalendar.data.repository.datasource;
 
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -32,7 +33,7 @@ public interface PhysicalMeasurementDataStore {
   /**
    * Get an {@link Observable} which will emit a {@link PhysicalMeasurementEntity} by its id.
    *
-   * @param id The id to retrieve physicalMeasurement data.
+   * @param date The id to retrieve physicalMeasurement data.
    */
-  Observable<PhysicalMeasurementEntity> physicalMeasurementEntityDetails(final String id);
+  Observable<PhysicalMeasurementEntity> physicalMeasurementEntityDetails(final Date date);
 }
