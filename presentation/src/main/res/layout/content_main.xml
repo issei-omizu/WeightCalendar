@@ -3,10 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--<data>-->
+        <!--<variable-->
+            <!--name="date"-->
+            <!--type="jp.issei.omizu.weightcalendar.presentation.view.component.PickedDate" />-->
+    <!--</data>-->
     <data>
-        <variable
-            name="date"
-            type="jp.issei.omizu.weightcalendar.presentation.view.binder.PickedDate" />
+        <import type="jp.issei.omizu.weightcalendar.presentation.viewmodel.PhysicalMeasurementInputViewModel"/>
+        <variable name="physicalMeasurementInputViewModel" type="PhysicalMeasurementInputViewModel"/>
     </data>
 
     <LinearLayout
@@ -17,17 +21,17 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context=".MainActivity"
+        tools:context="jp.issei.omizu.weightcalendar.presentation.view.activity.PhysicalMeasurementInputActivity"
         tools:showIn="@layout/activity_physical_measurement_input">
 
         <DatePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:day="@{date.day}"
-            android:month="@{date.month}"
-            android:onDateChanged="@{date.dateChanged}"
-            android:year="@{date.year}" />
+            android:day="@{physicalMeasurementInputViewModel.day}"
+            android:month="@{physicalMeasurementInputViewModel.month}"
+            android:onDateChanged="@{physicalMeasurementInputViewModel.dateChanged}"
+            android:year="@{physicalMeasurementInputViewModel.year}" />
 
         <TextView
             android:layout_width="match_parent"
@@ -35,6 +39,6 @@
             android:layout_weight="1"
             android:textAlignment="center"
             android:textSize="40sp"
-            android:text="@{@string/dateFormat(date.year, date.month + 1, date.day)}" />
+            android:text="@{@string/dateFormat(physicalMeasurementInputViewModel.year, physicalMeasurementInputViewModel.month + 1, physicalMeasurementInputViewModel.day)}" />
     </LinearLayout>
 </layout>

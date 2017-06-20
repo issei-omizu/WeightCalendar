@@ -6,27 +6,44 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import javax.inject.Inject;
 
 import jp.issei.omizu.weightcalendar.R;
 import jp.issei.omizu.weightcalendar.databinding.ActivityPhysicalMeasurementInputBinding;
-import jp.issei.omizu.weightcalendar.presentation.view.binder.PickedDate;
+import jp.issei.omizu.weightcalendar.presentation.di.HasComponent;
+import jp.issei.omizu.weightcalendar.presentation.di.components.DaggerPhysicalMeasurementComponent;
+import jp.issei.omizu.weightcalendar.presentation.di.components.PhysicalMeasurementComponent;
+import jp.issei.omizu.weightcalendar.presentation.view.PhysicalMeasurementView;
+import jp.issei.omizu.weightcalendar.presentation.view.component.PickedDate;
+import jp.issei.omizu.weightcalendar.presentation.viewmodel.PhysicalMeasurementInputViewModel;
 
-public class PhysicalMeasurementInputActivity extends BaseActivity {
+public class PhysicalMeasurementInputActivity extends BaseActivity
+        implements HasComponent<PhysicalMeasurementComponent>, PhysicalMeasurementView {
 
 
     public static Intent getCallingIntent(Context context) {
         return new Intent(context, PhysicalMeasurementInputActivity.class);
     }
 
+    @Inject
+    PhysicalMeasurementInputViewModel physicalMeasurementInputViewModel;
+
+    private PhysicalMeasurementComponent physicalMeasurementComponent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityPhysicalMeasurementInputBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_physical_measurement_input);
+        this.initializeInjector();
+
         PickedDate date = new PickedDate();
-        binding.setDate(date);
+        binding.setPhysicalMeasurementInputViewModel(physicalMeasurementInputViewModel);
+
+
+
+
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
@@ -38,6 +55,21 @@ public class PhysicalMeasurementInputActivity extends BaseActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    private void initializeInjector() {
+        this.physicalMeasurementComponent = DaggerPhysicalMeasurementComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .activityModule(getActivityModule())
+                .build();
+
+        this.physicalMeasurementComponent.inject(this);
+
+        this.physicalMeasurementInputViewModel.initialize();
+    }
+
+    @Override public PhysicalMeasurementComponent getComponent() {
+        return this.physicalMeasurementComponent;
     }
 
 //    @Override

@@ -2,17 +2,21 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <!--<data>-->
+        <!--<variable-->
+            <!--name="date"-->
+            <!--type="jp.issei.omizu.weightcalendar.presentation.view.component.PickedDate"/>-->
+    <!--</data>-->
     <data>
-        <variable
-            name="date"
-            type="jp.issei.omizu.weightcalendar.presentation.view.binder.PickedDate"/>
+        <import type="jp.issei.omizu.weightcalendar.presentation.viewmodel.PhysicalMeasurementInputViewModel"/>
+        <variable name="physicalMeasurementInputViewModel" type="PhysicalMeasurementInputViewModel"/>
     </data>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".MainActivity">
+        tools:context="jp.issei.omizu.weightcalendar.presentation.view.activity.PhysicalMeasurementInputActivity">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -26,7 +30,7 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <include layout="@layout/content_main" app:date="@{date}"/>
+        <include layout="@layout/content_main" app:physicalMeasurementInputViewModel="@{physicalMeasurementInputViewModel}"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
