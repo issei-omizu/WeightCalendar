@@ -3,6 +3,8 @@ package jp.issei.omizu.weightcalendar.presentation.viewmodel;
 import android.databinding.ObservableInt;
 import android.widget.DatePicker;
 
+import org.apache.commons.lang.time.DateUtils;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -58,7 +60,8 @@ public class PhysicalMeasurementInputViewModel {
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, monthOfYear, dayOfMonth);
-        Date date = calendar.getTime();
+        Date date = DateUtils.truncate(calendar.getTime(), Calendar.DAY_OF_MONTH);
+
 
         GetPhysicalMeasurementDetails.Params params = GetPhysicalMeasurementDetails.Params.forDate(date);
         this.getPhysicalMeasurementDetails.execute(new PhysicalMeasurementObserver(), params);
