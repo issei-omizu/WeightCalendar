@@ -91,13 +91,10 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
       try {
         Realm realm = Realm.getDefaultInstance();
         final PhysicalMeasurement physicalMeasurement = realm.where(PhysicalMeasurement.class).equalTo("date", date).findFirst();
-
         if (physicalMeasurement != null) {
           emitter.onNext(this.physicalMeasurementEntityRealmMapper.transform(physicalMeasurement));
-          emitter.onComplete();
-        } else {
-          emitter.onError(new NetworkConnectionException());
         }
+        emitter.onComplete();
       } catch (Exception e) {
         emitter.onError(new NetworkConnectionException(e.getCause()));
       }

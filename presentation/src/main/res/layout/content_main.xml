@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--<data>-->
-        <!--<variable-->
-            <!--name="date"-->
-            <!--type="jp.issei.omizu.weightcalendar.presentation.view.component.PickedDate" />-->
-    <!--</data>-->
     <data>
         <import type="jp.issei.omizu.weightcalendar.presentation.viewmodel.PhysicalMeasurementInputViewModel"/>
         <variable name="physicalMeasurementInputViewModel" type="PhysicalMeasurementInputViewModel"/>
@@ -33,12 +27,36 @@
             android:onDateChanged="@{physicalMeasurementInputViewModel.dateChanged}"
             android:year="@{physicalMeasurementInputViewModel.year}" />
 
-        <TextView
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            android:textSize="40sp"
-            android:text="@{@string/dateFormat(physicalMeasurementInputViewModel.year, physicalMeasurementInputViewModel.month + 1, physicalMeasurementInputViewModel.day)}" />
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textSize="40sp"
+                android:text="@{physicalMeasurementInputViewModel.weight}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textSize="40sp"
+                android:text="@{physicalMeasurementInputViewModel.bodyFatPercentage}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textSize="40sp"
+                android:text="@{physicalMeasurementInputViewModel.bodyTemperature}" />
+        </LinearLayout>
+
     </LinearLayout>
 </layout>

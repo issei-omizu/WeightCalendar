@@ -1,5 +1,6 @@
 package jp.issei.omizu.weightcalendar.presentation.viewmodel;
 
+import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.widget.DatePicker;
 
@@ -10,7 +11,6 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
 import jp.issei.omizu.weightcalendar.domain.PhysicalMeasurement;
 import jp.issei.omizu.weightcalendar.domain.interactor.DefaultObserver;
 import jp.issei.omizu.weightcalendar.domain.interactor.GetPhysicalMeasurementDetails;
@@ -23,8 +23,11 @@ public class PhysicalMeasurementInputViewModel {
     public final ObservableInt month = new ObservableInt();
     public final ObservableInt day = new ObservableInt();
 
+    public final ObservableField<String> weight = new ObservableField<>();
+    public final ObservableField<String> bodyFatPercentage = new ObservableField<>();
+    public final ObservableField<String> bodyTemperature = new ObservableField<>();
+
     private GetPhysicalMeasurementDetails getPhysicalMeasurementDetails;
-    private Observable<PhysicalMeasurementModel> physicalMeasurement;
     private final PhysicalMeasurementModelDataMapper physicalMeasurementModelDataMapper;
 
     @Inject
@@ -40,20 +43,24 @@ public class PhysicalMeasurementInputViewModel {
     }
 
     public void initialize() {
-        this.physicalMeasurement = null;
-    }
-
-    public Observable<PhysicalMeasurementModel> getPhysicalMeasurement() {
-        return this.physicalMeasurement;
     }
 
     public void setPhysicalMeasurement(PhysicalMeasurement physicalMeasurement) {
-        final PhysicalMeasurementModel physicalMeasurementModel =
-                this.physicalMeasurementModelDataMapper.transform(physicalMeasurement);
-//        this.physicalMeasurement = physicalMeasurementModel;
+        if (physicalMeasurement != null) {
+            final PhysicalMeasurementModel physicalMeasurementModel =
+                    this.physicalMeasurementModelDataMapper.transform(physicalMeasurement);
+
+            this.weight.set(physicalMeasurementModel.getWeight());
+            this.bodyFatPercentage.set(physicalMeasurementModel.getBodyFatPercentage());
+            this.bodyTemperature.set(physicalMeasurementModel.getBodyTemperature());
+        }
     }
 
     public void dateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        this.weight.set("");
+        this.bodyFatPercentage.set("");
+        this.bodyTemperature.set("");
+
         this.year.set(year);
         this.month.set(monthOfYear);
         this.day.set(dayOfMonth);
