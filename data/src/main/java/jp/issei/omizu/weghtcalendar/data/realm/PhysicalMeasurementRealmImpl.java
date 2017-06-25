@@ -28,9 +28,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import jp.issei.omizu.weghtcalendar.data.entity.PhysicalMeasurementEntity;
 import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntityRealmMapper;
-import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntitySheetsApiMapper;
 import jp.issei.omizu.weghtcalendar.data.exception.NetworkConnectionException;
-import jp.issei.omizu.weightcalendar.domain.executor.ThreadExecutor;
 
 /**
  * {@link PhysicalMeasurementRealm} implementation.
@@ -44,7 +42,6 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
   private static final long EXPIRATION_TIME = 60 * 10 * 1000;
 
   private final Context context;
-  private final ThreadExecutor threadExecutor;
   private final Realm realm;
   private final PhysicalMeasurementEntityRealmMapper physicalMeasurementEntityRealmMapper;
 
@@ -53,13 +50,11 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
    *
    * @param context A
    */
-  @Inject
-  PhysicalMeasurementRealmImpl(Context context, ThreadExecutor executor) {
-    if (context == null || executor == null) {
+  public PhysicalMeasurementRealmImpl(Context context) {
+    if (context == null) {
       throw new IllegalArgumentException("Invalid null parameter");
     }
     this.context = context.getApplicationContext();
-    this.threadExecutor = executor;
 
     this.realm = Realm.getDefaultInstance();
     this.physicalMeasurementEntityRealmMapper = new PhysicalMeasurementEntityRealmMapper();

@@ -1,5 +1,7 @@
 package jp.issei.omizu.weightcalendar.presentation.viewmodel;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.widget.DatePicker;
@@ -16,19 +18,32 @@ import jp.issei.omizu.weightcalendar.domain.interactor.DefaultObserver;
 import jp.issei.omizu.weightcalendar.domain.interactor.GetPhysicalMeasurementDetails;
 import jp.issei.omizu.weightcalendar.presentation.mapper.PhysicalMeasurementModelDataMapper;
 import jp.issei.omizu.weightcalendar.presentation.model.PhysicalMeasurementModel;
+import lombok.Getter;
 
-public class PhysicalMeasurementInputViewModel {
+public class PhysicalMeasurementInputViewModel extends BaseObservable {
 
     public final ObservableInt year = new ObservableInt();
     public final ObservableInt month = new ObservableInt();
     public final ObservableInt day = new ObservableInt();
 
-    public final ObservableField<String> weight = new ObservableField<>();
+    private String weight;
+//    public final ObservableField<String> weight = new ObservableField<>();
     public final ObservableField<String> bodyFatPercentage = new ObservableField<>();
     public final ObservableField<String> bodyTemperature = new ObservableField<>();
 
     private GetPhysicalMeasurementDetails getPhysicalMeasurementDetails;
     private final PhysicalMeasurementModelDataMapper physicalMeasurementModelDataMapper;
+
+
+    @Bindable
+    public String getWeight () {
+        return this.weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+        notifyPropertyChanged(jp.issei.omizu.weightcalendar.BR.weight);
+    }
 
     @Inject
     public PhysicalMeasurementInputViewModel(GetPhysicalMeasurementDetails getPhysicalMeasurementDetails,
@@ -50,14 +65,16 @@ public class PhysicalMeasurementInputViewModel {
             final PhysicalMeasurementModel physicalMeasurementModel =
                     this.physicalMeasurementModelDataMapper.transform(physicalMeasurement);
 
-            this.weight.set(physicalMeasurementModel.getWeight());
+//            this.weight.set(physicalMeasurementModel.getWeight());
+            this.setWeight(physicalMeasurementModel.getWeight());
             this.bodyFatPercentage.set(physicalMeasurementModel.getBodyFatPercentage());
             this.bodyTemperature.set(physicalMeasurementModel.getBodyTemperature());
         }
     }
 
     public void dateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        this.weight.set("");
+//        this.weight.set("");
+        this.setWeight("");
         this.bodyFatPercentage.set("");
         this.bodyTemperature.set("");
 

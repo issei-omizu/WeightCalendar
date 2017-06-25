@@ -22,6 +22,7 @@ import io.reactivex.Observable;
 import jp.issei.omizu.weghtcalendar.data.entity.PhysicalMeasurementEntity;
 import jp.issei.omizu.weghtcalendar.data.google.GoogleApi;
 import jp.issei.omizu.weghtcalendar.data.realm.PhysicalMeasurementRealm;
+import jp.issei.omizu.weightcalendar.domain.PhysicalMeasurement;
 
 /**
  * {@link PhysicalMeasurementDataStore} implementation based on connections to the api (Cloud).
@@ -52,5 +53,10 @@ class CloudPhysicalMeasurementDataStore implements PhysicalMeasurementDataStore 
   public Observable<PhysicalMeasurementEntity> physicalMeasurementEntityDetails(final Date date) {
     return this.physicalMeasurementRealm.get(date);
 //    .doOnNext(CloudPhysicalMeasurementDataStore.this.physicalMeasurementRealm::put);
+  }
+
+  @Override
+  public Observable<PhysicalMeasurementEntity> setPhysicalMeasurementEntityDetails(final PhysicalMeasurement physicalMeasurement) {
+    return null;
   }
 }

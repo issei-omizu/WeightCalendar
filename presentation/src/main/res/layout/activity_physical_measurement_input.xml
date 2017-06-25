@@ -9,7 +9,7 @@
     <!--</data>-->
     <data>
         <import type="jp.issei.omizu.weightcalendar.presentation.viewmodel.PhysicalMeasurementInputViewModel"/>
-        <variable name="physicalMeasurementInputViewModel" type="PhysicalMeasurementInputViewModel"/>
+        <variable name="viewModel" type="PhysicalMeasurementInputViewModel"/>
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -30,7 +30,7 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <include layout="@layout/content_main" app:physicalMeasurementInputViewModel="@{physicalMeasurementInputViewModel}"/>
+        <include layout="@layout/content_main" app:viewModel="@{viewModel}"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

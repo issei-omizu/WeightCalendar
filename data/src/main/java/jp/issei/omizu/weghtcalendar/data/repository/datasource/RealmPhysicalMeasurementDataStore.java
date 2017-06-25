@@ -21,6 +21,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import jp.issei.omizu.weghtcalendar.data.entity.PhysicalMeasurementEntity;
 import jp.issei.omizu.weghtcalendar.data.realm.PhysicalMeasurementRealm;
+import jp.issei.omizu.weightcalendar.domain.PhysicalMeasurement;
 
 /**
  * {@link PhysicalMeasurementDataStore} implementation based on file system data store.
@@ -45,6 +46,11 @@ class RealmPhysicalMeasurementDataStore implements PhysicalMeasurementDataStore 
 
   @Override
   public Observable<PhysicalMeasurementEntity> physicalMeasurementEntityDetails(final Date date) {
-     return this.physicalMeasurementRealm.get(date);
+    return this.physicalMeasurementRealm.get(date);
+  }
+
+  @Override
+  public Observable<PhysicalMeasurementEntity> setPhysicalMeasurementEntityDetails(final PhysicalMeasurement physicalMeasurement) {
+    return this.physicalMeasurementRealm.get(physicalMeasurement.getDate());
   }
 }

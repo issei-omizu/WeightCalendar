@@ -38,4 +38,6 @@ public interface PhysicalMeasurementRepository {
    * @param date The physicalMeasurement id used to retrieve physicalMeasurement data.
    */
   Observable<PhysicalMeasurement> physicalMeasurement(final Date date);
+
+  Observable<PhysicalMeasurement> setPhysicalMeasurement(final PhysicalMeasurement physicalMeasurement);
 }

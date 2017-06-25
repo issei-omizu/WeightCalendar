@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntityDataMapper;
@@ -62,5 +61,11 @@ public class PhysicalMeasurementDataRepository implements PhysicalMeasurementRep
   public Observable<PhysicalMeasurement> physicalMeasurement(Date date) {
     final PhysicalMeasurementDataStore physicalMeasurementDataStore = this.physicalMeasurementDataStoreFactory.create(date);
     return physicalMeasurementDataStore.physicalMeasurementEntityDetails(date).map(this.physicalMeasurementEntityDataMapper::transform);
+  }
+
+  @Override
+  public Observable<PhysicalMeasurement> setPhysicalMeasurement(PhysicalMeasurement physicalMeasurement) {
+    final PhysicalMeasurementDataStore physicalMeasurementDataStore = this.physicalMeasurementDataStoreFactory.createRealm();
+    return physicalMeasurementDataStore.setPhysicalMeasurementEntityDetails(physicalMeasurement).map(this.physicalMeasurementEntityDataMapper::transform);
   }
 }

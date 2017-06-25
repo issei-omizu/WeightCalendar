@@ -20,6 +20,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import jp.issei.omizu.weghtcalendar.data.entity.PhysicalMeasurementEntity;
+import jp.issei.omizu.weightcalendar.domain.PhysicalMeasurement;
 
 /**
  * Interface that represents a data store from where data is retrieved.
@@ -36,4 +37,6 @@ public interface PhysicalMeasurementDataStore {
    * @param date The id to retrieve physicalMeasurement data.
    */
   Observable<PhysicalMeasurementEntity> physicalMeasurementEntityDetails(final Date date);
+
+  Observable<PhysicalMeasurementEntity> setPhysicalMeasurementEntityDetails(final PhysicalMeasurement physicalMeasurement);
 }

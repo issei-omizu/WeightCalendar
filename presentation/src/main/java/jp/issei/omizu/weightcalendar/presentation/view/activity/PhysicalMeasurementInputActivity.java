@@ -39,7 +39,7 @@ public class PhysicalMeasurementInputActivity extends BaseActivity
         this.initializeInjector();
 
         PickedDate date = new PickedDate();
-        binding.setPhysicalMeasurementInputViewModel(physicalMeasurementInputViewModel);
+        binding.setViewModel(physicalMeasurementInputViewModel);
 
 
 

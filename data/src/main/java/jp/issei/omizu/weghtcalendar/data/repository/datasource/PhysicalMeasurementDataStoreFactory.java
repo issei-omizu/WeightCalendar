@@ -28,6 +28,7 @@ import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntity
 import jp.issei.omizu.weghtcalendar.data.google.GoogleApi;
 import jp.issei.omizu.weghtcalendar.data.google.GoogleApiImpl;
 import jp.issei.omizu.weghtcalendar.data.realm.PhysicalMeasurementRealm;
+import jp.issei.omizu.weghtcalendar.data.realm.PhysicalMeasurementRealmImpl;
 
 /**
  * Factory that creates different implementations of {@link PhysicalMeasurementDataStore}.
@@ -39,9 +40,9 @@ public class PhysicalMeasurementDataStoreFactory {
   private PhysicalMeasurementRealm physicalMeasurementRealm = null;
 
   @Inject
-  PhysicalMeasurementDataStoreFactory(@NonNull Context context, PhysicalMeasurementRealm physicalMeasurementRealm) {
+  PhysicalMeasurementDataStoreFactory(@NonNull Context context) {
     this.context = context.getApplicationContext();
-    this.physicalMeasurementRealm = physicalMeasurementRealm;
+    this.physicalMeasurementRealm = new PhysicalMeasurementRealmImpl(this.context);
   }
 
   /**
@@ -72,4 +73,9 @@ public class PhysicalMeasurementDataStoreFactory {
 
     return new CloudPhysicalMeasurementDataStore(googleApi, this.physicalMeasurementRealm);
   }
+
+  public RealmPhysicalMeasurementDataStore createRealm() {
+    return new RealmPhysicalMeasurementDataStore(this.physicalMeasurementRealm);
+  }
+
 }

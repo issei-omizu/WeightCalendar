@@ -34,9 +34,9 @@ public class PhysicalMeasurementModule {
         return physicalMeasurementDataRepository;
     }
 
-    @Provides
-    PhysicalMeasurementRealm providePhysicalMeasurementRealm(PhysicalMeasurementRealmImpl physicalMeasurementRealm) {
-        return physicalMeasurementRealm;
-    }
+//    @Provides
+//    PhysicalMeasurementRealm providePhysicalMeasurementRealm(PhysicalMeasurementRealmImpl physicalMeasurementRealm) {
+//        return physicalMeasurementRealm;
+//    }
 
 }
