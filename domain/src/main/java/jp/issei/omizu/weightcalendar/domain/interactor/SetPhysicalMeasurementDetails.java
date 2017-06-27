@@ -43,19 +43,19 @@ public class SetPhysicalMeasurementDetails extends UseCase<PhysicalMeasurement, 
 
   @Override
   Observable<PhysicalMeasurement> buildUseCaseObservable(Params params) {
-    return this.physicalMeasurementRepository.physicalMeasurement(params.date);
+    return this.physicalMeasurementRepository.setPhysicalMeasurement(params.physicalMeasurement);
   }
 
   public static final class Params {
 
-    private final Date date;
+    private final PhysicalMeasurement physicalMeasurement;
 
-    private Params(Date date) {
-      this.date = date;
+    private Params(PhysicalMeasurement physicalMeasurement) {
+      this.physicalMeasurement = physicalMeasurement;
     }
 
-    public static Params forDate(Date date) {
-      return new Params(date);
+    public static Params forPhysicalMeasurement(PhysicalMeasurement physicalMeasurement) {
+      return new Params(physicalMeasurement);
     }
   }
 }

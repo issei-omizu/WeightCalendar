@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import jp.issei.omizu.weightcalendar.domain.PhysicalMeasurement;
 import jp.issei.omizu.weightcalendar.domain.interactor.DefaultObserver;
 import jp.issei.omizu.weightcalendar.domain.interactor.GetPhysicalMeasurementDetails;
+import jp.issei.omizu.weightcalendar.domain.interactor.SetPhysicalMeasurementDetails;
 import jp.issei.omizu.weightcalendar.presentation.mapper.PhysicalMeasurementModelDataMapper;
 import jp.issei.omizu.weightcalendar.presentation.model.PhysicalMeasurementModel;
 import lombok.Getter;
@@ -32,6 +33,7 @@ public class PhysicalMeasurementInputViewModel extends BaseObservable {
     public final ObservableField<String> bodyTemperature = new ObservableField<>();
 
     private GetPhysicalMeasurementDetails getPhysicalMeasurementDetails;
+    private SetPhysicalMeasurementDetails setPhysicalMeasurementDetails;
     private final PhysicalMeasurementModelDataMapper physicalMeasurementModelDataMapper;
 
 
@@ -43,12 +45,27 @@ public class PhysicalMeasurementInputViewModel extends BaseObservable {
     public void setWeight(String weight) {
         this.weight = weight;
         notifyPropertyChanged(jp.issei.omizu.weightcalendar.BR.weight);
+
+        PhysicalMeasurement physicalMeasurement = new PhysicalMeasurement(0);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(this.year.get(), this.month.get(), this.day.get());
+        Date date = DateUtils.truncate(calendar.getTime(), Calendar.DAY_OF_MONTH);
+
+        physicalMeasurement.setDate(date);
+        physicalMeasurement.setWeight(weight);
+        physicalMeasurement.setBodyFatPercentage(this.bodyFatPercentage.get());
+
+        SetPhysicalMeasurementDetails.Params params = SetPhysicalMeasurementDetails.Params.forPhysicalMeasurement(physicalMeasurement);
+        this.setPhysicalMeasurementDetails.execute(new UpdatePhysicalMeasurementObserver(), params);
     }
 
     @Inject
     public PhysicalMeasurementInputViewModel(GetPhysicalMeasurementDetails getPhysicalMeasurementDetails,
+                                             SetPhysicalMeasurementDetails setPhysicalMeasurementDetails,
                                              PhysicalMeasurementModelDataMapper physicalMeasurementModelDataMapper) {
         this.getPhysicalMeasurementDetails = getPhysicalMeasurementDetails;
+        this.setPhysicalMeasurementDetails = setPhysicalMeasurementDetails;
         this.physicalMeasurementModelDataMapper = physicalMeasurementModelDataMapper;
 
         Calendar calendar = Calendar.getInstance();
@@ -101,6 +118,20 @@ public class PhysicalMeasurementInputViewModel extends BaseObservable {
 
         @Override public void onNext(PhysicalMeasurement physicalMeasurement) {
             PhysicalMeasurementInputViewModel.this.setPhysicalMeasurement(physicalMeasurement);
+        }
+    }
+
+    private final class UpdatePhysicalMeasurementObserver extends DefaultObserver<PhysicalMeasurement> {
+
+        @Override public void onComplete() {
+        }
+
+        @Override public void onError(Throwable e) {
+        }
+
+        @Override public void onNext(PhysicalMeasurement physicalMeasurement) {
+            String test = "";
+//            PhysicalMeasurementInputViewModel.this.setPhysicalMeasurement(physicalMeasurement);
         }
     }
 }
