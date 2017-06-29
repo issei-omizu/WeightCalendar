@@ -43,13 +43,7 @@ public class PhysicalMeasurementEntityDataMapper {
   public PhysicalMeasurement transform(PhysicalMeasurementEntity physicalMeasurementEntity) {
     PhysicalMeasurement physicalMeasurement = null;
     if (physicalMeasurementEntity != null) {
-      physicalMeasurement = new PhysicalMeasurement(physicalMeasurementEntity.getUserId());
-      physicalMeasurement.setCoverUrl(physicalMeasurementEntity.getCoverUrl());
-      physicalMeasurement.setFullName(physicalMeasurementEntity.getFullname());
-      physicalMeasurement.setDescription(physicalMeasurementEntity.getDescription());
-      physicalMeasurement.setFollowers(physicalMeasurementEntity.getFollowers());
-      physicalMeasurement.setEmail(physicalMeasurementEntity.getEmail());
-
+      physicalMeasurement = new PhysicalMeasurement();
       physicalMeasurement.setDate(physicalMeasurementEntity.getDate());
       physicalMeasurement.setWeight(physicalMeasurementEntity.getWeight());
       physicalMeasurement.setBodyFatPercentage(physicalMeasurementEntity.getBodyFatPercentage());
@@ -74,4 +68,23 @@ public class PhysicalMeasurementEntityDataMapper {
     }
     return physicalMeasurementList;
   }
+
+  /**
+   * Transform a {@link PhysicalMeasurement} into an {@link PhysicalMeasurementEntity}.
+   *
+   * @param physicalMeasurement Object to be transformed.
+   * @return {@link PhysicalMeasurementEntity} if valid {@link PhysicalMeasurement} otherwise null.
+   */
+  public PhysicalMeasurementEntity transform(PhysicalMeasurement physicalMeasurement) {
+    PhysicalMeasurementEntity physicalMeasurementEntity = null;
+    if (physicalMeasurement != null) {
+      physicalMeasurementEntity = new PhysicalMeasurementEntity();
+      physicalMeasurementEntity.setDate(physicalMeasurement.getDate());
+      physicalMeasurementEntity.setWeight(physicalMeasurement.getWeight());
+      physicalMeasurementEntity.setBodyFatPercentage(physicalMeasurement.getBodyFatPercentage());
+      physicalMeasurementEntity.setBodyTemperature(physicalMeasurement.getBodyTemperature());
+    }
+    return physicalMeasurementEntity;
+  }
+
 }

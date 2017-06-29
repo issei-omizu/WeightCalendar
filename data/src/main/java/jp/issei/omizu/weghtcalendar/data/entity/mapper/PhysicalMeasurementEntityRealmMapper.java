@@ -50,18 +50,9 @@ public class PhysicalMeasurementEntityRealmMapper {
     if (physicalMeasurementEntity != null) {
       physicalMeasurement = new PhysicalMeasurement();
       physicalMeasurement.setDate(physicalMeasurementEntity.getDate());
-
-      if (physicalMeasurementEntity.getWeight() != null && !physicalMeasurementEntity.getWeight().isEmpty()) {
-        physicalMeasurement.setWeight(parseFloat(physicalMeasurementEntity.getWeight()));
-      }
-
-      if (physicalMeasurementEntity.getBodyFatPercentage() != null && !physicalMeasurementEntity.getBodyFatPercentage().isEmpty()) {
-        physicalMeasurement.setBodyFatPercentage(parseFloat(physicalMeasurementEntity.getBodyFatPercentage()));
-      }
-
-      if (physicalMeasurementEntity.getBodyTemperature() != null && !physicalMeasurementEntity.getBodyTemperature().isEmpty()) {
-        physicalMeasurement.setBodyTemperature(parseFloat(physicalMeasurementEntity.getBodyTemperature()));
-      }
+      physicalMeasurement.setWeight(physicalMeasurementEntity.getWeight());
+      physicalMeasurement.setBodyFatPercentage(physicalMeasurementEntity.getBodyFatPercentage());
+      physicalMeasurement.setBodyTemperature(physicalMeasurementEntity.getBodyTemperature());
     }
     return physicalMeasurement;
   }
@@ -77,16 +68,9 @@ public class PhysicalMeasurementEntityRealmMapper {
     if (physicalMeasurement != null) {
       physicalMeasurementEntity = new PhysicalMeasurementEntity();
       physicalMeasurementEntity.setDate(physicalMeasurement.getDate());
-
-      if (physicalMeasurement.getWeight() != null) {
-        physicalMeasurementEntity.setWeight(physicalMeasurement.getWeight().toString());
-      }
-      if (physicalMeasurement.getBodyFatPercentage() != null) {
-        physicalMeasurementEntity.setBodyFatPercentage(physicalMeasurement.getBodyFatPercentage().toString());
-      }
-      if (physicalMeasurement.getBodyTemperature() != null) {
-        physicalMeasurementEntity.setBodyTemperature(physicalMeasurement.getBodyTemperature().toString());
-      }
+      physicalMeasurementEntity.setWeight(physicalMeasurement.getWeight());
+      physicalMeasurementEntity.setBodyFatPercentage(physicalMeasurement.getBodyFatPercentage());
+      physicalMeasurementEntity.setBodyTemperature(physicalMeasurement.getBodyTemperature());
     }
     return physicalMeasurementEntity;
   }

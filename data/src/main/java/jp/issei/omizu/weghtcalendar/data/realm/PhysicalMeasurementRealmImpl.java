@@ -21,8 +21,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import javax.inject.Inject;
-
 import io.reactivex.Observable;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -34,12 +32,6 @@ import jp.issei.omizu.weghtcalendar.data.exception.NetworkConnectionException;
  * {@link PhysicalMeasurementRealm} implementation.
  */
 public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
-
-  private static final String SETTINGS_FILE_NAME = "com.fernandocejas.android10.SETTINGS";
-  private static final String SETTINGS_KEY_LAST_CACHE_UPDATE = "last_cache_update";
-
-  private static final String DEFAULT_FILE_NAME = "user_";
-  private static final long EXPIRATION_TIME = 60 * 10 * 1000;
 
   private final Context context;
   private final Realm realm;
@@ -92,6 +84,33 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
         emitter.onComplete();
       } catch (Exception e) {
         emitter.onError(new NetworkConnectionException(e.getCause()));
+      }
+    });
+  }
+
+  @Override
+  public Observable<PhysicalMeasurementEntity> set(final PhysicalMeasurementEntity physicalMeasurementEntity) {
+    return Observable.create(emitter -> {
+      Realm realm = Realm.getDefaultInstance();
+      try {
+        final PhysicalMeasurement physicalMeasurement = realm.where(PhysicalMeasurement.class).equalTo("date", physicalMeasurementEntity.getDate()).findFirst();
+        if (physicalMeasurement != null) {
+          realm.beginTransaction();
+          physicalMeasurement.setDate(physicalMeasurementEntity.getDate());
+          physicalMeasurement.setWeight(physicalMeasurementEntity.getWeight());
+          physicalMeasurement.setBodyFatPercentage(physicalMeasurementEntity.getBodyFatPercentage());
+          physicalMeasurement.setBodyTemperature(physicalMeasurementEntity.getBodyTemperature());
+          realm.commitTransaction();
+
+          emitter.onNext(this.physicalMeasurementEntityRealmMapper.transform(physicalMeasurement));
+        }
+        emitter.onComplete();
+      } catch (Exception e) {
+        realm.cancelTransaction();
+        emitter.onError(new NetworkConnectionException(e.getCause()));
+      }
+      finally {
+        realm.close();
       }
     });
   }

@@ -49,18 +49,9 @@ public class PhysicalMeasurementEntitySheetsApiMapper {
     if (physicalMeasurementEntity != null) {
       physicalMeasurement = new PhysicalMeasurement();
       physicalMeasurement.setDate(physicalMeasurementEntity.getDate());
-
-      if (physicalMeasurementEntity.getWeight() != null && !physicalMeasurementEntity.getWeight().isEmpty()) {
-        physicalMeasurement.setWeight(parseFloat(physicalMeasurementEntity.getWeight()));
-      }
-
-      if (physicalMeasurementEntity.getBodyFatPercentage() != null && !physicalMeasurementEntity.getBodyFatPercentage().isEmpty()) {
-        physicalMeasurement.setBodyFatPercentage(parseFloat(physicalMeasurementEntity.getBodyFatPercentage()));
-      }
-
-      if (physicalMeasurementEntity.getBodyTemperature() != null && !physicalMeasurementEntity.getBodyTemperature().isEmpty()) {
-        physicalMeasurement.setBodyTemperature(parseFloat(physicalMeasurementEntity.getBodyTemperature()));
-      }
+      physicalMeasurement.setWeight(physicalMeasurementEntity.getWeight());
+      physicalMeasurement.setBodyFatPercentage(physicalMeasurementEntity.getBodyFatPercentage());
+      physicalMeasurement.setBodyTemperature(physicalMeasurementEntity.getBodyTemperature());
     }
     return physicalMeasurement;
   }
@@ -112,9 +103,17 @@ public class PhysicalMeasurementEntitySheetsApiMapper {
         // sqliteに保存
         physicalMeasurementEntity = new PhysicalMeasurementEntity();
         physicalMeasurementEntity.setDate(this.string2date(date));
-        physicalMeasurementEntity.setWeight(weight);
-        physicalMeasurementEntity.setBodyFatPercentage(bodyFatPercentage);
-        physicalMeasurementEntity.setBodyTemperature(bodyTemperature);
+
+        if (weight != null && !weight.isEmpty()) {
+          physicalMeasurementEntity.setWeight(parseFloat(weight));
+        }
+        if (bodyFatPercentage != null && !bodyFatPercentage.isEmpty()) {
+          physicalMeasurementEntity.setBodyFatPercentage(parseFloat(bodyFatPercentage));
+        }
+        if (bodyTemperature != null && !bodyTemperature.isEmpty()) {
+          physicalMeasurementEntity.setBodyTemperature(parseFloat(bodyTemperature));
+        }
+
         physicalMeasurementList.add(physicalMeasurementEntity);
       }
     }

@@ -27,6 +27,9 @@ dependencies {
     compile domainDependencies.javaxInject
     compile domainDependencies.rxJava
     compile domainDependencies.arrow
+
+    compile "org.projectlombok:lombok:1.16.16"
+
 }
 
 sourceCompatibility = "1.7"

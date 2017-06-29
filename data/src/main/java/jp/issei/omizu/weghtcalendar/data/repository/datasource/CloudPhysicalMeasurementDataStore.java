@@ -56,7 +56,7 @@ class CloudPhysicalMeasurementDataStore implements PhysicalMeasurementDataStore 
   }
 
   @Override
-  public Observable<PhysicalMeasurementEntity> setPhysicalMeasurementEntityDetails(final PhysicalMeasurement physicalMeasurement) {
+  public Observable<PhysicalMeasurementEntity> setPhysicalMeasurementEntityDetails(final PhysicalMeasurementEntity physicalMeasurementEntity) {
     return null;
   }
 }

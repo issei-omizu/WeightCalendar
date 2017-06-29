@@ -46,15 +46,20 @@ public class PhysicalMeasurementInputViewModel extends BaseObservable {
         this.weight = weight;
         notifyPropertyChanged(jp.issei.omizu.weightcalendar.BR.weight);
 
-        PhysicalMeasurement physicalMeasurement = new PhysicalMeasurement(0);
+        PhysicalMeasurement physicalMeasurement = new PhysicalMeasurement();
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(this.year.get(), this.month.get(), this.day.get());
         Date date = DateUtils.truncate(calendar.getTime(), Calendar.DAY_OF_MONTH);
 
         physicalMeasurement.setDate(date);
-        physicalMeasurement.setWeight(weight);
-        physicalMeasurement.setBodyFatPercentage(this.bodyFatPercentage.get());
+
+        if (weight != null && !weight.isEmpty()) {
+            physicalMeasurement.setWeight(Float.parseFloat(weight));
+        }
+        if (this.bodyFatPercentage != null && !this.bodyFatPercentage.get().isEmpty()) {
+            physicalMeasurement.setBodyFatPercentage(Float.parseFloat(this.bodyFatPercentage.get()));
+        }
 
         SetPhysicalMeasurementDetails.Params params = SetPhysicalMeasurementDetails.Params.forPhysicalMeasurement(physicalMeasurement);
         this.setPhysicalMeasurementDetails.execute(new UpdatePhysicalMeasurementObserver(), params);
@@ -83,9 +88,9 @@ public class PhysicalMeasurementInputViewModel extends BaseObservable {
                     this.physicalMeasurementModelDataMapper.transform(physicalMeasurement);
 
 //            this.weight.set(physicalMeasurementModel.getWeight());
-            this.setWeight(physicalMeasurementModel.getWeight());
-            this.bodyFatPercentage.set(physicalMeasurementModel.getBodyFatPercentage());
-            this.bodyTemperature.set(physicalMeasurementModel.getBodyTemperature());
+            this.setWeight(physicalMeasurementModel.getWeight().toString());
+            this.bodyFatPercentage.set(physicalMeasurementModel.getBodyFatPercentage().toString());
+            this.bodyTemperature.set(physicalMeasurementModel.getBodyTemperature().toString());
         }
     }
 

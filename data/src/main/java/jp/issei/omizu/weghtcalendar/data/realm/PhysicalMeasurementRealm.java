@@ -37,6 +37,8 @@ public interface PhysicalMeasurementRealm {
    */
   Observable<PhysicalMeasurementEntity> get(final Date date);
 
+  Observable<PhysicalMeasurementEntity> set(final PhysicalMeasurementEntity physicalMeasurementEntity);
+
   /**
    * Puts and element into the cache.
    *

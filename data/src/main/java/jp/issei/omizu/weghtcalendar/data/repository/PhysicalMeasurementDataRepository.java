@@ -23,6 +23,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import jp.issei.omizu.weghtcalendar.data.entity.PhysicalMeasurementEntity;
 import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntityDataMapper;
 import jp.issei.omizu.weghtcalendar.data.repository.datasource.PhysicalMeasurementDataStore;
 import jp.issei.omizu.weghtcalendar.data.repository.datasource.PhysicalMeasurementDataStoreFactory;
@@ -66,6 +67,7 @@ public class PhysicalMeasurementDataRepository implements PhysicalMeasurementRep
   @Override
   public Observable<PhysicalMeasurement> setPhysicalMeasurement(PhysicalMeasurement physicalMeasurement) {
     final PhysicalMeasurementDataStore physicalMeasurementDataStore = this.physicalMeasurementDataStoreFactory.createRealm();
-    return physicalMeasurementDataStore.setPhysicalMeasurementEntityDetails(physicalMeasurement).map(this.physicalMeasurementEntityDataMapper::transform);
+    PhysicalMeasurementEntity physicalMeasurementEntity = this.physicalMeasurementEntityDataMapper.transform(physicalMeasurement);
+    return physicalMeasurementDataStore.setPhysicalMeasurementEntityDetails(physicalMeasurementEntity).map(this.physicalMeasurementEntityDataMapper::transform);
   }
 }

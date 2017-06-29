@@ -46,12 +46,6 @@ public class PhysicalMeasurementModelDataMapper {
       throw new IllegalArgumentException("Cannot transform a null value");
     }
     final PhysicalMeasurementModel physicalMeasurementModel = new PhysicalMeasurementModel();
-    physicalMeasurementModel.setCoverUrl(physicalMeasurement.getCoverUrl());
-    physicalMeasurementModel.setFullName(physicalMeasurement.getFullName());
-    physicalMeasurementModel.setEmail(physicalMeasurement.getEmail());
-    physicalMeasurementModel.setDescription(physicalMeasurement.getDescription());
-    physicalMeasurementModel.setFollowers(physicalMeasurement.getFollowers());
-
     physicalMeasurementModel.setDate(physicalMeasurement.getDate());
     physicalMeasurementModel.setWeight(physicalMeasurement.getWeight());
     physicalMeasurementModel.setBodyFatPercentage(physicalMeasurement.getBodyFatPercentage());

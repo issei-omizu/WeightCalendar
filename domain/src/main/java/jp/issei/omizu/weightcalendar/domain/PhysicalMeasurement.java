@@ -17,99 +17,17 @@ package jp.issei.omizu.weightcalendar.domain;
 
 import java.util.Date;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Class that represents a PhysicalMeasurement in the domain layer.
  */
+@Getter
+@Setter
 public class PhysicalMeasurement {
-
-  private final int userId;
-
-  public PhysicalMeasurement(int userId) {
-    this.userId = userId;
-  }
-
-  private String coverUrl;
-  private String fullName;
-  private String email;
-  private String description;
-  private int followers;
-
   private Date date;
-  private String weight;
-  private String bodyFatPercentage;
-  private String bodyTemperature;
-
-
-  public int getUserId() {
-    return userId;
-  }
-
-  public String getCoverUrl() {
-    return coverUrl;
-  }
-
-  public void setCoverUrl(String coverUrl) {
-    this.coverUrl = coverUrl;
-  }
-
-  public String getFullName() {
-    return fullName;
-  }
-
-  public void setFullName(String fullName) {
-    this.fullName = fullName;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public int getFollowers() {
-    return followers;
-  }
-
-  public void setFollowers(int followers) {
-    this.followers = followers;
-  }
-
-
-  public Date getDate() {
-    return date;
-  }
-
-  public void setDate(Date date) {
-    this.date = date;
-  }
-
-  public String getWeight() { return weight; }
-
-  public void setWeight(String weight) {
-    this.weight = weight;
-  }
-
-  public String getBodyFatPercentage() { return bodyFatPercentage; }
-
-  public void setBodyFatPercentage(String bodyFatPercentage) {
-    this.bodyFatPercentage = bodyFatPercentage;
-  }
-
-  public String getBodyTemperature() { return bodyTemperature; }
-
-  public void setBodyTemperature(String bodyTemperature) {
-    this.bodyTemperature = bodyTemperature;
-  }
-
-
+  private Float weight;
+  private Float bodyFatPercentage;
+  private Float bodyTemperature;
 }
