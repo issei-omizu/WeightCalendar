@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Environment;
 import android.widget.Button;
+
+import java.io.File;
 
 import javax.inject.Inject;
 
@@ -28,6 +31,9 @@ public class PhysicalMeasurementActivity extends GoogleApiActivity
 
     @BindView(R.id.bt_load)
     Button bt_load;
+
+    @BindView(R.id.btn_Import)
+    Button btn_Import;
 
     @Inject
     PhysicalMeasurementViewModel physicalMeasurementViewModel;
@@ -68,6 +74,12 @@ public class PhysicalMeasurementActivity extends GoogleApiActivity
 
     @OnClick(R.id.bt_load)
     public void load() {
+        // call google api
+//        this.physicalMeasurementViewModel.loadPhysicalMeasurementList();
+    }
+
+    @OnClick(R.id.btn_Import)
+    public void importFromGoogle() {
         // call google api
         this.getResultsFromApi();
     }

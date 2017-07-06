@@ -3,6 +3,7 @@
     package="jp.issei.omizu.weightcalendar">
 
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".presentation.WeightCalendarApplication"

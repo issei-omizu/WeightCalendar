@@ -27,4 +27,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_PhysicalMeasurementInput" />
+
+    <Button
+        android:text="Backup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_Backup" />
+
+    <Button
+        android:text="Restore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_Restore" />
 </LinearLayout>

@@ -57,7 +57,7 @@ public class PhysicalMeasurementInputViewModel extends BaseObservable {
         if (weight != null && !weight.isEmpty()) {
             physicalMeasurement.setWeight(Float.parseFloat(weight));
         }
-        if (this.bodyFatPercentage != null && !this.bodyFatPercentage.get().isEmpty()) {
+        if (this.bodyFatPercentage.get() != null && !this.bodyFatPercentage.get().isEmpty()) {
             physicalMeasurement.setBodyFatPercentage(Float.parseFloat(this.bodyFatPercentage.get()));
         }
 
@@ -88,9 +88,16 @@ public class PhysicalMeasurementInputViewModel extends BaseObservable {
                     this.physicalMeasurementModelDataMapper.transform(physicalMeasurement);
 
 //            this.weight.set(physicalMeasurementModel.getWeight());
-            this.setWeight(physicalMeasurementModel.getWeight().toString());
-            this.bodyFatPercentage.set(physicalMeasurementModel.getBodyFatPercentage().toString());
-            this.bodyTemperature.set(physicalMeasurementModel.getBodyTemperature().toString());
+
+            if (physicalMeasurementModel.getWeight() != null) {
+                this.setWeight(physicalMeasurementModel.getWeight().toString());
+            }
+            if (physicalMeasurementModel.getBodyFatPercentage() != null) {
+                this.bodyFatPercentage.set(physicalMeasurementModel.getBodyFatPercentage().toString());
+            }
+            if (physicalMeasurementModel.getBodyTemperature() != null) {
+                this.bodyTemperature.set(physicalMeasurementModel.getBodyTemperature().toString());
+            }
         }
     }
 
