@@ -13,6 +13,7 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
+import jp.issei.omizu.weightcalendar.BR;
 import jp.issei.omizu.weightcalendar.domain.PhysicalMeasurement;
 import jp.issei.omizu.weightcalendar.domain.interactor.DefaultObserver;
 import jp.issei.omizu.weightcalendar.domain.interactor.GetPhysicalMeasurementDetails;
@@ -27,10 +28,12 @@ public class PhysicalMeasurementInputViewModel extends BaseObservable {
     public final ObservableInt month = new ObservableInt();
     public final ObservableInt day = new ObservableInt();
 
-    private String weight;
 //    public final ObservableField<String> weight = new ObservableField<>();
-    public final ObservableField<String> bodyFatPercentage = new ObservableField<>();
-    public final ObservableField<String> bodyTemperature = new ObservableField<>();
+//    public final ObservableField<String> bodyFatPercentage = new ObservableField<>();
+//    public final ObservableField<String> bodyTemperature = new ObservableField<>();
+    private String weight;
+    private String bodyFatPercentage;
+    private String bodyTemperature;
 
     private GetPhysicalMeasurementDetails getPhysicalMeasurementDetails;
     private SetPhysicalMeasurementDetails setPhysicalMeasurementDetails;
@@ -38,14 +41,36 @@ public class PhysicalMeasurementInputViewModel extends BaseObservable {
 
 
     @Bindable
-    public String getWeight () {
+    public String getWeight() {
         return this.weight;
+    }
+
+    @Bindable
+    public String getBodyFatPercentage() {
+        return this.bodyFatPercentage;
+    }
+
+    @Bindable
+    public String getBodyTemperature() {
+        return this.bodyTemperature;
     }
 
     public void setWeight(String weight) {
         this.weight = weight;
         notifyPropertyChanged(jp.issei.omizu.weightcalendar.BR.weight);
+    }
 
+    public void setBodyFatPercentage(String weight) {
+        this.bodyFatPercentage = weight;
+        notifyPropertyChanged(BR.bodyFatPercentage);
+    }
+
+    public void setBodyTemperature(String weight) {
+        this.bodyTemperature = weight;
+        notifyPropertyChanged(jp.issei.omizu.weightcalendar.BR.bodyTemperature);
+    }
+
+    private void updatePhysicalMeasurement() {
         PhysicalMeasurement physicalMeasurement = new PhysicalMeasurement();
 
         Calendar calendar = Calendar.getInstance();
@@ -54,15 +79,30 @@ public class PhysicalMeasurementInputViewModel extends BaseObservable {
 
         physicalMeasurement.setDate(date);
 
-        if (weight != null && !weight.isEmpty()) {
+        if (this.weight != null && !weight.isEmpty()) {
             physicalMeasurement.setWeight(Float.parseFloat(weight));
         }
-        if (this.bodyFatPercentage.get() != null && !this.bodyFatPercentage.get().isEmpty()) {
-            physicalMeasurement.setBodyFatPercentage(Float.parseFloat(this.bodyFatPercentage.get()));
+        if (this.bodyFatPercentage != null && !this.bodyFatPercentage.isEmpty()) {
+            physicalMeasurement.setBodyFatPercentage(Float.parseFloat(this.bodyFatPercentage));
         }
 
         SetPhysicalMeasurementDetails.Params params = SetPhysicalMeasurementDetails.Params.forPhysicalMeasurement(physicalMeasurement);
         this.setPhysicalMeasurementDetails.execute(new UpdatePhysicalMeasurementObserver(), params);
+    }
+
+    public void onWeightChanged(CharSequence s, int start, int before, int count) {
+        this.weight = s.toString();
+        this.updatePhysicalMeasurement();
+    }
+
+    public void onBodyFatPercentageChanged(CharSequence s, int start, int before, int count) {
+        this.bodyFatPercentage = s.toString();
+        this.updatePhysicalMeasurement();
+    }
+
+    public void onBodyTemperatureChanged(CharSequence s, int start, int before, int count) {
+        this.bodyTemperature = s.toString();
+        this.updatePhysicalMeasurement();
     }
 
     @Inject
@@ -93,10 +133,10 @@ public class PhysicalMeasurementInputViewModel extends BaseObservable {
                 this.setWeight(physicalMeasurementModel.getWeight().toString());
             }
             if (physicalMeasurementModel.getBodyFatPercentage() != null) {
-                this.bodyFatPercentage.set(physicalMeasurementModel.getBodyFatPercentage().toString());
+                this.setBodyFatPercentage(physicalMeasurementModel.getBodyFatPercentage().toString());
             }
             if (physicalMeasurementModel.getBodyTemperature() != null) {
-                this.bodyTemperature.set(physicalMeasurementModel.getBodyTemperature().toString());
+                this.setBodyTemperature(physicalMeasurementModel.getBodyTemperature().toString());
             }
         }
     }
@@ -104,8 +144,8 @@ public class PhysicalMeasurementInputViewModel extends BaseObservable {
     public void dateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 //        this.weight.set("");
         this.setWeight("");
-        this.bodyFatPercentage.set("");
-        this.bodyTemperature.set("");
+        this.setBodyFatPercentage("");
+        this.setBodyTemperature("");
 
         this.year.set(year);
         this.month.set(monthOfYear);

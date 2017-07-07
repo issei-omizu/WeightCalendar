@@ -93,16 +93,12 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
     return Observable.create(emitter -> {
       Realm realm = Realm.getDefaultInstance();
       try {
-        final PhysicalMeasurement physicalMeasurement = realm.where(PhysicalMeasurement.class).equalTo("date", physicalMeasurementEntity.getDate()).findFirst();
+        PhysicalMeasurement physicalMeasurement = this.update(physicalMeasurementEntity);
         if (physicalMeasurement != null) {
-          realm.beginTransaction();
-          physicalMeasurement.setDate(physicalMeasurementEntity.getDate());
-          physicalMeasurement.setWeight(physicalMeasurementEntity.getWeight());
-          physicalMeasurement.setBodyFatPercentage(physicalMeasurementEntity.getBodyFatPercentage());
-          physicalMeasurement.setBodyTemperature(physicalMeasurementEntity.getBodyTemperature());
-          realm.commitTransaction();
-
           emitter.onNext(this.physicalMeasurementEntityRealmMapper.transform(physicalMeasurement));
+        }
+        else {
+          this.insert(physicalMeasurementEntity);
         }
         emitter.onComplete();
       } catch (Exception e) {
@@ -129,22 +125,51 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
 
   @Override
   public void put(List<PhysicalMeasurementEntity> physicalMeasurementEntity) {
-    Realm realm = Realm.getDefaultInstance();
     for(PhysicalMeasurementEntity val : physicalMeasurementEntity){
-      realm.executeTransaction(_realm -> {
-        PhysicalMeasurement transformPhysicalMeasurement = this.physicalMeasurementEntityRealmMapper.transform(val);
+      this.insert(val);
+    }
+  }
 
+  private void insert(final PhysicalMeasurementEntity physicalMeasurementEntity) {
+    Realm realm = Realm.getDefaultInstance();
+    try {
+      realm.executeTransaction(_realm -> {
+        PhysicalMeasurement transformPhysicalMeasurement = this.physicalMeasurementEntityRealmMapper.transform(physicalMeasurementEntity);
         String id = UUID.randomUUID().toString();
         PhysicalMeasurement physicalMeasurement = _realm.createObject(PhysicalMeasurement.class, id);
-//        physicalMeasurement.setId(id);
         physicalMeasurement.setDate(transformPhysicalMeasurement.getDate());
         physicalMeasurement.setWeight(transformPhysicalMeasurement.getWeight());
         physicalMeasurement.setBodyFatPercentage(transformPhysicalMeasurement.getBodyFatPercentage());
         physicalMeasurement.setBodyTemperature(transformPhysicalMeasurement.getBodyTemperature());
       });
+    } catch (Exception e) {
+      realm.cancelTransaction();
+    } finally {
+      realm.close();
     }
-    realm.close();
+  }
 
+  private PhysicalMeasurement update(final PhysicalMeasurementEntity physicalMeasurementEntity) {
+    Realm realm = Realm.getDefaultInstance();
+    PhysicalMeasurement physicalMeasurement = null;
+    try {
+      physicalMeasurement = realm.where(PhysicalMeasurement.class).equalTo("date", physicalMeasurementEntity.getDate()).findFirst();
+      if (physicalMeasurement != null) {
+        realm.beginTransaction();
+        physicalMeasurement.setDate(physicalMeasurementEntity.getDate());
+        physicalMeasurement.setWeight(physicalMeasurementEntity.getWeight());
+        physicalMeasurement.setBodyFatPercentage(physicalMeasurementEntity.getBodyFatPercentage());
+        physicalMeasurement.setBodyTemperature(physicalMeasurementEntity.getBodyTemperature());
+        realm.commitTransaction();
+      }
+    } catch (Exception e) {
+      realm.cancelTransaction();
+    }
+    finally {
+      realm.close();
+    }
+
+    return physicalMeasurement;
   }
 
 }

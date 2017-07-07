@@ -41,7 +41,8 @@
                 android:textSize="40sp"
                 android:inputType="number|numberDecimal"
                 android:ems="10"
-                android:text="@={viewModel.weight}" />
+                android:text="@={viewModel.weight}"
+                android:onTextChanged="@{viewModel.onWeightChanged}" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -51,7 +52,8 @@
                 android:textSize="40sp"
                 android:inputType="number|numberDecimal"
                 android:ems="10"
-                android:text="@{viewModel.bodyFatPercentage}" />
+                android:text="@={viewModel.bodyFatPercentage}"
+                android:onTextChanged="@{viewModel.onBodyFatPercentageChanged}" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -61,7 +63,8 @@
                 android:textSize="40sp"
                 android:inputType="number|numberDecimal"
                 android:ems="10"
-                android:text="@{viewModel.bodyTemperature}" />
+                android:text="@={viewModel.bodyTemperature}"
+                android:onTextChanged="@{viewModel.onBodyTemperatureChanged}" />
         </LinearLayout>
 
     </LinearLayout>
