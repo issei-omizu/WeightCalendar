@@ -7,9 +7,9 @@ import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import jp.issei.omizu.weightcalendar.presentation.di.components.ApplicationComponent;
-import jp.issei.omizu.weightcalendar.presentation.di.components.DaggerApplicationComponent;
-import jp.issei.omizu.weightcalendar.presentation.di.modules.ApplicationModule;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.components.ApplicationComponent;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.components.DaggerApplicationComponent;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.modules.ApplicationModule;
 
 /**
  * Created by isseiomizu on 2017/04/17.
