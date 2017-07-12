@@ -22,7 +22,7 @@ import java.util.Collections;
 import javax.inject.Inject;
 
 import jp.issei.omizu.weightcalendar.domain.PhysicalMeasurement;
-import jp.issei.omizu.weightcalendar.presentation.di.PerActivity;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.PerActivity;
 import jp.issei.omizu.weightcalendar.presentation.model.PhysicalMeasurementModel;
 
 /**

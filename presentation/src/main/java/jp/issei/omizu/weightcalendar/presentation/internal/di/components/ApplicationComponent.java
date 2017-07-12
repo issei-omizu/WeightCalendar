@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.issei.omizu.weightcalendar.presentation.di.components;
+package jp.issei.omizu.weightcalendar.presentation.internal.di.components;
 
 import android.content.Context;
 
@@ -22,7 +22,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 import jp.issei.omizu.weightcalendar.domain.executor.PostExecutionThread;
 import jp.issei.omizu.weightcalendar.domain.executor.ThreadExecutor;
-import jp.issei.omizu.weightcalendar.presentation.di.modules.ApplicationModule;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.modules.ApplicationModule;
 import jp.issei.omizu.weightcalendar.presentation.view.activity.BaseActivity;
 
 /**

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.issei.omizu.weightcalendar.presentation.di.modules;
+package jp.issei.omizu.weightcalendar.presentation.internal.di.modules;
 
 import android.app.Activity;
 
 import dagger.Module;
 import dagger.Provides;
-import jp.issei.omizu.weightcalendar.presentation.di.PerActivity;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.PerActivity;
 
 /**
  * A module to wrap the Activity state and expose it to the graph.

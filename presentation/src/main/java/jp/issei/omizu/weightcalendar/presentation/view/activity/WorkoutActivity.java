@@ -9,9 +9,9 @@ import javax.inject.Inject;
 
 import jp.issei.omizu.weightcalendar.R;
 import jp.issei.omizu.weightcalendar.databinding.ActivityWorkoutBinding;
-import jp.issei.omizu.weightcalendar.presentation.di.HasComponent;
-import jp.issei.omizu.weightcalendar.presentation.di.components.DaggerWorkoutComponent;
-import jp.issei.omizu.weightcalendar.presentation.di.components.WorkoutComponent;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.HasComponent;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.components.DaggerWorkoutComponent;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.components.WorkoutComponent;
 import jp.issei.omizu.weightcalendar.presentation.viewmodel.WorkoutViewModel;
 
 public class WorkoutActivity extends BaseActivity implements HasComponent<WorkoutComponent> {

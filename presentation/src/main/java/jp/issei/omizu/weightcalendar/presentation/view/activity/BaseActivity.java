@@ -8,8 +8,8 @@ import android.os.Bundle;
 import javax.inject.Inject;
 
 import jp.issei.omizu.weightcalendar.presentation.WeightCalendarApplication;
-import jp.issei.omizu.weightcalendar.presentation.di.components.ApplicationComponent;
-import jp.issei.omizu.weightcalendar.presentation.di.modules.ActivityModule;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.components.ApplicationComponent;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.modules.ActivityModule;
 import jp.issei.omizu.weightcalendar.presentation.navigation.Navigator;
 
 /**

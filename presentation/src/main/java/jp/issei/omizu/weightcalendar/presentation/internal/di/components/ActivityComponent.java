@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.issei.omizu.weightcalendar.presentation.di.components;
+package jp.issei.omizu.weightcalendar.presentation.internal.di.components;
 
 import android.app.Activity;
 
@@ -26,7 +26,7 @@ import jp.issei.omizu.weightcalendar.presentation.internal.di.modules.ActivityMo
  * Activity-level components should extend this component.
  *
  * Subtypes of ActivityComponent should be decorated with annotation:
- * {@link jp.issei.omizu.weightcalendar.presentation.di.PerActivity}
+ * {@link PerActivity}
  */
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)

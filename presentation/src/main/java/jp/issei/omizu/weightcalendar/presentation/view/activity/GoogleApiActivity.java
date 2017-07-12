@@ -18,8 +18,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import jp.issei.omizu.weightcalendar.presentation.di.components.DaggerGoogleApiComponent;
-import jp.issei.omizu.weightcalendar.presentation.di.components.GoogleApiComponent;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.components.DaggerGoogleApiComponent;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.components.GoogleApiComponent;
 import jp.issei.omizu.weightcalendar.presentation.viewmodel.GoogleApiViewModel;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;

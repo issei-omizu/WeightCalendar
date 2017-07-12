@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.issei.omizu.weightcalendar.presentation.di.modules;
+package jp.issei.omizu.weightcalendar.presentation.internal.di.modules;
 
 import dagger.Module;
 import dagger.Provides;

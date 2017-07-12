@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jp.issei.omizu.weightcalendar.presentation.di.components;
+package jp.issei.omizu.weightcalendar.presentation.internal.di.components;
 
 import dagger.Component;
-import jp.issei.omizu.weightcalendar.presentation.di.PerActivity;
-import jp.issei.omizu.weightcalendar.presentation.di.modules.ActivityModule;
-import jp.issei.omizu.weightcalendar.presentation.di.modules.WorkoutModule;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.PerActivity;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.modules.ActivityModule;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.modules.WorkoutModule;
 import jp.issei.omizu.weightcalendar.presentation.view.activity.WorkoutActivity;
 
 /**
- * A scope {@link jp.issei.omizu.weightcalendar.presentation.di.PerActivity} component.
+ * A scope {@link PerActivity} component.
  * Injects physicalMeasurement specific Fragments.
  */
 @PerActivity

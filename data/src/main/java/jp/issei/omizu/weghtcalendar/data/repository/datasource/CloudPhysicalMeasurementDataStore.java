@@ -45,6 +45,7 @@ class CloudPhysicalMeasurementDataStore implements PhysicalMeasurementDataStore 
 
   @Override
   public Observable<List<PhysicalMeasurementEntity>> physicalMeasurementEntityList() {
+    this.physicalMeasurementRealm.deleteAll();
     return this.googleApi.physicalMeasurementEntityList().doOnNext(CloudPhysicalMeasurementDataStore.this.physicalMeasurementRealm::put);
 //    return this.physicalMeasurementRealm.physicalMeasurementEntityList();
   }

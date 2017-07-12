@@ -4,10 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Environment;
 import android.widget.Button;
-
-import java.io.File;
 
 import javax.inject.Inject;
 
@@ -16,9 +13,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.issei.omizu.weightcalendar.R;
 import jp.issei.omizu.weightcalendar.databinding.ActivityPhysicalMeasurementBinding;
-import jp.issei.omizu.weightcalendar.presentation.di.HasComponent;
-import jp.issei.omizu.weightcalendar.presentation.di.components.DaggerPhysicalMeasurementComponent;
-import jp.issei.omizu.weightcalendar.presentation.di.components.PhysicalMeasurementComponent;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.HasComponent;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.components.DaggerPhysicalMeasurementComponent;
+import jp.issei.omizu.weightcalendar.presentation.internal.di.components.PhysicalMeasurementComponent;
 import jp.issei.omizu.weightcalendar.presentation.view.PhysicalMeasurementView;
 import jp.issei.omizu.weightcalendar.presentation.viewmodel.PhysicalMeasurementViewModel;
 

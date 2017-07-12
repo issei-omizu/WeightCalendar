@@ -172,4 +172,19 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
     return physicalMeasurement;
   }
 
+  @Override
+  public void deleteAll() {
+    Realm realm = Realm.getDefaultInstance();
+    try {
+      realm.beginTransaction();
+      realm.deleteAll();
+      realm.commitTransaction();
+    } catch (Exception e) {
+      realm.cancelTransaction();
+    }
+    finally {
+      realm.close();
+    }
+  }
+
 }
