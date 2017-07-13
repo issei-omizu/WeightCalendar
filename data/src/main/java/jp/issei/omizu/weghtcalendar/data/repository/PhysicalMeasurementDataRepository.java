@@ -52,6 +52,12 @@ public class PhysicalMeasurementDataRepository implements PhysicalMeasurementRep
   }
 
   @Override
+  public Observable<List<PhysicalMeasurement>> physicalMeasurements() {
+    final PhysicalMeasurementDataStore physicalMeasurementDataStore = this.physicalMeasurementDataStoreFactory.createRealm();
+    return physicalMeasurementDataStore.physicalMeasurementEntityList().map(this.physicalMeasurementEntityDataMapper::transform);
+  }
+
+  @Override
   public Observable<List<PhysicalMeasurement>> physicalMeasurements(GoogleAccountCredential credential) {
     //we always get all physicalMeasurements from the cloud
     final PhysicalMeasurementDataStore physicalMeasurementDataStore = this.physicalMeasurementDataStoreFactory.createCloudDataStore(credential);

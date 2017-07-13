@@ -71,8 +71,7 @@ public class PhysicalMeasurementActivity extends GoogleApiActivity
 
     @OnClick(R.id.bt_load)
     public void load() {
-        // call google api
-//        this.physicalMeasurementViewModel.loadPhysicalMeasurementList();
+        this.physicalMeasurementViewModel.loadPhysicalMeasurementList();
     }
 
     @OnClick(R.id.btn_Import)

@@ -30,6 +30,7 @@ public interface PhysicalMeasurementRepository {
   /**
    * Get an {@link Observable} which will emit a List of {@link PhysicalMeasurement}.
    */
+  Observable<List<PhysicalMeasurement>> physicalMeasurements();
   Observable<List<PhysicalMeasurement>> physicalMeasurements(GoogleAccountCredential credential);
 
   /**

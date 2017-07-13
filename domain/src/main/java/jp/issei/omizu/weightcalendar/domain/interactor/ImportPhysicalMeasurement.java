@@ -20,7 +20,6 @@ import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccoun
 
 import java.util.List;
 
-import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
@@ -33,20 +32,32 @@ import jp.issei.omizu.weightcalendar.domain.repository.PhysicalMeasurementReposi
  * This class is an implementation of {@link UseCase} that represents a use case for
  * retrieving a collection of all {@link PhysicalMeasurement}.
  */
-public class GetPhysicalMeasurementList extends UseCase<List<PhysicalMeasurement>, Void> {
+public class ImportPhysicalMeasurement extends UseCase<List<PhysicalMeasurement>, ImportPhysicalMeasurement.Params> {
 
   private final PhysicalMeasurementRepository physicalMeasurementRepository;
 
   @Inject
-  GetPhysicalMeasurementList(PhysicalMeasurementRepository physicalMeasurementRepository, ThreadExecutor threadExecutor,
-                             PostExecutionThread postExecutionThread) {
+  ImportPhysicalMeasurement(PhysicalMeasurementRepository physicalMeasurementRepository, ThreadExecutor threadExecutor,
+                            PostExecutionThread postExecutionThread) {
     super(threadExecutor, postExecutionThread);
     this.physicalMeasurementRepository = physicalMeasurementRepository;
   }
 
   @Override
-  Observable<List<PhysicalMeasurement>> buildUseCaseObservable(Void unused) {
-    return this.physicalMeasurementRepository.physicalMeasurements();
+  Observable<List<PhysicalMeasurement>> buildUseCaseObservable(Params params) {
+    return this.physicalMeasurementRepository.physicalMeasurements(params.credential);
   }
 
+  public static final class Params {
+
+    private GoogleAccountCredential credential;
+
+    private Params(GoogleAccountCredential credential) {
+      this.credential = credential;
+    }
+
+    public static Params forCredential(GoogleAccountCredential credential) {
+      return new Params(credential);
+    }
+  }
 }
