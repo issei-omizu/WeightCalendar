@@ -24,6 +24,7 @@ import java.util.UUID;
 import io.reactivex.Observable;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 import jp.issei.omizu.weghtcalendar.data.entity.PhysicalMeasurementEntity;
 import jp.issei.omizu.weghtcalendar.data.entity.mapper.PhysicalMeasurementEntityRealmMapper;
 import jp.issei.omizu.weghtcalendar.data.exception.NetworkConnectionException;
@@ -57,7 +58,10 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
     return Observable.create(emitter -> {
       try {
         Realm realm = Realm.getDefaultInstance();
-        final RealmResults<PhysicalMeasurement> realmResults = realm.where(PhysicalMeasurement.class).findAll();
+        final RealmResults<PhysicalMeasurement> realmResults = realm
+                .where(PhysicalMeasurement.class)
+                .findAll()
+                .sort("date", Sort.DESCENDING);
         realmResults.size();
 
         if (realmResults.size() > 0) {
