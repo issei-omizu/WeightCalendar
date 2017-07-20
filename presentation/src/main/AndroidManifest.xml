@@ -19,9 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.view.activity.WorkoutActivity"></activity>
-        <activity android:name=".presentation.view.activity.PhysicalMeasurementActivity"></activity>
-        <activity android:name=".presentation.view.activity.PhysicalMeasurementInputActivity"></activity>
+        <activity android:name=".presentation.view.activity.WorkoutActivity" />
+        <activity android:name=".presentation.view.activity.PhysicalMeasurementActivity" />
+        <activity android:name=".presentation.view.activity.PhysicalMeasurementInputActivity" />
+        <activity android:name=".presentation.view.activity.PhysicalMeasurementChartActivity"></activity>
     </application>
 
 </manifest>

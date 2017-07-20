@@ -15,12 +15,11 @@ import jp.issei.omizu.weightcalendar.databinding.ActivityPhysicalMeasurementInpu
 import jp.issei.omizu.weightcalendar.presentation.internal.di.HasComponent;
 import jp.issei.omizu.weightcalendar.presentation.internal.di.components.DaggerPhysicalMeasurementComponent;
 import jp.issei.omizu.weightcalendar.presentation.internal.di.components.PhysicalMeasurementComponent;
-import jp.issei.omizu.weightcalendar.presentation.view.PhysicalMeasurementView;
 import jp.issei.omizu.weightcalendar.presentation.view.component.PickedDate;
 import jp.issei.omizu.weightcalendar.presentation.viewmodel.PhysicalMeasurementInputViewModel;
 
 public class PhysicalMeasurementInputActivity extends BaseActivity
-        implements HasComponent<PhysicalMeasurementComponent>, PhysicalMeasurementView {
+        implements HasComponent<PhysicalMeasurementComponent> {
 
 
     public static Intent getCallingIntent(Context context) {

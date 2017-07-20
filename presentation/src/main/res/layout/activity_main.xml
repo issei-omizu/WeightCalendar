@@ -29,6 +29,12 @@
         android:id="@+id/btn_PhysicalMeasurementInput" />
 
     <Button
+        android:text="Physical Measurement Chart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_PhysicalMeasurementChart" />
+
+    <Button
         android:text="Backup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

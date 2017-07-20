@@ -35,6 +35,9 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.btn_PhysicalMeasurementInput)
     Button btn_PhysicalMeasurementInput;
 
+    @BindView(R.id.btn_PhysicalMeasurementChart)
+    Button btn_PhysicalMeasurementChart;
+
     @BindView(R.id.btn_Backup)
     Button btn_Backup;
 
@@ -72,6 +75,11 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.btn_PhysicalMeasurementInput)
     public void navigateToPhysicalMeasurementInput() {
         this.navigator.navigateToPhysicalMeasurementInput(this);
+    }
+
+    @OnClick(R.id.btn_PhysicalMeasurementChart)
+    public void navigateToPhysicalMeasurementChart() {
+        this.navigator.navigateToPhysicalMeasurementChart(this);
     }
 
     @OnClick(R.id.btn_Backup)

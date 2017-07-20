@@ -56,6 +56,11 @@ public class PhysicalMeasurementViewModel {
     public void setPhysicalMeasurements(List<PhysicalMeasurement> physicalMeasurements) {
         final Collection<PhysicalMeasurementModel> physicalMeasurementModels =
                 this.physicalMeasurementModelDataMapper.transform(physicalMeasurements);
+
+        // clear
+        this.physicalMeasurements.clear();
+
+        // add all
         this.physicalMeasurements.addAll(physicalMeasurementModels);
     }
 

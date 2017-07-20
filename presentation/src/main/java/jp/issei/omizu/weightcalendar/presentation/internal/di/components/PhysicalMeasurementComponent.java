@@ -21,6 +21,7 @@ import jp.issei.omizu.weightcalendar.presentation.internal.di.modules.ActivityMo
 import jp.issei.omizu.weightcalendar.presentation.internal.di.modules.PhysicalMeasurementModule;
 import jp.issei.omizu.weightcalendar.presentation.internal.di.modules.PreferenceModule;
 import jp.issei.omizu.weightcalendar.presentation.view.activity.PhysicalMeasurementActivity;
+import jp.issei.omizu.weightcalendar.presentation.view.activity.PhysicalMeasurementChartActivity;
 import jp.issei.omizu.weightcalendar.presentation.view.activity.PhysicalMeasurementInputActivity;
 
 /**
@@ -31,5 +32,6 @@ import jp.issei.omizu.weightcalendar.presentation.view.activity.PhysicalMeasurem
 @Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, PhysicalMeasurementModule.class, PreferenceModule.class})
 public interface PhysicalMeasurementComponent extends ActivityComponent {
     void inject(PhysicalMeasurementActivity physicalMeasurementActivity);
+    void inject(PhysicalMeasurementChartActivity physicalMeasurementChartActivity);
     void inject(PhysicalMeasurementInputActivity physicalMeasurementInputActivity);
 }
