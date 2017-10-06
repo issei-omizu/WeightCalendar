@@ -32,10 +32,15 @@ public class PhysicalMeasurementActivity extends GoogleApiActivity
     @BindView(R.id.btn_Import)
     Button btn_Import;
 
+    @BindView(R.id.btn_Export)
+    Button btn_Export;
+
     @Inject
     PhysicalMeasurementViewModel physicalMeasurementViewModel;
 
     private PhysicalMeasurementComponent physicalMeasurementComponent;
+
+    private PhysicalMeasurementViewModel.ExecApi execApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +67,7 @@ public class PhysicalMeasurementActivity extends GoogleApiActivity
 
     @Override
     protected void onReadyToUseGoogleApi() {
-        this.physicalMeasurementViewModel.executeGoogleApi(this.googleApiViewModel.getCredential());
+        this.physicalMeasurementViewModel.executeGoogleApi(this.googleApiViewModel.getCredential(), this.execApi);
     }
 
     @Override public PhysicalMeasurementComponent getComponent() {
@@ -76,6 +81,14 @@ public class PhysicalMeasurementActivity extends GoogleApiActivity
 
     @OnClick(R.id.btn_Import)
     public void importFromGoogle() {
+        this.execApi = PhysicalMeasurementViewModel.ExecApi.Import;
+        // call google api
+        this.getResultsFromApi();
+    }
+
+    @OnClick(R.id.btn_Export)
+    public void exportFromGoogle() {
+        this.execApi = PhysicalMeasurementViewModel.ExecApi.Export;
         // call google api
         this.getResultsFromApi();
     }

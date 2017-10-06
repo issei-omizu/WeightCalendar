@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import jp.issei.omizu.weightcalendar.domain.PhysicalMeasurement;
 import jp.issei.omizu.weightcalendar.domain.interactor.DefaultObserver;
+import jp.issei.omizu.weightcalendar.domain.interactor.ExportPhysicalMeasurement;
 import jp.issei.omizu.weightcalendar.domain.interactor.GetPhysicalMeasurementList;
 import jp.issei.omizu.weightcalendar.domain.interactor.ImportPhysicalMeasurement;
 import jp.issei.omizu.weightcalendar.presentation.mapper.PhysicalMeasurementModelDataMapper;
@@ -20,15 +21,23 @@ public class PhysicalMeasurementViewModel {
 
     private GetPhysicalMeasurementList getPhysicalMeasurementListUseCase;
     private ImportPhysicalMeasurement importPhysicalMeasurementUseCase;
+    private ExportPhysicalMeasurement exportPhysicalMeasurementUseCase;
     private ObservableArrayList<PhysicalMeasurementModel> physicalMeasurements;
     private final PhysicalMeasurementModelDataMapper physicalMeasurementModelDataMapper;
+
+    public enum ExecApi {
+        Import,
+        Export
+    }
 
     @Inject
     public PhysicalMeasurementViewModel(GetPhysicalMeasurementList getPhysicalMeasurementListUseCase,
                                         ImportPhysicalMeasurement importPhysicalMeasurementUseCase,
+                                        ExportPhysicalMeasurement exportPhysicalMeasurementUseCase,
                                         PhysicalMeasurementModelDataMapper physicalMeasurementModelDataMapper) {
         this.getPhysicalMeasurementListUseCase = getPhysicalMeasurementListUseCase;
         this.importPhysicalMeasurementUseCase = importPhysicalMeasurementUseCase;
+        this.exportPhysicalMeasurementUseCase = exportPhysicalMeasurementUseCase;
         this.physicalMeasurementModelDataMapper = physicalMeasurementModelDataMapper;
     }
 
@@ -45,8 +54,21 @@ public class PhysicalMeasurementViewModel {
         this.importPhysicalMeasurementUseCase.execute(new PhysicalMeasurementListObserver(), params);
     }
 
-    public void executeGoogleApi(GoogleAccountCredential googleAccountCredential) {
-        this.importPhysicalMeasurement(googleAccountCredential);
+    private void exportPhysicalMeasurement(GoogleAccountCredential googleAccountCredential) {
+        ExportPhysicalMeasurement.Params params = ExportPhysicalMeasurement.Params.forCredential(googleAccountCredential);
+        this.exportPhysicalMeasurementUseCase.execute(new PhysicalMeasurementListObserver(), params);
+    }
+
+    public void executeGoogleApi(GoogleAccountCredential googleAccountCredential, ExecApi execApi) {
+        switch (execApi)
+        {
+            case Import:
+                this.importPhysicalMeasurement(googleAccountCredential);
+                break;
+            case Export:
+                this.exportPhysicalMeasurement(googleAccountCredential);
+                break;
+        }
     }
 
     public ObservableArrayList<PhysicalMeasurementModel> getPhysicalMeasurements() {

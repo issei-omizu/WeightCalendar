@@ -76,4 +76,11 @@ public class PhysicalMeasurementDataRepository implements PhysicalMeasurementRep
     PhysicalMeasurementEntity physicalMeasurementEntity = this.physicalMeasurementEntityDataMapper.transform(physicalMeasurement);
     return physicalMeasurementDataStore.setPhysicalMeasurementEntityDetails(physicalMeasurementEntity).map(this.physicalMeasurementEntityDataMapper::transform);
   }
+
+  @Override
+  public Observable<List<PhysicalMeasurement>> exportPhysicalMeasurements(GoogleAccountCredential credential) {
+    final PhysicalMeasurementDataStore physicalMeasurementDataStore = this.physicalMeasurementDataStoreFactory.createCloudDataStore(credential);
+    return physicalMeasurementDataStore.setPhysicalMeasurementEntityList().map(this.physicalMeasurementEntityDataMapper::transform);
+  }
+
 }

@@ -54,4 +54,9 @@ class RealmPhysicalMeasurementDataStore implements PhysicalMeasurementDataStore 
   public Observable<PhysicalMeasurementEntity> setPhysicalMeasurementEntityDetails(final PhysicalMeasurementEntity physicalMeasurementEntity) {
     return this.physicalMeasurementRealm.set(physicalMeasurementEntity);
   }
+
+  @Override
+  public Observable<List<PhysicalMeasurementEntity>> setPhysicalMeasurementEntityList() {
+    return null;
+  }
 }

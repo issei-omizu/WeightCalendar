@@ -39,4 +39,6 @@ public interface PhysicalMeasurementDataStore {
   Observable<PhysicalMeasurementEntity> physicalMeasurementEntityDetails(final Date date);
 
   Observable<PhysicalMeasurementEntity> setPhysicalMeasurementEntityDetails(final PhysicalMeasurementEntity physicalMeasurementEntity);
+
+  Observable<List<PhysicalMeasurementEntity>> setPhysicalMeasurementEntityList();
 }

@@ -60,4 +60,10 @@ class CloudPhysicalMeasurementDataStore implements PhysicalMeasurementDataStore 
   public Observable<PhysicalMeasurementEntity> setPhysicalMeasurementEntityDetails(final PhysicalMeasurementEntity physicalMeasurementEntity) {
     return null;
   }
+
+  @Override
+  public Observable<List<PhysicalMeasurementEntity>> setPhysicalMeasurementEntityList() {
+    return this.physicalMeasurementRealm.physicalMeasurementEntityList()
+            .doOnNext(CloudPhysicalMeasurementDataStore.this.googleApi::put);
+  }
 }

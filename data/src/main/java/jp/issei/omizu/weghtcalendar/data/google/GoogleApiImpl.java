@@ -227,11 +227,13 @@ public class GoogleApiImpl implements GoogleApi {
     String bodyFatPercentage = "";
     String bodyTemperature = "";
 
-    for (PhysicalMeasurementEntity weightItem : physicalMeasurementEntities) {
-      date = this.date2String(weightItem.getDate());
-      weight = weightItem.getWeight().toString();
-      bodyFatPercentage = weightItem.getBodyFatPercentage().toString();
-      bodyTemperature = weightItem.getBodyTemperature().toString();
+    for (PhysicalMeasurementEntity physicalMeasurementEntity : physicalMeasurementEntities) {
+      date = this.date2String(physicalMeasurementEntity.getDate());
+      weight = physicalMeasurementEntity.getWeight().toString();
+      bodyFatPercentage = physicalMeasurementEntity.getBodyFatPercentage().toString();
+      if (physicalMeasurementEntity.getBodyTemperature() != null) {
+        bodyTemperature = physicalMeasurementEntity.getBodyTemperature().toString();
+      }
 
       /**
        * 体重・体脂肪率が両方ともデータが設定されていない時はデータを

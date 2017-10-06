@@ -41,4 +41,6 @@ public interface PhysicalMeasurementRepository {
   Observable<PhysicalMeasurement> physicalMeasurement(final Date date);
 
   Observable<PhysicalMeasurement> setPhysicalMeasurement(final PhysicalMeasurement physicalMeasurement);
+
+  Observable<List<PhysicalMeasurement>> exportPhysicalMeasurements(GoogleAccountCredential credential);
 }
