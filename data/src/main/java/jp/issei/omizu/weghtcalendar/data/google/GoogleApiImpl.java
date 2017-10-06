@@ -18,6 +18,7 @@ package jp.issei.omizu.weghtcalendar.data.google;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -25,10 +26,25 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.sheets.v4.Sheets;
+import com.google.api.services.sheets.v4.model.AppendDimensionRequest;
+import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetRequest;
+import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetResponse;
+import com.google.api.services.sheets.v4.model.CellData;
+import com.google.api.services.sheets.v4.model.DeleteDimensionRequest;
+import com.google.api.services.sheets.v4.model.DimensionRange;
+import com.google.api.services.sheets.v4.model.ExtendedValue;
+import com.google.api.services.sheets.v4.model.GridCoordinate;
+import com.google.api.services.sheets.v4.model.Request;
+import com.google.api.services.sheets.v4.model.RowData;
+import com.google.api.services.sheets.v4.model.UpdateCellsRequest;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -118,6 +134,15 @@ public class GoogleApiImpl implements GoogleApi {
     });
   }
 
+  @Override
+  public void put(List<PhysicalMeasurementEntity> physicalMeasurementEntity) {
+    try {
+      this.exportDataFromApi(physicalMeasurementEntity);
+    } catch (Exception e) {
+
+    }
+  }
+
   /**
    * Fetch a list of names and majors of students in a sample spreadsheet:
    * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
@@ -158,6 +183,100 @@ public class GoogleApiImpl implements GoogleApi {
     return values;
   }
 
+  private void exportDataFromApi(List<PhysicalMeasurementEntity> physicalMeasurementEntities) throws IOException {
+    String spreadsheetId = "1CYOcWrQG7VG9wwPmf2VqI2Xqf-YclI04LiUB8Do_v0Q";
+    Integer worksheetId = 1144545091;
+
+    // 列削除テスト！
+    BatchUpdateSpreadsheetRequest del = new BatchUpdateSpreadsheetRequest();
+    DeleteDimensionRequest deleteDimensionRequest = new DeleteDimensionRequest();
+
+    DimensionRange dimensionRange = new DimensionRange();
+    dimensionRange.setSheetId(worksheetId);
+    dimensionRange.setDimension("COLUMNS");
+    dimensionRange.setStartIndex(0);
+    dimensionRange.setEndIndex(3);
+
+    deleteDimensionRequest.setRange(dimensionRange);
+
+
+    List<Request> requests = new ArrayList<>();
+
+    // 列削除
+    requests.add(new Request()
+            .setDeleteDimension(deleteDimensionRequest));
+
+    // 列追加
+    requests.add(new Request()
+            .setAppendDimension(new AppendDimensionRequest()
+                    .setSheetId(worksheetId)
+                    .setDimension("COLUMNS")
+                    .setLength(3)));
+
+    del.setRequests(requests);
+    BatchUpdateSpreadsheetResponse retDel = this.sheetsApi.spreadsheets().batchUpdate(spreadsheetId, del).execute();
+
+    requests.clear();
+
+    // 体重データ全登録
+    List<CellData> values;
+    Integer count = 1;
+
+    String date = "";
+    String weight = "";
+    String bodyFatPercentage = "";
+    String bodyTemperature = "";
+
+    for (PhysicalMeasurementEntity weightItem : physicalMeasurementEntities) {
+      date = this.date2String(weightItem.getDate());
+      weight = weightItem.getWeight().toString();
+      bodyFatPercentage = weightItem.getBodyFatPercentage().toString();
+      bodyTemperature = weightItem.getBodyTemperature().toString();
+
+      /**
+       * 体重・体脂肪率が両方ともデータが設定されていない時はデータを
+       * 登録しない。
+       */
+      if (weight != null || bodyFatPercentage != null) {
+        values = new ArrayList<>();
+
+        // date
+        values.add(new CellData()
+                .setUserEnteredValue(new ExtendedValue()
+                        .setStringValue(date)));
+
+        values.add(new CellData()
+                .setUserEnteredValue(new ExtendedValue()
+                        .setStringValue(weight)));
+
+        values.add(new CellData()
+                .setUserEnteredValue(new ExtendedValue()
+                        .setStringValue(bodyFatPercentage)));
+
+        values.add(new CellData()
+                .setUserEnteredValue(new ExtendedValue()
+                        .setStringValue(bodyTemperature)));
+
+        requests.add(new Request()
+                .setUpdateCells(new UpdateCellsRequest()
+                        .setStart(new GridCoordinate()
+                                .setSheetId(worksheetId)
+                                .setRowIndex(count)
+                                .setColumnIndex(0))
+                        .setRows(Arrays.asList(
+                                new RowData().setValues(values)))
+                        .setFields("userEnteredValue,userEnteredFormat.backgroundColor")));
+
+        count++;
+      }
+    }
+
+    del.clear();
+    del.setRequests(requests);
+    retDel = this.sheetsApi.spreadsheets().batchUpdate(spreadsheetId, del).execute();
+
+  }
+
 //  private String getUserEntitiesFromApi() throws MalformedURLException {
 //    return ApiConnection.createGET(API_URL_GET_USER_LIST).requestSyncCall();
 //  }
@@ -182,4 +301,21 @@ public class GoogleApiImpl implements GoogleApi {
 
     return isConnected;
   }
+
+  /**
+   * 日付時刻文字列を Date型に変換
+   *
+   * @param date
+   * @return
+   */
+  private String date2String(Date date) {
+    String dateDate = "";
+
+    // 日付文字列→date型変換フォーマットを指定して
+    SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd");
+    dateDate = sdf1.format(date);
+
+    return dateDate;
+  }
+
 }

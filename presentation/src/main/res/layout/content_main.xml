@@ -1,71 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <import type="jp.issei.omizu.weightcalendar.presentation.viewmodel.PhysicalMeasurementInputViewModel"/>
         <variable name="viewModel" type="PhysicalMeasurementInputViewModel"/>
     </data>
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="jp.issei.omizu.weightcalendar.presentation.view.activity.PhysicalMeasurementInputActivity"
-        tools:showIn="@layout/activity_physical_measurement_input">
+        android:id="@+id/clMain">
 
         <DatePicker
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:day="@{viewModel.day}"
             android:month="@{viewModel.month}"
             android:onDateChanged="@{viewModel.dateChanged}"
-            android:year="@{viewModel.year}" />
+            android:year="@{viewModel.year}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.1"
+            android:id="@+id/datePicker2" />
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_width="336dp"
+            android:layout_height="64dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/linearLayout"
+            android:layout_marginBottom="56dp"
+            app:layout_constraintHorizontal_bias="0.45">
 
             <EditText
-                android:layout_width="wrap_content"
+                android:id="@+id/editWeight"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textAlignment="center"
-                android:textSize="40sp"
+                android:textSize="20sp"
                 android:inputType="number|numberDecimal"
                 android:ems="10"
                 android:text="@={viewModel.weight}"
-                android:onTextChanged="@{viewModel.onWeightChanged}" />
+                android:onTextChanged="@{viewModel.onWeightChanged}"
+                android:layout_width="wrap_content" />
 
             <EditText
+                android:id="@+id/editBodyFatPercentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textAlignment="center"
-                android:textSize="40sp"
+                android:textSize="20sp"
                 android:inputType="number|numberDecimal"
                 android:ems="10"
                 android:text="@={viewModel.bodyFatPercentage}"
                 android:onTextChanged="@{viewModel.onBodyFatPercentageChanged}" />
 
             <EditText
+                android:id="@+id/editBodyTemperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textAlignment="center"
-                android:textSize="40sp"
+                android:textSize="20sp"
                 android:inputType="number|numberDecimal"
                 android:ems="10"
                 android:text="@={viewModel.bodyTemperature}"
                 android:onTextChanged="@{viewModel.onBodyTemperatureChanged}" />
+
         </LinearLayout>
 
-    </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/layoutButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <Button
+                android:text="OK"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnOk"
+                android:layout_weight="1"
+                tools:layout_editor_absoluteY="0dp"
+                tools:layout_editor_absoluteX="0dp" />
+
+            <Button
+                android:text="Cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnCancel"
+                android:layout_weight="1"
+                tools:layout_editor_absoluteY="0dp"
+                tools:layout_editor_absoluteX="0dp" />
+
+            <Button
+                android:text="Clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnClear"
+                android:layout_weight="1"
+                tools:layout_editor_absoluteY="0dp"
+                tools:layout_editor_absoluteX="0dp" />
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
 </layout>

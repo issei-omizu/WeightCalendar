@@ -70,7 +70,7 @@ public class PhysicalMeasurementInputViewModel extends BaseObservable {
         notifyPropertyChanged(jp.issei.omizu.weightcalendar.BR.bodyTemperature);
     }
 
-    private void updatePhysicalMeasurement() {
+    public void updatePhysicalMeasurement() {
         PhysicalMeasurement physicalMeasurement = new PhysicalMeasurement();
 
         Calendar calendar = Calendar.getInstance();
@@ -92,17 +92,14 @@ public class PhysicalMeasurementInputViewModel extends BaseObservable {
 
     public void onWeightChanged(CharSequence s, int start, int before, int count) {
         this.weight = s.toString();
-        this.updatePhysicalMeasurement();
     }
 
     public void onBodyFatPercentageChanged(CharSequence s, int start, int before, int count) {
         this.bodyFatPercentage = s.toString();
-        this.updatePhysicalMeasurement();
     }
 
     public void onBodyTemperatureChanged(CharSequence s, int start, int before, int count) {
         this.bodyTemperature = s.toString();
-        this.updatePhysicalMeasurement();
     }
 
     @Inject

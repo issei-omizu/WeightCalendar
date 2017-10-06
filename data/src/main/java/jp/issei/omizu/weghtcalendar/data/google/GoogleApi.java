@@ -46,4 +46,7 @@ public interface GoogleApi {
    * @param userId The user id used to get user data.
    */
   Observable<PhysicalMeasurementEntity> physicalMeasurementEntityById(final int userId);
+
+
+  void put(List<PhysicalMeasurementEntity> physicalMeasurementEntity);
 }

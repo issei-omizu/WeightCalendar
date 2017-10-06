@@ -155,4 +155,7 @@ dependencies {
     compile 'commons-lang:commons-lang:2.6'
 
     compile "org.projectlombok:lombok:1.16.16"
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

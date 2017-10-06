@@ -2,11 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <!--<data>-->
-        <!--<variable-->
-            <!--name="date"-->
-            <!--type="jp.issei.omizu.weightcalendar.presentation.view.component.PickedDate"/>-->
-    <!--</data>-->
     <data>
         <import type="jp.issei.omizu.weightcalendar.presentation.viewmodel.PhysicalMeasurementInputViewModel"/>
         <variable name="viewModel" type="PhysicalMeasurementInputViewModel"/>
@@ -18,26 +13,7 @@
         android:fitsSystemWindows="true"
         tools:context="jp.issei.omizu.weightcalendar.presentation.view.activity.PhysicalMeasurementInputActivity">
 
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary" />
-
-        </android.support.design.widget.AppBarLayout>
-
         <include layout="@layout/content_main" app:viewModel="@{viewModel}"/>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:src="@android:drawable/ic_dialog_email" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

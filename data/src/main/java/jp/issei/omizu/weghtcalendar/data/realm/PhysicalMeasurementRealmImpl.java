@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Action;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
@@ -35,7 +36,7 @@ import jp.issei.omizu.weghtcalendar.data.exception.NetworkConnectionException;
 public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
 
   private final Context context;
-  private final Realm realm;
+//  private final Realm realm;
   private final PhysicalMeasurementEntityRealmMapper physicalMeasurementEntityRealmMapper;
 
   /**
@@ -49,19 +50,20 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
     }
     this.context = context.getApplicationContext();
 
-    this.realm = Realm.getDefaultInstance();
+//    this.realm = Realm.getDefaultInstance();
     this.physicalMeasurementEntityRealmMapper = new PhysicalMeasurementEntityRealmMapper();
   }
 
   @Override
   public Observable<List<PhysicalMeasurementEntity>> physicalMeasurementEntityList() {
     return Observable.create(emitter -> {
-      try {
-        Realm realm = Realm.getDefaultInstance();
+      try (Realm realm = Realm.getDefaultInstance()) {
         final RealmResults<PhysicalMeasurement> realmResults = realm
                 .where(PhysicalMeasurement.class)
                 .findAll()
+//                .sort("date", Sort.DESCENDING);
                 .sort("date", Sort.DESCENDING);
+
         realmResults.size();
 
         if (realmResults.size() > 0) {
@@ -79,8 +81,7 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
   @Override
   public Observable<PhysicalMeasurementEntity> get(final Date date) {
     return Observable.create(emitter -> {
-      try {
-        Realm realm = Realm.getDefaultInstance();
+      try (Realm realm = Realm.getDefaultInstance()) {
         final PhysicalMeasurement physicalMeasurement = realm.where(PhysicalMeasurement.class).equalTo("date", date).findFirst();
         if (physicalMeasurement != null) {
           emitter.onNext(this.physicalMeasurementEntityRealmMapper.transform(physicalMeasurement));
@@ -95,8 +96,7 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
   @Override
   public Observable<PhysicalMeasurementEntity> set(final PhysicalMeasurementEntity physicalMeasurementEntity) {
     return Observable.create(emitter -> {
-      Realm realm = Realm.getDefaultInstance();
-      try {
+      try (Realm realm = Realm.getDefaultInstance()) {
         PhysicalMeasurement physicalMeasurement = this.update(physicalMeasurementEntity);
         if (physicalMeasurement != null) {
           emitter.onNext(this.physicalMeasurementEntityRealmMapper.transform(physicalMeasurement));
@@ -106,11 +106,7 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
         }
         emitter.onComplete();
       } catch (Exception e) {
-        realm.cancelTransaction();
         emitter.onError(new NetworkConnectionException(e.getCause()));
-      }
-      finally {
-        realm.close();
       }
     });
   }
@@ -135,8 +131,7 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
   }
 
   private void insert(final PhysicalMeasurementEntity physicalMeasurementEntity) {
-    Realm realm = Realm.getDefaultInstance();
-    try {
+    try (Realm realm = Realm.getDefaultInstance()) {
       realm.executeTransaction(_realm -> {
         PhysicalMeasurement transformPhysicalMeasurement = this.physicalMeasurementEntityRealmMapper.transform(physicalMeasurementEntity);
         String id = UUID.randomUUID().toString();
@@ -146,17 +141,12 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
         physicalMeasurement.setBodyFatPercentage(transformPhysicalMeasurement.getBodyFatPercentage());
         physicalMeasurement.setBodyTemperature(transformPhysicalMeasurement.getBodyTemperature());
       });
-    } catch (Exception e) {
-      realm.cancelTransaction();
-    } finally {
-      realm.close();
     }
   }
 
   private PhysicalMeasurement update(final PhysicalMeasurementEntity physicalMeasurementEntity) {
-    Realm realm = Realm.getDefaultInstance();
     PhysicalMeasurement physicalMeasurement = null;
-    try {
+    try (Realm realm = Realm.getDefaultInstance()) {
       physicalMeasurement = realm.where(PhysicalMeasurement.class).equalTo("date", physicalMeasurementEntity.getDate()).findFirst();
       if (physicalMeasurement != null) {
         realm.beginTransaction();
@@ -166,11 +156,6 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
         physicalMeasurement.setBodyTemperature(physicalMeasurementEntity.getBodyTemperature());
         realm.commitTransaction();
       }
-    } catch (Exception e) {
-      realm.cancelTransaction();
-    }
-    finally {
-      realm.close();
     }
 
     return physicalMeasurement;
@@ -178,16 +163,10 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
 
   @Override
   public void deleteAll() {
-    Realm realm = Realm.getDefaultInstance();
-    try {
+    try (Realm realm = Realm.getDefaultInstance()) {
       realm.beginTransaction();
       realm.deleteAll();
       realm.commitTransaction();
-    } catch (Exception e) {
-      realm.cancelTransaction();
-    }
-    finally {
-      realm.close();
     }
   }
 
