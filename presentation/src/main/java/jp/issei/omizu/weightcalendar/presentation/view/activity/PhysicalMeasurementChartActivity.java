@@ -163,12 +163,16 @@ public class PhysicalMeasurementChartActivity extends BaseActivity
         ArrayList<Entry> weight = new ArrayList<>();
         ArrayList<Entry> bodyFatPercentage = new ArrayList<>();
         for (PhysicalMeasurementModel val : listPhysicalMeasurement) {
-            weight.add(new Entry(val.getDate().getTime(), val.getWeight()));
-            bodyFatPercentage.add(new Entry(val.getDate().getTime(), val.getBodyFatPercentage()));
+            if (val.getWeight() != null) {
+                weight.add(new Entry(val.getDate().getTime(), val.getWeight()));
+            }
+            if (val.getBodyFatPercentage() != null) {
+                bodyFatPercentage.add(new Entry(val.getDate().getTime(), val.getBodyFatPercentage()));
+            }
         }
 
         // create a dataset and give it a type
-        LineDataSet set1 = new LineDataSet(weight, "DataSet 1");
+        LineDataSet set1 = new LineDataSet(weight, "体重");
         set1.setAxisDependency(YAxis.AxisDependency.LEFT);
         set1.setColor(ColorTemplate.getHoloBlue());
         set1.setValueTextColor(ColorTemplate.getHoloBlue());
@@ -181,7 +185,7 @@ public class PhysicalMeasurementChartActivity extends BaseActivity
         set1.setDrawCircleHole(false);
 
 
-        LineDataSet set3 = new LineDataSet(bodyFatPercentage, "DataSet 3");
+        LineDataSet set3 = new LineDataSet(bodyFatPercentage, "体脂肪率");
         set3.setAxisDependency(YAxis.AxisDependency.RIGHT);
         set3.setColor(Color.YELLOW);
         set3.setCircleColor(Color.WHITE);

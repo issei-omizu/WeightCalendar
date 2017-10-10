@@ -62,7 +62,7 @@ public class PhysicalMeasurementRealmImpl implements PhysicalMeasurementRealm {
                 .where(PhysicalMeasurement.class)
                 .findAll()
 //                .sort("date", Sort.DESCENDING);
-                .sort("date", Sort.DESCENDING);
+                .sort("date", Sort.ASCENDING);
 
         realmResults.size();
 
