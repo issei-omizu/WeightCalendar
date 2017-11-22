@@ -3,46 +3,94 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".presentation.view.activity.MainActivity">
+    tools:context=".presentation.view.activity.MainActivity"
+    android:background="@color/bootstrap_brand_primary"
+    android:weightSum="1">
 
-    <Button
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_Workout"
-        android:text="Workout" />
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
-    <Button
-        android:text="Physical Measurement"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_PhysicalMeasurement" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/btn_Workout"
+            android:text="Workout"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:paddingStart="20dp"
+            android:drawablePadding="20dp"
+            android:textAlignment="viewStart"
+            android:drawableLeft="@drawable/muscle" />
 
-    <Button
-        android:text="Physical Measurement Input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_PhysicalMeasurementInput" />
+        <Button
+            android:text="Physical Measurement Input"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/btn_PhysicalMeasurementInput"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:background="@color/bootstrap_brand_success"
+            android:drawablePadding="20dp"
+            android:textAlignment="viewStart"
+            android:drawableLeft="@drawable/input"
+            android:paddingStart="20dp" />
 
-    <Button
-        android:text="Physical Measurement Chart"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_PhysicalMeasurementChart" />
+        <Button
+            android:text="Physical Measurement Chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/btn_PhysicalMeasurementChart"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="0dp"
+            android:paddingLeft="0dp"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:background="@android:color/holo_purple"
+            android:drawableLeft="@drawable/chart4"
+            android:drawablePadding="20dp"
+            android:textAlignment="viewStart"
+            android:paddingStart="20dp" />
 
-    <Button
-        android:text="Backup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_Backup" />
+        <Button
+            android:text="Settings"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/btn_settings"
+            android:layout_weight="1"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:textAlignment="viewStart"
+            android:drawablePadding="20dp"
+            android:drawableLeft="@drawable/setting" />
 
-    <Button
-        android:text="Restore"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_Restore" />
+        <Button
+            android:text="Backup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/btn_Backup" />
+
+        <Button
+            android:text="Restore"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/btn_Restore" />
+
+        <Button
+            android:text="Physical Measurement"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/btn_PhysicalMeasurement" />
+    </LinearLayout>
+
 </LinearLayout>

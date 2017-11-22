@@ -44,6 +44,9 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.btn_Restore)
     Button btn_Restore;
 
+    @BindView(R.id.btn_settings)
+    Button btn_settings;
+
     private String IMPORT_REALM_FILE_NAME = "default.realm"; // Eventually replace this if you're using a custom db name
 
     @Override
@@ -79,6 +82,11 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.btn_PhysicalMeasurementChart)
     public void navigateToPhysicalMeasurementChart() {
+        this.navigator.navigateToPhysicalMeasurementChart(this);
+    }
+
+    @OnClick(R.id.btn_settings)
+    public void navigateToSettings() {
         this.navigator.navigateToPhysicalMeasurementChart(this);
     }
 
