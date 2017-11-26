@@ -23,6 +23,7 @@ import javax.inject.Inject;
 import jp.issei.omizu.weightcalendar.presentation.view.activity.PhysicalMeasurementActivity;
 import jp.issei.omizu.weightcalendar.presentation.view.activity.PhysicalMeasurementChartActivity;
 import jp.issei.omizu.weightcalendar.presentation.view.activity.PhysicalMeasurementInputActivity;
+import jp.issei.omizu.weightcalendar.presentation.view.activity.SettingsActivity;
 import jp.issei.omizu.weightcalendar.presentation.view.activity.WorkoutActivity;
 import jp.issei.omizu.weightcalendar.presentation.viewmodel.PhysicalMeasurementViewModel;
 
@@ -80,6 +81,18 @@ public class Navigator {
   public void navigateToPhysicalMeasurementChart(Context context) {
     if (context != null) {
       Intent intentToLaunch = PhysicalMeasurementChartActivity.getCallingIntent(context);
+      context.startActivity(intentToLaunch);
+    }
+  }
+
+  /**
+   * Goes to the Settings screen.
+   *
+   * @param context A Context needed to open the destiny activity.
+   */
+  public void navigateToSettings(Context context) {
+    if (context != null) {
+      Intent intentToLaunch = SettingsActivity.getCallingIntent(context);
       context.startActivity(intentToLaunch);
     }
   }

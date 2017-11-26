@@ -71,26 +71,6 @@
             android:drawablePadding="20dp"
             android:drawableLeft="@drawable/setting" />
 
-        <Button
-            android:text="Backup"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/btn_Backup" />
-
-        <Button
-            android:text="Restore"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/btn_Restore" />
-
-        <Button
-            android:text="Physical Measurement"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/btn_PhysicalMeasurement" />
     </LinearLayout>
 
 </LinearLayout>

@@ -22,7 +22,8 @@
         <activity android:name=".presentation.view.activity.WorkoutActivity" />
         <activity android:name=".presentation.view.activity.PhysicalMeasurementActivity" />
         <activity android:name=".presentation.view.activity.PhysicalMeasurementInputActivity" />
-        <activity android:name=".presentation.view.activity.PhysicalMeasurementChartActivity"></activity>
+        <activity android:name=".presentation.view.activity.PhysicalMeasurementChartActivity" />
+        <activity android:name=".presentation.view.activity.SettingsActivity"></activity>
     </application>
 
 </manifest>
