@@ -32,6 +32,7 @@
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" name="rxjava-2.0.2" level="project" />
     <orderEntry type="library" exported="" name="arrow-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="lombok-1.16.16" level="project" />
     <orderEntry type="library" exported="" name="google-api-client-1.22.0" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-android-1.22.0" level="project" />
     <orderEntry type="library" exported="" name="reactive-streams-1.0.0" level="project" />

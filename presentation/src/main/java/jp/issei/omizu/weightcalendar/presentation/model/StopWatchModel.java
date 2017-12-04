@@ -1,5 +1,7 @@
 package jp.issei.omizu.weightcalendar.presentation.model;
 
+import android.content.Context;
+
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
@@ -22,19 +24,26 @@ import io.reactivex.subjects.Subject;
  * ストップウォッチの機能を実装したロジッククラス
  */
 public class StopWatchModel {
-    // ストップウォッチの状態を更新＆通知するための Subject 群
+    private SoundController mSoundController = null;
 
+    // ストップウォッチの状態を更新＆通知するための Subject 群
     private final BehaviorSubject<Long> _time = BehaviorSubject.<Long>createDefault(0L); // タイマー時間
+    private final BehaviorSubject<Long> _trainingTime = BehaviorSubject.<Long>createDefault(0L); // タイマー時間
+    private final BehaviorSubject<Long> _restTime = BehaviorSubject.<Long>createDefault(0L); // タイマー時間
     private final BehaviorSubject<Boolean> _isRunning = BehaviorSubject.<Boolean>createDefault(false); // 実行中か？
     private final BehaviorSubject<List<Long>> _laps = BehaviorSubject.<List<Long>>createDefault(Collections.<Long>emptyList()); // 経過時間群
     private final BehaviorSubject<Boolean> _isVisibleMillis = BehaviorSubject.<Boolean>createDefault(true); // ミリ秒表示するか？
 
     // スレッドを超えて値を更新(onNext)するための SerializedSubject 群
     private final Subject<Long> _timeSerialized = _time.toSerialized();
+    private final Subject<Long> _trainingTimeSerialized = _trainingTime.toSerialized();
+    private final Subject<Long> _restTimeSerialized = _restTime.toSerialized();
     private final Subject<Boolean> _isRunningSerialized = _isRunning.toSerialized();
 
     // タイマーの購読状況
     private Disposable _timerSubscription = null;
+    private Disposable _intervalSubscription = null;
+    private Disposable _restSubscription = null;
 
     private String _formattedFastestLap;
     private String _formattedWorstLap;
@@ -42,11 +51,15 @@ public class StopWatchModel {
     // Model として公開するプロパティ
     // Subject をそのまま公開したくないので Observable<> にしている
     public final Observable<String> formattedTime;
+    public final Observable<String> trainingTime;
+    public final Observable<String> restTime;
     public final Observable<List<String>> formattedLaps;
     public final Observable<Boolean> isRunning = _isRunning;
     public final Observable<Boolean> isVisibleMillis = _isVisibleMillis;
 
     private final AtomicLong _startTime = new AtomicLong(0L);
+    private final AtomicLong _startTrainingTime = new AtomicLong(0L);
+    private final AtomicLong _startRestTime = new AtomicLong(0L);
 
     private String formatTime(long t, String format) {
         final SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.getDefault());
@@ -57,6 +70,12 @@ public class StopWatchModel {
         Observable<String> _timeFormat = _isVisibleMillis.map(visible -> visible ? "mm:ss.SSS" : "mm:ss");
 
         formattedTime = Observable.combineLatest(_time, _timeFormat,
+                (t, f) -> formatTime(t, f));
+
+        trainingTime = Observable.combineLatest(_trainingTime, _timeFormat,
+                (t, f) -> formatTime(t, f));
+
+        restTime = Observable.combineLatest(_restTime, _timeFormat,
                 (t, f) -> formatTime(t, f));
 
         formattedLaps = Observable.combineLatest(_laps, _timeFormat,
@@ -74,12 +93,18 @@ public class StopWatchModel {
                 });
     }
 
+    public void initialize(Context context)
+    {
+        mSoundController = new SoundController(context);
+    }
+
     /**
      * 計測を開始または終了する(time プロパティの更新を開始する)
      */
     public void startOrStop() {
         if (!_isRunning.getValue()) {
             start();
+            startInterval();
         } else {
             stop();
         }
@@ -90,9 +115,16 @@ public class StopWatchModel {
             stop();
         }
 
+        startTimer();
+    }
+
+    private void startTimer() {
+        mSoundController.playStartSound();
         _timerSubscription =
-                Observable.interval(100, TimeUnit.MILLISECONDS)
+                Observable.interval(1000, TimeUnit.MILLISECONDS)
                         .compose((Observable<Long> x) -> {
+                            mSoundController.playStartSound();
+
                             // 開始時に Laps をクリア、実行中フラグをON
                             _laps.onNext(Collections.<Long>emptyList());
                             _isRunningSerialized.onNext(true);
@@ -101,25 +133,152 @@ public class StopWatchModel {
                         })
                         .subscribe((Long notUse) -> {
                             // タイマー値を通知
-                            updateTime();
+                            updateTimeAndSound();
                         });
     }
 
+    private void startInterval() {
+        stopInterval();
+
+        _intervalSubscription =
+                Observable.interval(60000, TimeUnit.MILLISECONDS)
+                        .compose((Observable<Long> x) -> {
+                            mSoundController.playStartSound();
+                            _startTrainingTime.set(System.currentTimeMillis());
+                            return x;
+                        })
+                        .subscribe((Long notUse) -> {
+                            stopInterval();
+                            startRest();
+                        });
+    }
+
+    private void startRest() {
+        stopRest();
+
+        // start interval
+        _restSubscription =
+                Observable.interval(1000, TimeUnit.MILLISECONDS)
+                        .compose((Observable<Long> x) -> {
+                            mSoundController.playTrainingEndSound();
+                            _startRestTime.set(System.currentTimeMillis());
+                            return x;
+                        })
+                        .subscribe((Long notUse) -> {
+                            long time = System.currentTimeMillis() - _startRestTime.get();
+                            if (isRestSeconds(time)) {
+                                _startRestTime.set(0L);
+                                updateRestTime(0);
+
+                                stopRest();
+                                startInterval();
+                            } else {
+                                updateRestTime(time);
+                            }
+                        });
+    }
+
+    private void updateTimeAndSound() {
+        long currentTime = System.currentTimeMillis();
+        long time = currentTime - _startTime.get();
+        long trainingTime = currentTime - _startTrainingTime.get();
+        updateTime(time);
+        updateTrainingTime(trainingTime);
+        sound(trainingTime);
+    }
+
     private void updateTime() {
-        _timeSerialized.onNext(System.currentTimeMillis() - _startTime.get());
+        long time = System.currentTimeMillis() - _startTime.get();
+        updateTime(time);
+    }
+
+    private void updateTime(long time) {
+        _timeSerialized.onNext(time);
+    }
+
+    private void updateTrainingTime(long time) {
+        _trainingTimeSerialized.onNext(time);
+    }
+
+    private void updateRestTime(long time) {
+        _restTimeSerialized.onNext(time);
+    }
+
+    private void sound(long time) {
+        if (isPastSeconds(time)) {
+            mSoundController.playPastSecondsSound();
+        }
+    }
+
+    private boolean isStartTime(long time) {
+        boolean result = false;
+        Date now = new Date(time);
+
+        if (now.getSeconds() == 0) {
+            result = true;
+        }
+
+        return result;
+    }
+
+    private boolean isPastSeconds(long time) {
+        boolean result = false;
+        Date now = new Date(time);
+        int seconds = 30;
+
+        if (now.getSeconds() > 0) {
+            if (now.getSeconds() % seconds == 0) {
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
+    private boolean isRestSeconds(long time) {
+        boolean result = false;
+        Date now = new Date(time);
+        int seconds = 15;
+
+        if (now.getSeconds() > 0) {
+            if (now.getSeconds() % seconds == 0) {
+                result = true;
+            }
+        }
+
+        return result;
     }
 
     private void stop() {
+        mSoundController.forceStop();
 
-        updateTime();
+        stopTimer();
+        stopInterval();
+        stopRest();
 
+        // 実行終了を通知
+        _isRunningSerialized.onNext(false);
+    }
+
+    private void stopTimer() {
         if (_timerSubscription != null) {
             _timerSubscription.dispose();
             _timerSubscription = null;
         }
+    }
 
-        // 実行終了を通知
-        _isRunningSerialized.onNext(false);
+    private void stopInterval() {
+        if (_intervalSubscription != null) {
+            _intervalSubscription.dispose();
+            _intervalSubscription = null;
+        }
+    }
+
+    private void stopRest() {
+        if (_restSubscription != null) {
+            _restSubscription.dispose();
+            _restSubscription = null;
+        }
     }
 
     /**

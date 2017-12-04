@@ -1,5 +1,7 @@
 package jp.issei.omizu.weightcalendar.presentation.viewmodel;
 
+import android.content.Context;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -24,6 +26,8 @@ public class WorkoutViewModel implements Disposable {
 
     /** タイマー時間 */
     public final ReadOnlyRxProperty<String> formattedTime;
+    public final ReadOnlyRxProperty<String> trainingTime;
+    public final ReadOnlyRxProperty<String> restTime;
     /** 実行中かどうか？ */
     public final ReadOnlyRxProperty<Boolean> isRunning;
     /** 経過時間群 */
@@ -35,9 +39,12 @@ public class WorkoutViewModel implements Disposable {
     public final RxCommand<Nothing> lapCommand;
     public final RxCommand<Nothing> toggleVisibleMillisCommand;
 
+    StopWatchModel mStopWatch = null;
+
     // コンストラクタ
     @Inject
     public WorkoutViewModel(StopWatchModel stopWatch) {
+        mStopWatch = stopWatch;
 
         // StopWatchModel のプロパティをそのまま公開してるだけ
         isRunning = new ReadOnlyRxProperty<>(stopWatch.isRunning);
@@ -48,6 +55,8 @@ public class WorkoutViewModel implements Disposable {
         // フォーマットされた時間を表す Observable（time と timeFormat のどちらかが変更されたら更新）
         // 表示用にthrottleで10ms毎に間引き。View側でやってもよいかも。
         formattedTime = new ReadOnlyRxProperty<>(stopWatch.formattedTime);
+        trainingTime = new ReadOnlyRxProperty<>(stopWatch.trainingTime);
+        restTime = new ReadOnlyRxProperty<>(stopWatch.restTime);
 
         // STOP されたら、最速／最遅ラップを表示して、LapActivity へ遷移
         _subscriptions.add(
@@ -83,9 +92,15 @@ public class WorkoutViewModel implements Disposable {
         });
     }
 
+    public void initialize(Context context)
+    {
+        mStopWatch.initialize(context);
+    }
+
     @Override
     public void dispose() {
         _subscriptions.dispose();
+        mStopWatch.unsubscribe();
     }
 
     @Override

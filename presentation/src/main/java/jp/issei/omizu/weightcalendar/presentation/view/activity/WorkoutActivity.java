@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import javax.inject.Inject;
 
@@ -30,9 +31,14 @@ public class WorkoutActivity extends BaseActivity implements HasComponent<Workou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
 
+        // Keep screen on
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         this.initializeInjector();
         final ActivityWorkoutBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_workout);
         binding.setViewModel(stopWatchViewModel);
+
+        stopWatchViewModel.initialize(this);
     }
 
     private void initializeInjector() {
@@ -42,6 +48,12 @@ public class WorkoutActivity extends BaseActivity implements HasComponent<Workou
                 .build();
 
         this.workoutComponent.inject(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopWatchViewModel.dispose();
+        super.onDestroy();
     }
 
     @Override public WorkoutComponent getComponent() {
