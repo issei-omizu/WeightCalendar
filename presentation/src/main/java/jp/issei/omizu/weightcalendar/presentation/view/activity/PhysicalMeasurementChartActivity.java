@@ -92,9 +92,9 @@ public class PhysicalMeasurementChartActivity extends BaseActivity
         mChart.setHighlightPerDragEnabled(true);
 
         // set an alternative background color
-//        mChart.setBackgroundColor(Color.WHITE);
-        mChart.setBackgroundColor(Color.LTGRAY);
-//        mChart.setViewPortOffsets(0f, 0f, 0f, 0f);
+        mChart.setBackgroundColor(Color.WHITE);
+//        mChart.setBackgroundColor(Color.LTGRAY);
+//        mChart.setViewPortOffsets(0f, 10f, 0f, 10f);
 
         // add data
         this.setData(listPhysicalMeasurement);
@@ -106,22 +106,27 @@ public class PhysicalMeasurementChartActivity extends BaseActivity
         // modify the legend ...
         l.setForm(Legend.LegendForm.LINE);
         l.setTypeface(mTfLight);
-        l.setTextSize(11f);
-        l.setTextColor(Color.WHITE);
+        l.setTextSize(16f);
+        l.setTextColor(Color.GRAY);
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
         l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         l.setDrawInside(false);
+        l.setXEntrySpace(15f);
+        l.setYEntrySpace(15f);
+        l.setYOffset(15f);
 //        l.setYOffset(11f);
 
         XAxis xAxis = mChart.getXAxis();
+        xAxis.setYOffset(-15f);
 //        xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
         xAxis.setTypeface(mTfLight);
-        xAxis.setTextSize(10f);
+        xAxis.setTextSize(16f);
         xAxis.setTextColor(Color.WHITE);
         xAxis.setDrawAxisLine(false);
         xAxis.setDrawGridLines(false);
-        xAxis.setTextColor(Color.rgb(255, 192, 56));
+//        xAxis.setTextColor(Color.rgb(255, 192, 56));
+        xAxis.setTextColor(Color.GRAY);
 //        xAxis.setCenterAxisLabels(true);
         xAxis.setGranularity(1f); // one hour
         xAxis.setValueFormatter(new IAxisValueFormatter() {
@@ -137,6 +142,7 @@ public class PhysicalMeasurementChartActivity extends BaseActivity
         });
 
         YAxis leftAxis = mChart.getAxisLeft();
+
 //        leftAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
         leftAxis.setTypeface(mTfLight);
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
@@ -146,6 +152,7 @@ public class PhysicalMeasurementChartActivity extends BaseActivity
         leftAxis.setAxisMaximum(70f);
 //        leftAxis.setYOffset(-9f);
         leftAxis.setTextColor(Color.rgb(255, 192, 56));
+        leftAxis.setAxisLineWidth(3f);
 
 //        YAxis rightAxis = mChart.getAxisRight();
 //        rightAxis.setEnabled(false);
@@ -177,12 +184,12 @@ public class PhysicalMeasurementChartActivity extends BaseActivity
         set1.setColor(ColorTemplate.getHoloBlue());
         set1.setValueTextColor(ColorTemplate.getHoloBlue());
         set1.setLineWidth(1.5f);
-        set1.setDrawCircles(false);
+        set1.setDrawCircles(true);
         set1.setDrawValues(false);
         set1.setFillAlpha(65);
         set1.setFillColor(ColorTemplate.getHoloBlue());
         set1.setHighLightColor(Color.rgb(244, 117, 117));
-        set1.setDrawCircleHole(false);
+        set1.setDrawCircleHole(true);
 
 
         LineDataSet set3 = new LineDataSet(bodyFatPercentage, "体脂肪率");
