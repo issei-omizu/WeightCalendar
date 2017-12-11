@@ -1,6 +1,5 @@
 //apply plugin: 'com.android.application'
 //apply plugin: 'com.neenbedankt.android-apt'
-//apply plugin: 'me.tatarka.retrolambda'
 //
 //android {
 //    def globalConfiguration = rootProject.extensions.getByName("ext")
@@ -76,16 +75,15 @@
 //
 
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "jp.issei.omizu.weightcalendar"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 2
         versionName "2.0"
         // Enabling multiDex support.
@@ -150,11 +148,12 @@ dependencies {
     compile presentationDependencies.dagger
     annotationProcessor presentationDependencies.daggerCompiler
 
-    compile 'com.facebook.stetho:stetho:1.4.1'
+    compile 'com.facebook.stetho:stetho:1.5.0'
     compile 'com.uphyca:stetho_realm:2.0.0'
     compile 'commons-lang:commons-lang:2.6'
 
-    compile "org.projectlombok:lombok:1.16.16"
+    compile "org.projectlombok:lombok:1.16.18"
+    annotationProcessor 'org.projectlombok:lombok:1.16.18'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'

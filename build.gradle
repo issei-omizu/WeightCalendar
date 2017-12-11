@@ -3,10 +3,11 @@ apply from: rootProject.file('dependencies.gradle')
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'me.tatarka:gradle-retrolambda:3.6.0'
     }
 }
@@ -20,6 +21,7 @@ allprojects {
         maven {
             url 'https://github.com/uPhyca/stetho-realm/raw/master/maven-repo'
         }
+        google()
     }
     ext {
         androidApplicationId = 'jp.issei.omizu.weightcalendar'

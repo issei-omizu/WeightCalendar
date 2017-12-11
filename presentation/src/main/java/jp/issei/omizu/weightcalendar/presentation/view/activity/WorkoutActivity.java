@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.Button;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import jp.issei.omizu.weightcalendar.R;
 import jp.issei.omizu.weightcalendar.databinding.ActivityWorkoutBinding;
 import jp.issei.omizu.weightcalendar.presentation.internal.di.HasComponent;
@@ -26,6 +30,9 @@ public class WorkoutActivity extends BaseActivity implements HasComponent<Workou
 
     private WorkoutComponent workoutComponent;
 
+    @BindView(R.id.buttonStartStop)
+    Button buttonStartStop;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +46,8 @@ public class WorkoutActivity extends BaseActivity implements HasComponent<Workou
         binding.setViewModel(stopWatchViewModel);
 
         stopWatchViewModel.initialize(this);
+
+        ButterKnife.bind(this);
     }
 
     private void initializeInjector() {
@@ -48,6 +57,11 @@ public class WorkoutActivity extends BaseActivity implements HasComponent<Workou
                 .build();
 
         this.workoutComponent.inject(this);
+    }
+
+    @OnClick(R.id.buttonStartStop)
+    public void startStop() {
+        stopWatchViewModel.startOrStop();
     }
 
     @Override

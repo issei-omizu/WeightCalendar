@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import jp.issei.omizu.weightcalendar.R;
 import jp.issei.omizu.weightcalendar.databinding.ActivityPhysicalMeasurementInputBinding;
 import jp.issei.omizu.weightcalendar.presentation.internal.di.HasComponent;
@@ -69,6 +71,8 @@ public class PhysicalMeasurementInputActivity extends BaseActivity
         this.hideLayoutButton();
 
         this.initializeEvent();
+
+        ButterKnife.bind(this);
     }
 
     private void initializeInjector() {
@@ -80,29 +84,6 @@ public class PhysicalMeasurementInputActivity extends BaseActivity
     }
 
     private void initializeEvent() {
-        // OKボタン
-        findViewById(R.id.btnOk).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                physicalMeasurementInputViewModel.updatePhysicalMeasurement();
-                hideLayoutButton();
-            }
-        });
-
-        // キャンセルボタン
-        findViewById(R.id.btnCancel).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                hideLayoutButton();
-            }
-        });
-
-        // クリアボタン
-        findViewById(R.id.btnClear).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // クリック時の処理
-                hideLayoutButton();
-            }
-        });
-
         // 体重
         findViewById(R.id.editWeight).setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -141,6 +122,23 @@ public class PhysicalMeasurementInputActivity extends BaseActivity
                 }
             }
         });
+    }
+
+    @OnClick(R.id.btnOk)
+    public void ok() {
+        physicalMeasurementInputViewModel.updatePhysicalMeasurement();
+        hideLayoutButton();
+    }
+
+    @OnClick(R.id.btnCancel)
+    public void cancel() {
+        hideLayoutButton();
+    }
+
+    @OnClick(R.id.btnClear)
+    public void clear() {
+        // クリック時の処理
+        hideLayoutButton();
     }
 
     @Override public PhysicalMeasurementComponent getComponent() {

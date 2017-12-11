@@ -35,9 +35,9 @@ public class WorkoutViewModel implements Disposable {
     /** ミリ秒を表示するか？ */
     public final RxProperty<Boolean> isVisibleMillis;
 
-    public final RxCommand<Nothing> startOrStopCommand;
-    public final RxCommand<Nothing> lapCommand;
-    public final RxCommand<Nothing> toggleVisibleMillisCommand;
+//    public final RxCommand<Nothing> startOrStopCommand;
+//    public final RxCommand<Nothing> lapCommand;
+//    public final RxCommand<Nothing> toggleVisibleMillisCommand;
 
     StopWatchModel mStopWatch = null;
 
@@ -73,23 +73,27 @@ public class WorkoutViewModel implements Disposable {
 //                    messenger.send(new StartActivityMessage(LapActivity.class)); // ホントは LapViewModel を指定して画面遷移すべき
                 }));
 
-        /** 開始 or 終了 */
-        startOrStopCommand = new RxCommand<>();
-        startOrStopCommand.subscribe(n -> {
-            stopWatch.startOrStop();
-        });
+//        /** 開始 or 終了 */
+//        startOrStopCommand = new RxCommand<>();
+//        startOrStopCommand.subscribe(n -> {
+//            stopWatch.startOrStop();
+//        });
+//
+//        /** 経過時間の記録 */
+//        lapCommand = new RxCommand<>(isRunning);
+//        lapCommand.subscribe(it -> {
+//            stopWatch.lap();
+//        });
+//
+//        /** ミリ秒以下表示の切り替え */
+//        toggleVisibleMillisCommand = new RxCommand<>();
+//        toggleVisibleMillisCommand.subscribe(it -> {
+//            stopWatch.toggleVisibleMillis();
+//        });
+    }
 
-        /** 経過時間の記録 */
-        lapCommand = new RxCommand<>(isRunning);
-        lapCommand.subscribe(it -> {
-            stopWatch.lap();
-        });
-
-        /** ミリ秒以下表示の切り替え */
-        toggleVisibleMillisCommand = new RxCommand<>();
-        toggleVisibleMillisCommand.subscribe(it -> {
-            stopWatch.toggleVisibleMillis();
-        });
+    public void startOrStop() {
+        mStopWatch.startOrStop();
     }
 
     public void initialize(Context context)

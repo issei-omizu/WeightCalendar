@@ -128,11 +128,12 @@ public class PhysicalMeasurementChartActivity extends BaseActivity
 //        xAxis.setTextColor(Color.rgb(255, 192, 56));
         xAxis.setTextColor(Color.GRAY);
 //        xAxis.setCenterAxisLabels(true);
-        xAxis.setGranularity(1f); // one hour
+        xAxis.setGranularity(700f); // one hour
         xAxis.setValueFormatter(new IAxisValueFormatter() {
 
 //            private SimpleDateFormat mFormat = new SimpleDateFormat("dd MMM HH:mm");
-            private SimpleDateFormat mFormat = new SimpleDateFormat("yyMMdd");
+//            private SimpleDateFormat mFormat = new SimpleDateFormat("yyMMdd");
+            private SimpleDateFormat mFormat = new SimpleDateFormat("yyyyMM");
 
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
@@ -140,30 +141,44 @@ public class PhysicalMeasurementChartActivity extends BaseActivity
                 return mFormat.format((long) value);
             }
         });
+//        xAxis.setGridColor(Color.parseColor("#191995"));
+//        xAxis.setGridColor(Color.rgb(25,25,149));
+
 
         YAxis leftAxis = mChart.getAxisLeft();
-
-//        leftAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
-        leftAxis.setTypeface(mTfLight);
-        leftAxis.setTextColor(ColorTemplate.getHoloBlue());
-        leftAxis.setDrawGridLines(true);
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
         leftAxis.setGranularityEnabled(true);
         leftAxis.setAxisMinimum(50f);
         leftAxis.setAxisMaximum(70f);
-//        leftAxis.setYOffset(-9f);
-        leftAxis.setTextColor(Color.rgb(255, 192, 56));
+        leftAxis.setYOffset(-9f);
+        // setting line
+        leftAxis.setDrawZeroLine(false);
+        leftAxis.setDrawAxisLine(false);
+        leftAxis.setDrawGridLines(true);
         leftAxis.setAxisLineWidth(3f);
+        leftAxis.setGridLineWidth(1.5f);
+        leftAxis.setGridColor(Color.parseColor("#191995"));
+        leftAxis.setAxisLineColor(Color.parseColor("#191995"));
+        // setting text
+        leftAxis.setTypeface(mTfLight);
+        leftAxis.setTextColor(Color.GRAY);
+//        leftAxis.setTextColor(Color.rgb(255, 192, 56));
+        leftAxis.setTextSize(16f);
 
-//        YAxis rightAxis = mChart.getAxisRight();
-//        rightAxis.setEnabled(false);
+
         YAxis rightAxis = mChart.getAxisRight();
-        rightAxis.setTypeface(mTfLight);
-        rightAxis.setTextColor(Color.RED);
         rightAxis.setAxisMaximum(20);
         rightAxis.setAxisMinimum(0);
+        rightAxis.setGranularityEnabled(false);
+        // setting line
         rightAxis.setDrawGridLines(false);
         rightAxis.setDrawZeroLine(false);
-        rightAxis.setGranularityEnabled(false);
+        rightAxis.setDrawAxisLine(false);
+        rightAxis.setAxisLineWidth(3f);
+        rightAxis.setAxisLineColor(Color.parseColor("#191995"));
+        // setting text
+        rightAxis.setTypeface(mTfLight);
+        rightAxis.setTextColor(Color.RED);
     }
 
     private void setData(List<PhysicalMeasurementModel> listPhysicalMeasurement) {
