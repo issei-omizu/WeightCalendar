@@ -63,7 +63,7 @@ public class PhysicalMeasurementInputActivity extends BaseActivity
         this.physicalMeasurementInputViewModel.initialize();
         binding.setViewModel(physicalMeasurementInputViewModel);
 
-        this.clMain = (ConstraintLayout) findViewById(R.id.clMain);
+        this.clMain = findViewById(R.id.clMain);
         this.resetConstraintSet = new ConstraintSet();
         this.applyConstraintSet = new ConstraintSet();
         this.resetConstraintSet.clone(this.clMain);
